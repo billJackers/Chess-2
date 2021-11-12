@@ -82,6 +82,27 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
             board[7][x].placePiece(new Pawn(true, board[7][x], IMAGES_WPAWN_PNG));
         }
 
+        // Place black pawns
+        for (int x = 0; x < 10; x++) {
+            board[2][x].placePiece(new Pawn(false, board[2][x], IMAGES_BPAWN_PNG));
+        }
+
+        // Place rooks
+        board[0][0].placePiece(new Rook(false, board[0][0], IMAGES_BROOK_PNG));
+        board[0][9].placePiece(new Rook(false, board[0][9], IMAGES_BROOK_PNG));
+        board[9][0].placePiece(new Rook(true, board[9][0], IMAGES_WROOK_PNG));
+        board[9][9].placePiece(new Rook(false, board[9][9], IMAGES_WROOK_PNG));
+
+        // Place bishops
+        board[0][1].placePiece(new Bishop(false, board[0][1], IMAGES_BBISHOP_PNG));
+        board[0][3].placePiece(new Bishop(false, board[0][3], IMAGES_BBISHOP_PNG));
+        board[0][6].placePiece(new Bishop(false, board[0][6], IMAGES_BBISHOP_PNG));
+        board[0][8].placePiece(new Bishop(false, board[0][8], IMAGES_BBISHOP_PNG));
+        board[9][1].placePiece(new Bishop(true, board[9][1], IMAGES_WBISHOP_PNG));
+        board[9][3].placePiece(new Bishop(true, board[9][3], IMAGES_WBISHOP_PNG));
+        board[9][6].placePiece(new Bishop(true, board[9][6], IMAGES_WBISHOP_PNG));
+        board[9][8].placePiece(new Bishop(true, board[9][8], IMAGES_WBISHOP_PNG));
+
         // Place kings on board
         King bk = new King(false, board[0][4], IMAGES_BKING_PNG);
         King wk = new King(true, board[9][4], IMAGES_WKING_PNG);
