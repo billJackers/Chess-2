@@ -198,8 +198,8 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        curX = e.getX() - 24;
-        curY = e.getY() - 24;
+        curX = e.getX();
+        curY = e.getY();
 
         repaint();
     }
