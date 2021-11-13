@@ -44,7 +44,7 @@ public class GameWindow {
                     JOptionPane.YES_NO_OPTION);
 
             if (n == JOptionPane.YES_OPTION) {
-                SwingUtilities.invokeLater(new StartMenu());
+                SwingUtilities.invokeLater((Runnable) new StartMenu());
                 gameWindow.dispose();
             }
         } else {
@@ -57,7 +57,7 @@ public class GameWindow {
                     JOptionPane.YES_NO_OPTION);
 
             if (n == JOptionPane.YES_OPTION) {
-                SwingUtilities.invokeLater(new StartMenu());
+                SwingUtilities.invokeLater((Runnable) new StartMenu());
                 gameWindow.dispose();
             }
         }
