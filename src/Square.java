@@ -13,19 +13,16 @@ public class Square extends JComponent {
         RED
     }
 
-    private Board board;
     private Piece piece;
     private final int rank;
     private final int file;
     private final int size;
-    private Sides side;
+    private final Sides side;
 
-    public Square(Board board, int rank, int file, int size, Piece occupyingPiece) {
-        this.board = board;
+    public Square(int rank, int file, int size) {
         this.rank = rank; // "x"
         this.file = file; // "y"
         this.size = size; // width/height
-        this.piece = occupyingPiece;
         if (this.rank % 2 == 0 && this.file % 2 == 0 || this.rank % 2 == 1 && this.file % 2 == 1)  // colors the background of the board
             this.side = Sides.BLUE;
         else
@@ -53,7 +50,7 @@ public class Square extends JComponent {
         return (this.piece != null);
     }
 
-    public void draw(Graphics g) {  // draws the background square and the piece (if applicable)
+    public void draw(Graphics g) {  // draws the background square and the piece (if piece exists)
 
         switch (this.side) {  // draw the background square color
             case BLUE -> g.setColor(new Color(102, 173, 255));

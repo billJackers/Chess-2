@@ -34,9 +34,9 @@ public class Board extends JPanel implements ActionListener, MouseListener {
         timer.start();
 
         // adding mouse listener
-        this.addMouseListener(this);
+        this.addMouseListener(this); // black OOP magic
 
-        initializePieces();
+        initializeSquares();
         generateBoardState("rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBRBKQBRBR");
     }
 
@@ -48,11 +48,11 @@ public class Board extends JPanel implements ActionListener, MouseListener {
         repaint();
     }
 
-    private void initializePieces() {
+    private void initializeSquares() {
         int squareCount = 0;
         for (int file = 0; file < FILE_SIZE; file++) {
             for (int rank = 0; rank < RANK_SIZE; rank++) {
-                board[squareCount] = new Square(this, rank, file, SQUARE_SIZE, null);
+                board[squareCount] = new Square(rank, file, SQUARE_SIZE);
                 squareCount++;
             }
         }
@@ -113,9 +113,9 @@ public class Board extends JPanel implements ActionListener, MouseListener {
 
     }
     public Square getSquareClicked(int mouseX, int mouseY) {
-        int rankPos = mouseX / SQUARE_SIZE;  // integer division leaves us with the correct rank and file
-        int filePos = mouseY / SQUARE_SIZE;
-        int boardPos = filePos * FILE_SIZE + rankPos;
+        int rank = mouseX / SQUARE_SIZE;  // integer division leaves us with the correct rank and file
+        int file = mouseY / SQUARE_SIZE;
+        int boardPos = file * FILE_SIZE + rank;  // calculate the position instead of looping through in for loop
         return board[boardPos];
     }
 
