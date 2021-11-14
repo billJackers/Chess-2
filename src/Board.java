@@ -103,7 +103,7 @@ public class Board extends JPanel implements ActionListener, MouseListener {
                 case 'g' -> board[pos].setPiece(new RoyalGuard(side, SQUARE_SIZE));
                 case 'x' -> pos += 10; // a 1 character way to write "10"
             }
-            if (Character.isDigit(curr)) {
+            if (Character.isDigit(curr)) {  // if the character is a digit, then we skip that amount in the board[pos]
                 pos += Character.getNumericValue(curr);
             }
             else if (curr != '/' && curr != 'x') { // increment the position whenever the character isnt the newline (/) or has not already been incremented (x == +10)
@@ -113,9 +113,10 @@ public class Board extends JPanel implements ActionListener, MouseListener {
 
     }
     public Square getSquareClicked(int mouseX, int mouseY) {
-        int rank = mouseX / SQUARE_SIZE;  // integer division leaves us with the correct rank and file
-        int file = mouseY / SQUARE_SIZE;
-        return null;
+        int rankPos = mouseX / SQUARE_SIZE;  // integer division leaves us with the correct rank and file
+        int filePos = mouseY / SQUARE_SIZE;
+        int boardPos = filePos * FILE_SIZE + rankPos;
+        return board[boardPos];
     }
 
     @Override
@@ -125,7 +126,8 @@ public class Board extends JPanel implements ActionListener, MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        System.out.println("Pressed: " + e.getX() + " " + e.getY());
+        Square clicked = getSquareClicked(e.getX(), e.getY());
+        System.out.println("Pressed: " + clicked.getPiece());
     }
 
     @Override
