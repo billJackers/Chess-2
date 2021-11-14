@@ -2,31 +2,20 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Rook extends Piece {
-    
-    public Rook(boolean white, Square startSquare, String file) {
-        super(white, startSquare, file);
+
+    private static final String IMAGES_ROOK_BLUE = "images/wrook.png";
+    private static final String IMAGES_ROOK_RED = "images/brook.png";
+
+    public Rook(Sides side, int size) {
+        super(side, size);
+        switch (side) {
+            case BLUE -> this.image = getImageByFile(IMAGES_ROOK_BLUE);
+            case RED -> this.image = getImageByFile(IMAGES_ROOK_RED);
+        }
     }
 
-    @Override
     public List<Square> getLegalMoves(Board b) {
-        LinkedList<Square> legalMoves = new LinkedList<Square>();
-        Square[][] board  = b.getSquareArray();
-
-        int x = this.getPosition().getXCoordinate();
-        int y = this.getPosition().getYCoordinate();
-
-        int[] occups = getLinearOccupations(board, x, y);
-
-        for (int i = occups[0]; i <= occups[1]; i++) {
-            if (i != y) legalMoves.add(board[i][x]);
-        }
-
-        for (int i = occups[2]; i <= occups[3]; i++) {
-            if (i != x) legalMoves.add(board[y][i]);
-        }
-
-        return legalMoves;
-
+        return null;
     }
     
 }

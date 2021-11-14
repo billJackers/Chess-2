@@ -10,56 +10,22 @@ import javax.swing.*;
 
 public class GameWindow {
 
-    private JFrame gameWindow;
-    private Board board;
-
-    private Timer timer;
-    public Clock blackClock;
-    public Clock whiteClock;
-
     public GameWindow() {
 
-        gameWindow = new JFrame("Chess 2");
+        JFrame gameWindow = new JFrame("Chess 2");
         gameWindow.setLocationRelativeTo(null);
-        gameWindow.setLayout(new BorderLayout(20, 20));
+        //gameWindow.setLayout(new BorderLayout(0, 0));
 
-        this.board = new Board(this);
+        Board board = new Board(this); // our board, also our gameloop
 
-        gameWindow.add(board, BorderLayout.CENTER);
-        gameWindow.setSize(board.getPreferredSize());
-        gameWindow.setResizable(false);
+        gameWindow.add(board); // create the JPanel to draw on. This also initializes the game loop
+        gameWindow.setSize(board.getPreferredSize()); // Set the size of the window based on the size of the board
+
+        gameWindow.setResizable(false); // don't allow the user to resize the window
+        gameWindow.pack(); // pack() should be called after setResizable() to avoid issues on some platforms
 
         gameWindow.setVisible(true);
         gameWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-    }
-
-    public void checkmateOccurred (int c) {
-        if (c == 0) {
-            if (timer != null) timer.stop();
-            int n = JOptionPane.showConfirmDialog(
-                    gameWindow,
-                    "White wins by checkmate! Set up a new game? \n",
-                    "White wins!",
-                    JOptionPane.YES_NO_OPTION);
-
-            if (n == JOptionPane.YES_OPTION) {
-                SwingUtilities.invokeLater((Runnable) new StartMenu());
-                gameWindow.dispose();
-            }
-        } else {
-            if (timer != null) timer.stop();
-            int n = JOptionPane.showConfirmDialog(
-                    gameWindow,
-                    "Black wins by checkmate! Set up a new game? \n" +
-                            "Choosing \"No\" lets you look at the final situation.",
-                    "Black wins!",
-                    JOptionPane.YES_NO_OPTION);
-
-            if (n == JOptionPane.YES_OPTION) {
-                SwingUtilities.invokeLater((Runnable) new StartMenu());
-                gameWindow.dispose();
-            }
-        }
     }
 }

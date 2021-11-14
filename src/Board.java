@@ -3,204 +3,154 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.*;
 
-public class Board extends JPanel implements MouseListener, MouseMotionListener {
+public class Board extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
 
-    private static final String IMAGES_WBISHOP_PNG = "images/wbishop.png";
-    private static final String IMAGES_BBISHOP_PNG = "images/bbishop.png";
-    private static final String IMAGES_WKNIGHT_PNG = "images/wknight.png";
-    private static final String IMAGES_BKNIGHT_PNG = "images/bknight.png";
-    private static final String IMAGES_WROOK_PNG = "images/wrook.png";
-    private static final String IMAGES_BROOK_PNG = "images/brook.png";
-    private static final String IMAGES_WKING_PNG = "images/wking.png";
-    private static final String IMAGES_BKING_PNG = "images/bking.png";
-    private static final String IMAGES_BQUEEN_PNG = "images/bqueen.png";
-    private static final String IMAGES_WQUEEN_PNG = "images/wqueen.png";
-    private static final String IMAGES_WPAWN_PNG = "images/wpawn.png";
-    private static final String IMAGES_BPAWN_PNG = "images/bpawn.png";
+    private static final int SQUARE_SIZE = 60; // length of a square tile
+    private static final int FILE_SIZE = 10; // columns
+    private static final int RANK_SIZE = 10; // rows
 
+    private final Square[] board;
+    private final GameWindow window;
 
-    private final Square[][] board;
-
-    private final GameWindow g;
-    public final LinkedList<Piece> Bpieces;
-    public final LinkedList<Piece> Wpieces;
-    public List<Square> movable;
-
-    private boolean whiteTurn;
-
-    private Piece curPiece;
-    private int curX;
-    private int curY;
-
-    private CheckmateDetector cmd;
+    private static final int DELAY = 25; // delay in ms to update board
 
     public Board(GameWindow g) {
-        this.g = g;
-        this.board = new Square[10][10];
-        Bpieces = new LinkedList<Piece>();
-        Wpieces = new LinkedList<Piece>();
-        setLayout(new GridLayout(10, 10, 0, 0));
+        // set game window and create a new board
+        this.window = g;
+        this.board = new Square[100];
 
-        this.addMouseListener(this);
+        // add a mouse event listener
         this.addMouseListener(this);
 
-        for (int x = 0; x < 10; x++) {
-            for (int y = 0; y < 10; y++) {
-                int xMod = x % 2;
-                int yMod = y % 2;
+        // window size
+        this.setPreferredSize(new Dimension(SQUARE_SIZE*RANK_SIZE, SQUARE_SIZE*FILE_SIZE)); // dimensions based on the size of the grid
+        this.setMaximumSize(this.getPreferredSize());
 
-                if ((xMod == 0 && yMod == 0) || (xMod == 1 && yMod == 1)) {
-                    board[x][y] = new Square(this, false, y, x);
-                } else {
-                    board[x][y] = new Square(this, true, y, x);
-                }
-                this.add(board[x][y]);
-            }
-        }
+        // the Game Loop
+        Timer timer = new Timer(DELAY, this);
+        timer.start();
 
         initializePieces();
-
-        this.setPreferredSize(new Dimension(600, 600));
-        this.setMaximumSize(this.getPreferredSize());
-        this.setMaximumSize(this.getPreferredSize());
-        this.setSize(new Dimension(600, 600));
-
-        whiteTurn = true;
-
-    }
-
-    private void initializePieces() {
-        // Place white pawns
-        for (int x = 0; x < 10; x++) {
-            board[7][x].placePiece(new Pawn(true, board[7][x], IMAGES_WPAWN_PNG));
-        }
-
-        // Place black pawns
-        for (int x = 0; x < 10; x++) {
-            board[2][x].placePiece(new Pawn(false, board[2][x], IMAGES_BPAWN_PNG));
-        }
-
-        // Place rooks
-        board[0][0].placePiece(new Rook(false, board[0][0], IMAGES_BROOK_PNG));
-        board[0][9].placePiece(new Rook(false, board[0][9], IMAGES_BROOK_PNG));
-        board[9][0].placePiece(new Rook(true, board[9][0], IMAGES_WROOK_PNG));
-        board[9][9].placePiece(new Rook(false, board[9][9], IMAGES_WROOK_PNG));
-
-        // Place bishops
-        board[0][1].placePiece(new Bishop(false, board[0][1], IMAGES_BBISHOP_PNG));
-        board[0][3].placePiece(new Bishop(false, board[0][3], IMAGES_BBISHOP_PNG));
-        board[0][6].placePiece(new Bishop(false, board[0][6], IMAGES_BBISHOP_PNG));
-        board[0][8].placePiece(new Bishop(false, board[0][8], IMAGES_BBISHOP_PNG));
-        board[9][1].placePiece(new Bishop(true, board[9][1], IMAGES_WBISHOP_PNG));
-        board[9][3].placePiece(new Bishop(true, board[9][3], IMAGES_WBISHOP_PNG));
-        board[9][6].placePiece(new Bishop(true, board[9][6], IMAGES_WBISHOP_PNG));
-        board[9][8].placePiece(new Bishop(true, board[9][8], IMAGES_WBISHOP_PNG));
-
-        // Place kings on board
-        King bk = new King(false, board[0][4], IMAGES_BKING_PNG);
-        King wk = new King(true, board[9][4], IMAGES_WKING_PNG);
-
-        cmd = new CheckmateDetector(this, Wpieces, Bpieces, wk, bk);
+        generateBoardState("rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBRBKQBRBR");
     }
 
     @Override
-    public void paintComponent(Graphics g) {
-        for (int x = 0; x < 10; x++) {
-            for (int y = 0; y < 10; y++) {
-                Square s = board[x][y];
-                s.paintComponent(g);
+    public void actionPerformed(ActionEvent e) {
+        // this method is called by the timer every DELAY ms.
+        // use this space to update the state of your game or animation
+        // before the graphics are redrawn.
+        repaint();
+    }
+
+    private void initializePieces() {
+        int squareCount = 0;
+        for (int file = 0; file < FILE_SIZE; file++) {
+            for (int rank = 0; rank < RANK_SIZE; rank++) {
+                board[squareCount] = new Square(this, rank, file, SQUARE_SIZE, null);
+                squareCount++;
+            }
+        }
+    }
+
+    public void generateBoardState(String FEN) {  // Function that will generate a state of the board based on a modified FEN string
+        // Information on FEN strings: http://files.lib.byu.edu/webdev-hire/instructions/
+        // For Example, this is the FEN String for the initial start: rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBRBKQBRBR
+        // FEN String key (lowercase is blue, uppercase is red):
+        //King – k
+        //Queen – q
+        //Knight – n
+        //Rook – r
+        //Bishop – b
+        //Pawn – p
+        //Archer – c
+        //Assassin – s
+        //Bomber – o
+        //Royal Guard – g
+        int pos = 0;
+        for (int c = 0; c < FEN.length(); c++) {
+            char curr = FEN.toLowerCase().charAt(c);
+            switch (curr) {  // there's probably a cleaner way to do this
+                case 'k':
+                    if (FEN.charAt(c) == 'k') board[pos].setPiece(new King(Piece.Sides.BLUE, SQUARE_SIZE)); // if the character is lowercase then the side is blue
+                    else board[pos].setPiece(new King(Piece.Sides.RED, SQUARE_SIZE)); // else red
+                    break;
+                case 'q':
+                    if (FEN.charAt(c) == 'q') board[pos].setPiece(new Queen(Piece.Sides.BLUE, SQUARE_SIZE));
+                    else board[pos].setPiece(new Queen(Piece.Sides.RED, SQUARE_SIZE));
+                    break;
+                case 'n':
+                    if (FEN.charAt(c) == 'n') board[pos].setPiece(new Knight(Piece.Sides.BLUE, SQUARE_SIZE));
+                    else board[pos].setPiece(new Knight(Piece.Sides.RED, SQUARE_SIZE));
+                    break;
+                case 'r':
+                    if (FEN.charAt(c) == 'r') board[pos].setPiece(new Rook(Piece.Sides.BLUE, SQUARE_SIZE));
+                    else board[pos].setPiece(new Rook(Piece.Sides.RED, SQUARE_SIZE));
+                    break;
+                case 'b':
+                    if (FEN.charAt(c) == 'b') board[pos].setPiece(new Bishop(Piece.Sides.BLUE, SQUARE_SIZE));
+                    else board[pos].setPiece(new Bishop(Piece.Sides.RED, SQUARE_SIZE));
+                    break;
+                case 'p':
+                    if (FEN.charAt(c) == 'p') board[pos].setPiece(new Pawn(Piece.Sides.BLUE, SQUARE_SIZE));
+                    else board[pos].setPiece(new Pawn(Piece.Sides.RED, SQUARE_SIZE));
+                    break;
+                case 'c':
+                    if (FEN.charAt(c) == 'c') board[pos].setPiece(new Archer(Piece.Sides.BLUE, SQUARE_SIZE));
+                    else board[pos].setPiece(new Archer(Piece.Sides.RED, SQUARE_SIZE));
+                    break;
+                case 's':
+                    if (FEN.charAt(c) == 's') board[pos].setPiece(new Assassin(Piece.Sides.BLUE, SQUARE_SIZE));
+                    else board[pos].setPiece(new Assassin(Piece.Sides.RED, SQUARE_SIZE));
+                    break;
+                case 'o':
+                    if (FEN.charAt(c) == 'o') board[pos].setPiece(new Bomber(Piece.Sides.BLUE, SQUARE_SIZE));
+                    else board[pos].setPiece(new Bomber(Piece.Sides.RED, SQUARE_SIZE));
+                    break;
+                case 'g':
+                    if (FEN.charAt(c) == 'g') board[pos].setPiece(new RoyalGuard(Piece.Sides.BLUE, SQUARE_SIZE));
+                    else board[pos].setPiece(new RoyalGuard(Piece.Sides.RED, SQUARE_SIZE));
+                    break;
+                case 'x':  // a 1 character way to write "10"
+                    pos += 10;
+            }
+            System.out.println("curr: " + curr + ", pos: " + pos);
+            if (Character.isDigit(curr)) {
+                pos += curr;
+            }
+            else if (curr != '/' && curr != 'x') { // increment the position whenever the character isnt the newline (/) or has not already been incremented (x == +10)
+                pos++;
             }
         }
 
-        if (curPiece != null) {
-            if ((curPiece.white() && whiteTurn) || (!curPiece.white() && !whiteTurn)) {
-                final Image i = curPiece.getImage();
-                g.drawImage(i, curX, curY, null);
-            }
+    }
+
+    public void paintComponent(Graphics g) {  // draws all the squares in the board
+        for (Square sq : this.board) {
+            sq.draw(g);
         }
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        curX = e.getX();
-        curY = e.getY();
-        Square s = (Square) this.getComponentAt(new Point(e.getX(), e.getY()));
 
-        if (s.isOccupied()) {
-            curPiece = s.getOccupyingPiece();
-            if (!curPiece.white() && whiteTurn) {
-                return;
-            }
-            if (curPiece.white() && !whiteTurn) {
-                return;
-            }
-            s.setDisplay(false);
-        }
         repaint();
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         Square sq = (Square) this.getComponentAt(new Point(e.getX(), e.getY()));
-
-        if (curPiece != null) {
-            if (!curPiece.white() && whiteTurn)
-                return;
-            if (curPiece.white() && !whiteTurn)
-                return;
-
-            List<Square> legalMoves = curPiece.getLegalMoves(this);
-            movable = cmd.getAllowableSquares(whiteTurn);
-
-            if (legalMoves.contains(sq) && movable.contains(sq)
-                    && cmd.testMove(curPiece, sq)) {
-                sq.setDisplay(true);
-                curPiece.move(sq);
-                cmd.update();
-
-                if (cmd.blackCheckMated()) {
-                    curPiece = null;
-                    repaint();
-                    this.removeMouseListener(this);
-                    this.removeMouseMotionListener(this);
-                    g.checkmateOccurred(0);
-                } else if (cmd.whiteCheckMated()) {
-                    curPiece = null;
-                    repaint();
-                    this.removeMouseListener(this);
-                    this.removeMouseMotionListener(this);
-                    g.checkmateOccurred(1);
-                } else {
-                    curPiece = null;
-                    whiteTurn = !whiteTurn;
-                    movable = cmd.getAllowableSquares(whiteTurn);
-                }
-
-            } else {
-                curPiece.getPosition().setDisplay(true);
-                curPiece = null;
-            }
-        }
-
         repaint();
     }
 
-    public Square[][] getSquareArray() {
-        return board;
-    }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        curX = e.getX();
-        curY = e.getY();
-
         repaint();
     }
 
@@ -219,5 +169,4 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     @Override
     public void mouseExited(MouseEvent e) {
     }
-
 }

@@ -3,15 +3,19 @@ import java.util.List;
 
 public class RoyalGuard extends Piece {
 
-    public RoyalGuard(boolean white, Square startSquare, String file) {
-        super(white, startSquare, file);
+    private static final String IMAGES_ROYAL_GUARD_BLUE = "images/wrook.png";
+    private static final String IMAGES_ROYAL_GUARD_RED = "images/brook.png";
+
+    public RoyalGuard(Sides side, int size) {
+        super(side, size);
+        switch (side) {
+            case BLUE -> this.image = getImageByFile(IMAGES_ROYAL_GUARD_BLUE);
+            case RED -> this.image = getImageByFile(IMAGES_ROYAL_GUARD_RED);
+        }
     }
 
-    @Override
     public List<Square> getLegalMoves(Board b) {
-        LinkedList<Square> legalMoves = new LinkedList<Square>();
-
-        return legalMoves;
+        return null;
     }
 
 }

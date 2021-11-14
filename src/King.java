@@ -4,33 +4,19 @@ import java.util.List;
 
 public class King extends Piece {
 
-    public King(boolean isWhite, Square startSquare, String file) {
-        super(isWhite, startSquare, file);
+    private static final String IMAGES_KING_BLUE = "images/wking.png";
+    private static final String IMAGES_KING_RED = "images/bking.png";
+
+    public King(Sides side, int size) {
+        super(side, size);
+        switch (side) {
+            case BLUE -> this.image = getImageByFile(IMAGES_KING_BLUE);
+            case RED -> this.image = getImageByFile(IMAGES_KING_RED);
+        }
     }
 
-    @Override
     public List<Square> getLegalMoves(Board b) {
-
-        LinkedList<Square> legalMoves = new LinkedList<Square>();
-        Square[][] board = b.getSquareArray();
-
-        int x = this.getPosition().getXCoordinate();
-        int y = this.getPosition().getYCoordinate();
-
-        for (int i = 1; i > -2; i--) {
-            for (int j = 1; j > -2; j--) {
-                try{
-                    if (!board[y+j][x+i].isOccupied() || board[y+j][x+i].getOccupyingPiece().white() != this.white()) {
-                        legalMoves.add(board[y+j][x+i]);
-                    }
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    continue;
-                }
-            }
-        }
-
-        return legalMoves;
-
+        return null;
     }
 
 }

@@ -3,15 +3,19 @@ import java.util.List;
 
 public class Archer extends Piece {
 
-    public Archer(boolean white, Square startSquare, String file) {
-        super(white, startSquare, file);
+    private static final String IMAGES_ARCHER_BLUE = "images/wpawn.png";
+    private static final String IMAGES_ARCHER_RED = "images/bpawn.png";
+
+    public Archer(Sides side, int size) {
+        super(side, size);
+        switch (side) {
+            case BLUE -> this.image = getImageByFile(IMAGES_ARCHER_BLUE);
+            case RED -> this.image = getImageByFile(IMAGES_ARCHER_RED);
+        }
     }
 
-    @Override
     public List<Square> getLegalMoves(Board b) {
-        LinkedList<Square> legalMoves = new LinkedList<Square>();
-
-        return legalMoves;
+        return null;
     }
 
 }

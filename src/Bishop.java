@@ -2,16 +2,18 @@ import java.util.List;
 
 public class Bishop extends Piece {
 
-    public Bishop(boolean white, Square initSq, String img_file) {
-        super(white, initSq, img_file);
+    private static final String IMAGES_BISHOP_BLUE = "images/wbishop.png";
+    private static final String IMAGES_BISHOP_RED = "images/bbishop.png";
+
+    public Bishop(Sides side, int size) {
+        super(side, size);
+        switch (side) {
+            case BLUE -> this.image = getImageByFile(IMAGES_BISHOP_BLUE);
+            case RED -> this.image = getImageByFile(IMAGES_BISHOP_RED);
+        }
     }
 
-    @Override
     public List<Square> getLegalMoves(Board b) {
-        Square[][] board = b.getSquareArray();
-        int x = this.getPosition().getXCoordinate();
-        int y = this.getPosition().getYCoordinate();
-
-        return getDiagonalOccupations(board, x, y);
+        return null;
     }
 }

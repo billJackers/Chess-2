@@ -32,7 +32,7 @@ public class StartMenu {
         startMenu.setTitle("Chess 2");
         startMenu.setSize(300, 300);
         startMenu.setLocationRelativeTo(null);
-        startMenu.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        startMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         startMenu.setResizable(false);
 
         JPanel menu = new JPanel();
