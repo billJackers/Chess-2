@@ -2,8 +2,8 @@ import java.util.List;
 
 public class Bishop extends Piece {
 
-    private static final String IMAGES_BISHOP_BLUE = "images/wbishop.png";
-    private static final String IMAGES_BISHOP_RED = "images/bbishop.png";
+    private static final String IMAGES_BISHOP_BLUE = "images/bbishop.png";
+    private static final String IMAGES_BISHOP_RED = "images/rbishop.png";
 
     public Bishop(Sides side, int size) {
         super(side, size);

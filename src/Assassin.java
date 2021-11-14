@@ -2,8 +2,8 @@ import java.util.List;
 
 public class Assassin extends Piece {
 
-    private static final String IMAGES_ASSASSIN_BLUE = "images/wknight.png";
-    private static final String IMAGES_ASSASSIN_RED = "images/bknight.png";
+    private static final String IMAGES_ASSASSIN_BLUE = "images/bassassin.png";
+    private static final String IMAGES_ASSASSIN_RED = "images/rassassin.png";
 
     public Assassin(Sides side, int size) {
         super(side, size);
