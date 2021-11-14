@@ -14,9 +14,7 @@ public class GameWindow {
 
         JFrame gameWindow = new JFrame("Chess 2");
         gameWindow.setLocationRelativeTo(null);
-        //gameWindow.setLayout(new BorderLayout(0, 0));
-
-        Board board = new Board(this); // our board, also our gameloop
+        Board board = new Board(); // our board, also our gameloop
 
         gameWindow.add(board); // create the JPanel to draw on. This also initializes the game loop
         gameWindow.setSize(board.getPreferredSize()); // Set the size of the window based on the size of the board

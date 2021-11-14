@@ -16,13 +16,11 @@ public class Board extends JPanel implements ActionListener, MouseListener {
     private static final int RANK_SIZE = 10; // rows
 
     private final Square[] board;
-    private final GameWindow window;
 
     private static final int DELAY = 25; // delay in ms to update board
 
-    public Board(GameWindow g) {
-        // set game window and create a new board
-        this.window = g;
+    public Board() {
+        // create a new board
         this.board = new Square[100];
 
         // window size
@@ -34,7 +32,7 @@ public class Board extends JPanel implements ActionListener, MouseListener {
         timer.start();
 
         // adding mouse listener
-        this.addMouseListener(this); // black OOP magic
+        this.addMouseListener(this); // OOP black magic
 
         initializeSquares();
         generateBoardState("rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBRBKQBRBR");
