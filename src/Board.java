@@ -11,7 +11,7 @@ import javax.swing.*;
 
 public class Board extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
 
-    private static final int SQUARE_SIZE = 60; // length of a square tile
+    private static final int SQUARE_SIZE = 80; // length of a square tile
     private static final int FILE_SIZE = 10; // columns
     private static final int RANK_SIZE = 10; // rows
 
