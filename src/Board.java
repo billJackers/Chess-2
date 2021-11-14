@@ -9,9 +9,9 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.swing.*;
 
-public class Board extends JPanel implements ActionListener, MouseListener, MouseMotionListener {
+public class Board extends JPanel implements ActionListener, MouseListener {
 
-    private static final int SQUARE_SIZE = 80; // length of a square tile
+    private static final int SQUARE_SIZE = 50; // length of a square tile
     private static final int FILE_SIZE = 10; // columns
     private static final int RANK_SIZE = 10; // rows
 
@@ -25,9 +25,6 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         this.window = g;
         this.board = new Square[100];
 
-        // add a mouse event listener
-        this.addMouseListener(this);
-
         // window size
         this.setPreferredSize(new Dimension(SQUARE_SIZE*RANK_SIZE, SQUARE_SIZE*FILE_SIZE)); // dimensions based on the size of the grid
         this.setMaximumSize(this.getPreferredSize());
@@ -35,6 +32,9 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         // the Game Loop
         Timer timer = new Timer(DELAY, this);
         timer.start();
+
+        // adding mouse listener
+        this.addMouseListener(this);
 
         initializePieces();
         generateBoardState("rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBRBKQBRBR");
@@ -58,6 +58,12 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         }
     }
 
+    public void paintComponent(Graphics g) {  // draws all the squares in the board
+        for (Square sq : this.board) {
+            sq.draw(g);
+        }
+    }
+
     public void generateBoardState(String FEN) {  // Function that will generate a state of the board based on a modified FEN string
         // Information on FEN strings: http://files.lib.byu.edu/webdev-hire/instructions/
         // For Example, this is the FEN String for the initial start: rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBRBKQBRBR
@@ -75,49 +81,27 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         int pos = 0;
         for (int c = 0; c < FEN.length(); c++) {
             char curr = FEN.toLowerCase().charAt(c);
-            switch (curr) {  // there's probably a cleaner way to do this
-                case 'k':
-                    if (FEN.charAt(c) == 'k') board[pos].setPiece(new King(Piece.Sides.BLUE, SQUARE_SIZE)); // if the character is lowercase then the side is blue
-                    else board[pos].setPiece(new King(Piece.Sides.RED, SQUARE_SIZE)); // else red
-                    break;
-                case 'q':
-                    if (FEN.charAt(c) == 'q') board[pos].setPiece(new Queen(Piece.Sides.BLUE, SQUARE_SIZE));
-                    else board[pos].setPiece(new Queen(Piece.Sides.RED, SQUARE_SIZE));
-                    break;
-                case 'n':
-                    if (FEN.charAt(c) == 'n') board[pos].setPiece(new Knight(Piece.Sides.BLUE, SQUARE_SIZE));
-                    else board[pos].setPiece(new Knight(Piece.Sides.RED, SQUARE_SIZE));
-                    break;
-                case 'r':
-                    if (FEN.charAt(c) == 'r') board[pos].setPiece(new Rook(Piece.Sides.BLUE, SQUARE_SIZE));
-                    else board[pos].setPiece(new Rook(Piece.Sides.RED, SQUARE_SIZE));
-                    break;
-                case 'b':
-                    if (FEN.charAt(c) == 'b') board[pos].setPiece(new Bishop(Piece.Sides.BLUE, SQUARE_SIZE));
-                    else board[pos].setPiece(new Bishop(Piece.Sides.RED, SQUARE_SIZE));
-                    break;
-                case 'p':
-                    if (FEN.charAt(c) == 'p') board[pos].setPiece(new Pawn(Piece.Sides.BLUE, SQUARE_SIZE));
-                    else board[pos].setPiece(new Pawn(Piece.Sides.RED, SQUARE_SIZE));
-                    break;
-                case 'c':
-                    if (FEN.charAt(c) == 'c') board[pos].setPiece(new Archer(Piece.Sides.BLUE, SQUARE_SIZE));
-                    else board[pos].setPiece(new Archer(Piece.Sides.RED, SQUARE_SIZE));
-                    break;
-                case 's':
-                    if (FEN.charAt(c) == 's') board[pos].setPiece(new Assassin(Piece.Sides.BLUE, SQUARE_SIZE));
-                    else board[pos].setPiece(new Assassin(Piece.Sides.RED, SQUARE_SIZE));
-                    break;
-                case 'o':
-                    if (FEN.charAt(c) == 'o') board[pos].setPiece(new Bomber(Piece.Sides.BLUE, SQUARE_SIZE));
-                    else board[pos].setPiece(new Bomber(Piece.Sides.RED, SQUARE_SIZE));
-                    break;
-                case 'g':
-                    if (FEN.charAt(c) == 'g') board[pos].setPiece(new RoyalGuard(Piece.Sides.BLUE, SQUARE_SIZE));
-                    else board[pos].setPiece(new RoyalGuard(Piece.Sides.RED, SQUARE_SIZE));
-                    break;
-                case 'x':  // a 1 character way to write "10"
-                    pos += 10;
+
+            Piece.Sides side;  // if the character is lowercase then the side is blue else red
+            if (curr == FEN.charAt(c)) {
+                side = Piece.Sides.BLUE;
+            }
+            else {
+                side = Piece.Sides.RED;
+            }
+
+            switch (curr) {
+                case 'k' -> board[pos].setPiece(new King(side, SQUARE_SIZE));
+                case 'q' -> board[pos].setPiece(new Queen(side, SQUARE_SIZE));
+                case 'n' -> board[pos].setPiece(new Knight(side, SQUARE_SIZE));
+                case 'r' -> board[pos].setPiece(new Rook(side, SQUARE_SIZE));
+                case 'b' -> board[pos].setPiece(new Bishop(side, SQUARE_SIZE));
+                case 'p' -> board[pos].setPiece(new Pawn(side, SQUARE_SIZE));
+                case 'c' -> board[pos].setPiece(new Archer(side, SQUARE_SIZE));
+                case 's' -> board[pos].setPiece(new Assassin(side, SQUARE_SIZE));
+                case 'o' -> board[pos].setPiece(new Bomber(side, SQUARE_SIZE));
+                case 'g' -> board[pos].setPiece(new RoyalGuard(side, SQUARE_SIZE));
+                case 'x' -> pos += 10; // a 1 character way to write "10"
             }
             if (Character.isDigit(curr)) {
                 pos += Character.getNumericValue(curr);
@@ -128,44 +112,34 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
         }
 
     }
-
-    public void paintComponent(Graphics g) {  // draws all the squares in the board
-        for (Square sq : this.board) {
-            sq.draw(g);
-        }
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-        repaint();
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        Square sq = (Square) this.getComponentAt(new Point(e.getX(), e.getY()));
-        repaint();
-    }
-
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-        repaint();
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
+    public Square getSquareClicked(int mouseX, int mouseY) {
+        int rank = mouseX / SQUARE_SIZE;  // integer division leaves us with the correct rank and file
+        int file = mouseY / SQUARE_SIZE;
+        return null;
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        System.out.println("Pressed: " + e.getX() + " " + e.getY());
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        System.out.println("Released: " + e.getX() + " " + e.getY());
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
+
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
+
     }
 }
