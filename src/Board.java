@@ -119,9 +119,8 @@ public class Board extends JPanel implements ActionListener, MouseListener, Mous
                 case 'x':  // a 1 character way to write "10"
                     pos += 10;
             }
-            System.out.println("curr: " + curr + ", pos: " + pos);
             if (Character.isDigit(curr)) {
-                pos += curr;
+                pos += Character.getNumericValue(curr);
             }
             else if (curr != '/' && curr != 'x') { // increment the position whenever the character isnt the newline (/) or has not already been incremented (x == +10)
                 pos++;
