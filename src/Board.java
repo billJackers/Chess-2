@@ -22,6 +22,7 @@ public class Board extends JPanel implements ActionListener, MouseListener {
     public Board() {
         // create a new board
         this.board = new Square[100];
+        Piece.setBoard(this);
 
         // window size
         this.setPreferredSize(new Dimension(SQUARE_SIZE*RANK_SIZE, SQUARE_SIZE*FILE_SIZE)); // dimensions based on the size of the grid
@@ -125,6 +126,7 @@ public class Board extends JPanel implements ActionListener, MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         Square clicked = getSquareClicked(e.getX(), e.getY());
+        clicked.setState(Square.ActionStates.PLAYER_SELECTED);
         System.out.println("Pressed: " + clicked.getPiece());
     }
 

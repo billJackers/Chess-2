@@ -9,6 +9,11 @@ import javax.imageio.ImageIO;
 
 public abstract class Piece {
 
+    protected static Board board;
+    public static void setBoard(Board board) {
+        Piece.board = board;
+    }
+
     public enum Sides {
         BLUE,
         RED

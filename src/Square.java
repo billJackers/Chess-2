@@ -7,9 +7,15 @@ import javax.swing.*;
 
 public class Square extends JComponent {
 
-    enum Sides {
+    private enum Sides {  // Dictates the background color of a Square
         BLUE,
         RED
+    }
+
+    enum ActionStates {
+        NONE,
+        PLAYER_SELECTED,
+        LEGAL_MOVE
     }
 
     private Piece piece;
@@ -17,6 +23,7 @@ public class Square extends JComponent {
     private final int file;
     private final int size;
     private final Sides side;
+    private ActionStates state;
 
     public Square(int rank, int file, int size) {
         this.rank = rank; // "x"
@@ -26,6 +33,7 @@ public class Square extends JComponent {
             this.side = Sides.BLUE;
         else
             this.side = Sides.RED;
+        this.state = ActionStates.NONE;  // changes the background color of the board based on game Events
     }
 
     // getters
@@ -35,26 +43,31 @@ public class Square extends JComponent {
     public int getX() {
         return this.rank * size;
     } // actual x position on window
-    public int getY() {
-        return this.file * size;
-    } // actual y position on window
+    public int getY() { return this.file * size; } // actual y position on window
 
     public Piece setPiece(Piece newPiece) {  // set a piece and return the old piece
         Piece oldPiece = this.piece;
         this.piece = newPiece;
         return oldPiece;
     }
-
-    public boolean isOccupied() {
-        return (this.piece != null);
-    }
+    public void setState(ActionStates state) { this.state = state; }
 
     public void draw(Graphics g) {  // draws the background square and the piece (if piece exists)
 
-        switch (this.side) {  // draw the background square color
-            case BLUE -> g.setColor(new Color(225, 209, 163));
-            case RED -> g.setColor(new Color(196, 159, 117));
+        if (this.state == ActionStates.NONE) {
+            switch (this.side) {  // draw the background square color
+                case BLUE -> g.setColor(new Color(225, 209, 163));
+                case RED -> g.setColor(new Color(196, 159, 117));
+            }
         }
+        else {
+            switch (this.state) {  // If the tile currently has a unique state (ActionStates != none), then draw the state instead
+                case PLAYER_SELECTED -> g.setColor(new Color(255, 229, 79));
+                case LEGAL_MOVE -> g.setColor(new Color(255, 205, 79));
+            }
+        }
+
+
         // System.out.println(this.getX() + " " + this.getY());
         g.fillRect(this.getX(), this.getY(), size, size);
 
