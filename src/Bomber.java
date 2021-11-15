@@ -3,8 +3,8 @@ import java.util.List;
 
 public class Bomber extends Piece {
 
-    private static final String IMAGES_BOMBER_BLUE = "images/wpawn.png";
-    private static final String IMAGES_BOMBER_RED = "images/bpawn.png";
+    private static final String IMAGES_BOMBER_BLUE = "images/bbomber.png";
+    private static final String IMAGES_BOMBER_RED = "images/rbomber.png";
 
     public Bomber(Sides side, int size) {
         super(side, size);
