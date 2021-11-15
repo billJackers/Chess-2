@@ -17,8 +17,8 @@ public class Rook extends Piece {
     public List<Square> getLegalMoves() {
         List<Square> legalMoves = new ArrayList<>();
 
-        int rank = this.curSquare.getRank();
-        int file = this.curSquare.getFile();
+        int rank = this.parentSquare.getRank();
+        int file = this.parentSquare.getFile();
 
         int rankSize = board.getRankSize();
         int fileSize = board.getFileSize();
