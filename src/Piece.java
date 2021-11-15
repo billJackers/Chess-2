@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 public abstract class Piece {
 
     protected static Board board;
-    public static void setBoard(Board board) {
+    public static void setBoard(Board board) {  // the board should only be set once in the board class constructor
         Piece.board = board;
     }
 

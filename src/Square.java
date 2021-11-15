@@ -51,10 +51,10 @@ public class Square extends JComponent {
         return oldPiece;
     }
     public void setState(ActionStates state) { this.state = state; }
+    public void clearPiece() { this.piece = null; }
 
     public void draw(Graphics g) {  // draws the background square and the piece (if piece exists)
-
-        if (this.state == ActionStates.NONE) {
+        if (this.state == ActionStates.NONE) {  // finding the rect's color
             switch (this.side) {  // draw the background square color
                 case BLUE -> g.setColor(new Color(225, 209, 163));
                 case RED -> g.setColor(new Color(196, 159, 117));
@@ -66,8 +66,6 @@ public class Square extends JComponent {
                 case LEGAL_MOVE -> g.setColor(new Color(255, 205, 79));
             }
         }
-
-
         // System.out.println(this.getX() + " " + this.getY());
         g.fillRect(this.getX(), this.getY(), size, size);
 

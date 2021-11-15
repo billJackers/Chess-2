@@ -1,12 +1,6 @@
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Point;
 import java.awt.event.*;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import javax.swing.*;
 
 public class Board extends JPanel implements ActionListener, MouseListener {
@@ -19,10 +13,13 @@ public class Board extends JPanel implements ActionListener, MouseListener {
 
     private static final int DELAY = 25; // delay in ms to update board
 
+    // player stuff
+    private Square playerSelected = null;
+
     public Board() {
         // create a new board
         this.board = new Square[100];
-        Piece.setBoard(this);
+        Piece.setBoard(this);  // add a way for pieces to access the board
 
         // window size
         this.setPreferredSize(new Dimension(SQUARE_SIZE*RANK_SIZE, SQUARE_SIZE*FILE_SIZE)); // dimensions based on the size of the grid
@@ -126,13 +123,21 @@ public class Board extends JPanel implements ActionListener, MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         Square clicked = getSquareClicked(e.getX(), e.getY());
+        if (this.playerSelected != null && this.playerSelected.getPiece() != null) {  // the player has selected a piece and a new Square to move it to
+            clicked.setPiece(this.playerSelected.getPiece());
+            this.playerSelected.setState(Square.ActionStates.NONE);
+            this.playerSelected.clearPiece();
+            this.playerSelected = null;  // cut the reference
+            return;
+        }
+        if (clicked.getPiece() == null) return;
+        this.playerSelected = clicked;
         clicked.setState(Square.ActionStates.PLAYER_SELECTED);
         System.out.println("Pressed: " + clicked.getPiece());
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        System.out.println("Released: " + e.getX() + " " + e.getY());
     }
 
     @Override
