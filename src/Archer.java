@@ -3,8 +3,8 @@ import java.util.List;
 
 public class Archer extends Piece {
 
-    private static final String IMAGES_ARCHER_BLUE = "images/wpawn.png";
-    private static final String IMAGES_ARCHER_RED = "images/bpawn.png";
+    private static final String IMAGES_ARCHER_BLUE = "images/barcher.png";
+    private static final String IMAGES_ARCHER_RED = "images/rarcher.png";
 
     public Archer(Sides side, int size) {
         super(side, size);
