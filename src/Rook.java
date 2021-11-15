@@ -17,20 +17,47 @@ public class Rook extends Piece {
     public List<Square> getLegalMoves() {
         List<Square> legalMoves = new ArrayList<>();
 
-        int rank = this.curSquare.getRank();
-        int file = this.curSquare.getFile();
+        int rank = this.parentSquare.getRank();
+        int file = this.parentSquare.getFile();
 
         int rankSize = board.getRankSize();
         int fileSize = board.getFileSize();
 
         Square[] b = board.getBoard();
 
+        int pos = (fileSize*rank) + file;
+
         // Horizontal
-        int tempFile = file;
-
+        int temp = 1;
         if (file != fileSize) {
-            while (file <= fileSize) {
-
+            while (temp+pos <= fileSize) {
+                if (!b[pos+temp].isOccupied()) {
+                    legalMoves.add(b[pos+temp]);
+                }
+                if (b[pos+temp].isOccupied() && canCapture(b[pos+temp])) {
+                    legalMoves.add(b[pos+temp]);
+                    break;
+                }
+                if (b[pos+temp].isOccupied() && !canCapture(b[pos+temp])) {
+                    break;
+                }
+                temp++;
+            }
+        }
+        temp = 1;
+        if (file != 0) {
+            while (pos-temp >= 0) {
+                if (!b[pos-temp].isOccupied()) {
+                    legalMoves.add(b[pos-temp]);
+                }
+                if (b[pos-temp].isOccupied() && canCapture(b[pos-temp])) {
+                    legalMoves.add(b[pos-temp]);
+                    break;
+                }
+                if (b[pos-temp].isOccupied() && !canCapture(b[pos-temp])) {
+                    break;
+                }
+                temp++;
             }
         }
 
