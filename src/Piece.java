@@ -22,10 +22,12 @@ public abstract class Piece {
     protected Sides side;
     protected int size;
     protected Image image;
+    protected Square curSquare;
 
-    public Piece(Sides side, int size) {
+    public Piece(Sides side, int size, Square initSquare) {
         this.side = side;
         this.size = size;
+        this.curSquare = initSquare;
     }
 
     protected Image getImageByFile(String file) {  // get our image based on a file name

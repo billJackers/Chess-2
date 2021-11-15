@@ -10,15 +10,14 @@ public class Pawn extends Piece {
     private static final String IMAGES_PAWN_BLUE = "images/wpawn.png";
     private static final String IMAGES_PAWN_RED = "images/bpawn.png";
 
-    public Pawn(Sides side, int size) {
-        super(side, size);
+    public Pawn(Sides side, int size, Square initSquare) {
+        super(side, size, initSquare);
         switch (side) {
             case BLUE -> this.image = getImageByFile(IMAGES_PAWN_BLUE);
             case RED -> this.image = getImageByFile(IMAGES_PAWN_RED);
         }
     }
 
-    @Override
     public List<Square> getLegalMoves(Board b) {
         LinkedList<Square> legalMoves = new LinkedList<>();
 
