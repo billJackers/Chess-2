@@ -14,7 +14,7 @@ public class Board extends JPanel implements ActionListener, MouseListener {
     private static final int DELAY = 25; // delay in ms to update board
 
     // player stuff
-    private Square playerSelected = null;
+
 
     public Board() {
         // create a new board
@@ -129,23 +129,23 @@ public class Board extends JPanel implements ActionListener, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+//        Square clicked = getSquareClicked(e.getX(), e.getY());
+//        if (this.playerSelected != null && this.playerSelected.getPiece() != null) {  // the player has selected a piece and a new Square to move it to
+//            clicked.setPiece(this.playerSelected.getPiece());
+//            this.playerSelected.setState(Square.ActionStates.NONE);
+//            this.playerSelected.clearPiece();
+//            this.playerSelected = null;  // cut the reference
+//            return;
+//        }
+//        if (clicked.getPiece() == null) return;
+//        this.playerSelected = clicked;
+//        clicked.setState(Square.ActionStates.PLAYER_SELECTED);
+//        System.out.println("Pressed: " + clicked.getPiece());
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        Square clicked = getSquareClicked(e.getX(), e.getY());
-        if (this.playerSelected != null && this.playerSelected.getPiece() != null) {  // the player has selected a piece and a new Square to move it to
-            clicked.setPiece(this.playerSelected.getPiece());
-            this.playerSelected.setState(Square.ActionStates.NONE);
-            this.playerSelected.clearPiece();
-            this.playerSelected = null;  // cut the reference
-            return;
-        }
-        if (clicked.getPiece() == null) return;
-        this.playerSelected = clicked;
-        clicked.setState(Square.ActionStates.PLAYER_SELECTED);
-        System.out.println("Pressed: " + clicked.getPiece());
+
     }
 
     @Override
