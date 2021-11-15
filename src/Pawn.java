@@ -46,12 +46,12 @@ public class Pawn extends Piece {
                 }
                 if (rank+1 < rankSize && file+1 < fileSize) {
                     if (b[rank+fileSize+1].isOccupied()) {
-                        if (b[rank+fileSize+1].getPiece().side == Sides.BLUE) legalMoves.add(b[rank+fileSize+1]);
+                        if (this.canCapture(b[rank+fileSize+1])) legalMoves.add(b[rank+fileSize+1]);
                     }
                 }
                 if (rank+1 < rankSize && file-1 > 0) {
                     if (b[rank+fileSize-1].isOccupied()) {
-                        if (b[rank+fileSize-1].getPiece().side == Sides.BLUE) legalMoves.add(b[rank+fileSize-1]);
+                        if (this.canCapture(b[rank+fileSize-1])) legalMoves.add(b[rank+fileSize-1]);
                     }
                 }
                 break;
@@ -68,12 +68,12 @@ public class Pawn extends Piece {
                 }
                 if (rank-1 >= 0 && file+1 < fileSize) {
                     if (b[rank-fileSize+1].isOccupied()) {
-                        if (b[rank-fileSize+1].getPiece().side == Sides.RED) legalMoves.add(b[rank-fileSize+1]);
+                        if (this.canCapture(b[rank-fileSize+1])) legalMoves.add(b[rank-fileSize+1]);
                     }
                 }
                 if (rank-1 >= 0 && file-1 >= 0) {
                     if (b[rank-fileSize-1].isOccupied()) {
-                        if (b[rank-fileSize-1].getPiece().side == Sides.RED) legalMoves.add(b[rank-fileSize-1]);
+                        if (this.canCapture(b[rank-fileSize-1])) legalMoves.add(b[rank-fileSize-1]);
                     }
                 }
                 break;

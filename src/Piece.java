@@ -46,5 +46,10 @@ public abstract class Piece {
     }  // draws image at location
 
     public abstract List<Square> getLegalMoves();
+
+    protected boolean canCapture(Square sq) {
+        return this.side != sq.getPiece().side;
+    }
+
     // public boolean move(Square moveTo);
 }
