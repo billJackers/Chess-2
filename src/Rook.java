@@ -1,4 +1,4 @@
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Rook extends Piece {
@@ -15,7 +15,26 @@ public class Rook extends Piece {
     }
 
     public List<Square> getLegalMoves() {
-        return null;
+        List<Square> legalMoves = new ArrayList<>();
+
+        int rank = this.curSquare.getRank();
+        int file = this.curSquare.getFile();
+
+        int rankSize = board.getRankSize();
+        int fileSize = board.getFileSize();
+
+        Square[] b = board.getBoard();
+
+        // Horizontal
+        int tempFile = file;
+
+        if (file != fileSize) {
+            while (file <= fileSize) {
+
+            }
+        }
+
+        return legalMoves;
     }
     
 }
