@@ -24,8 +24,8 @@ public class Pawn extends Piece {
     public List<Square> getLegalMoves() {
         LinkedList<Square> legalMoves = new LinkedList<>();
 
-        int rank = this.curSquare.getRank();
-        int file = this.curSquare.getFile();
+        int rank = this.parentSquare.getRank();
+        int file = this.parentSquare.getFile();
 
         int rankSize = board.getRankSize();
         int fileSize = board.getFileSize();

@@ -11,8 +11,7 @@ public class Square extends JComponent {
         BLUE,
         RED
     }
-
-    enum ActionStates {
+    enum ActionStates {  // If the square currently has a unique state (ActionStates != none), then these will effect the background color instead of Sides
         NONE,
         PLAYER_SELECTED,
         LEGAL_MOVE
@@ -40,18 +39,16 @@ public class Square extends JComponent {
     public Piece getPiece() {
         return this.piece;
     }
+    public int getRank() {
+        return rank;
+    }
+    public int getFile() {
+        return file;
+    }
     public int getX() {
         return this.rank * size;
     } // actual x position on window
     public int getY() { return this.file * size; } // actual y position on window
-
-    public int getRank() {
-        return rank;
-    }
-
-    public int getFile() {
-        return file;
-    }
 
     public boolean isOccupied() {
         return this.getPiece() == null;
