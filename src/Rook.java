@@ -61,9 +61,38 @@ public class Rook extends Piece {
             }
         }
 
+        // Vertical
+        temp = 1;
         if (rank != rankSize-1) {
-            while (pos+(temp*10) <= rankSize) {
+            while (pos+(temp*10) < b.length) {
+                if (!b[pos+(temp*10)].isOccupied()) {
+                    legalMoves.add(b[pos+(temp*10)]);
+                }
+                if (b[pos+(temp*10)].isOccupied() && canCapture(b[pos+(temp*10)])) {
+                    legalMoves.add(b[pos+(temp*10)]);
+                    break;
+                }
+                if (b[pos+(temp*10)].isOccupied() && !canCapture(b[pos+(temp*10)])) {
+                    break;
+                }
+                temp++;
+            }
+        }
 
+        temp = 1;
+        if (rank != 0) {
+            while (pos-(temp*10) >= 0) {
+                if (!b[pos-(temp*10)].isOccupied()) {
+                    legalMoves.add(b[pos-(temp*10)]);
+                }
+                if (b[pos-(temp*10)].isOccupied() && canCapture(b[pos-(temp*10)])) {
+                    legalMoves.add(b[pos-(temp*10)]);
+                    break;
+                }
+                if (b[pos-(temp*10)].isOccupied() && !canCapture(b[pos-(temp*10)])) {
+                    break;
+                }
+                temp++;
             }
         }
 
