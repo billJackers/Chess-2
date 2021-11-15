@@ -3,7 +3,7 @@ import java.awt.Graphics;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class Board extends JPanel implements ActionListener, MouseListener {
+public class Board extends JPanel implements ActionListener {
 
     private static final int SQUARE_SIZE = 50; // length of a square tile
     private static final int FILE_SIZE = 10; // columns
@@ -12,9 +12,6 @@ public class Board extends JPanel implements ActionListener, MouseListener {
     private final Square[] board;
 
     private static final int DELAY = 25; // delay in ms to update board
-
-    // player stuff
-    private Square playerSelected = null;
 
     public Board() {
         // create a new board
@@ -29,8 +26,8 @@ public class Board extends JPanel implements ActionListener, MouseListener {
         Timer timer = new Timer(DELAY, this);
         timer.start();
 
-        // adding mouse listener
-        this.addMouseListener(this); // OOP black magic
+        // Player controller to handle mouse input
+        PlayerController controller = new PlayerController(this);
 
         initializeSquares();
         generateBoardState("rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBRBKQBRBR");
@@ -125,40 +122,5 @@ public class Board extends JPanel implements ActionListener, MouseListener {
         int file = mouseY / SQUARE_SIZE;
         int boardPos = file * FILE_SIZE + rank;  // calculate the position instead of looping through in for loop
         return board[boardPos];
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        Square clicked = getSquareClicked(e.getX(), e.getY());
-        if (this.playerSelected != null && this.playerSelected.getPiece() != null) {  // the player has selected a piece and a new Square to move it to
-            clicked.setPiece(this.playerSelected.getPiece());
-            this.playerSelected.setState(Square.ActionStates.NONE);
-            this.playerSelected.clearPiece();
-            this.playerSelected = null;  // cut the reference
-            return;
-        }
-        if (clicked.getPiece() == null) return;
-        this.playerSelected = clicked;
-        clicked.setState(Square.ActionStates.PLAYER_SELECTED);
-        System.out.println("Pressed: " + clicked.getPiece());
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
     }
 }
