@@ -18,8 +18,12 @@ public class Pawn extends Piece {
         }
     }
 
+    @Override
     public List<Square> getLegalMoves(Board b) {
-        return null;
+        LinkedList<Square> legalMoves = new LinkedList<>();
+
+        return legalMoves;
+
     }
 
 }
