@@ -15,7 +15,7 @@ public class King extends Piece {
         }
     }
 
-    public List<Square> getLegalMoves(Board b) {
+    public List<Square> getLegalMoves() {
         return null;
     }
 

@@ -45,6 +45,18 @@ public class Square extends JComponent {
     } // actual x position on window
     public int getY() { return this.file * size; } // actual y position on window
 
+    public int getRank() {
+        return rank;
+    }
+
+    public int getFile() {
+        return file;
+    }
+
+    public boolean isOccupied() {
+        return this.getPiece() == null;
+    }
+
     public Piece setPiece(Piece newPiece) {  // set a piece and return the old piece
         Piece oldPiece = this.piece;
         this.piece = newPiece;

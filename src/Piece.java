@@ -45,6 +45,6 @@ public abstract class Piece {
         g.drawImage(this.image, x, y, null);
     }  // draws image at location
 
-    public abstract List<Square> getLegalMoves(Board b);
+    public abstract List<Square> getLegalMoves();
     // public boolean move(Square moveTo);
 }

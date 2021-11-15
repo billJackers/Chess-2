@@ -36,6 +36,18 @@ public class Board extends JPanel implements ActionListener, MouseListener {
         generateBoardState("rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBRBKQBRBR");
     }
 
+    public Square[] getBoard() {
+        return board;
+    }
+
+    public int getRankSize() {
+        return RANK_SIZE;
+    }
+
+    public int getFileSize() {
+        return FILE_SIZE;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         // this method is called by the timer every DELAY ms.
@@ -95,7 +107,7 @@ public class Board extends JPanel implements ActionListener, MouseListener {
                 case 'p' -> board[pos].setPiece(new Pawn(side, SQUARE_SIZE, board[pos]));
                 case 'c' -> board[pos].setPiece(new Archer(side, SQUARE_SIZE, board[pos]));
                 case 's' -> board[pos].setPiece(new Assassin(side, SQUARE_SIZE, board[pos]));
-                case 'o' -> board[pos].setPiece(new Bomber(side, SQUARE_SIZE));
+                case 'o' -> board[pos].setPiece(new Bomber(side, SQUARE_SIZE, board[pos]));
                 case 'g' -> board[pos].setPiece(new RoyalGuard(side, SQUARE_SIZE, board[pos]));
                 case 'x' -> pos += 10; // a 1 character way to write "10"
             }
