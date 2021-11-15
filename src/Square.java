@@ -5,7 +5,6 @@ import javax.swing.*;
 
 
 
-@SuppressWarnings("serial")
 public class Square extends JComponent {
 
     enum Sides {
@@ -53,8 +52,8 @@ public class Square extends JComponent {
     public void draw(Graphics g) {  // draws the background square and the piece (if piece exists)
 
         switch (this.side) {  // draw the background square color
-            case BLUE -> g.setColor(new Color(102, 173, 255));
-            case RED -> g.setColor(new Color(181, 74, 74));
+            case BLUE -> g.setColor(new Color(225, 209, 163));
+            case RED -> g.setColor(new Color(196, 159, 117));
         }
         // System.out.println(this.getX() + " " + this.getY());
         g.fillRect(this.getX(), this.getY(), size, size);
