@@ -23,25 +23,36 @@ public class PlayerController implements MouseListener {  // handles player inpu
         else currentTurn = PlayerTurn.PLAYER_BLUE;
     }
 
+    public void deselectCurrent() {
+        this.previouslySelected.setState(Square.ActionStates.NONE);
+        this.previouslySelected = null;  // cut the reference
+    }
+
     public void attemptMove(Square selected) {
-        // obnoxiously long if statement that checks if the correct player is moving the correct piece
-        if (previouslySelected != null && previouslySelected.getPiece() != null && ((currentTurn == PlayerTurn.PLAYER_BLUE && previouslySelected.getPiece().side == Piece.Sides.BLUE) || (currentTurn == PlayerTurn.PLAYER_RED && previouslySelected.getPiece().side == Piece.Sides.RED))) {
-
-
+        // obnoxiously long if statement that checks if a set side is moving their respective piece
+        if ((currentTurn == PlayerTurn.PLAYER_BLUE && previouslySelected.getPiece().side == Piece.Sides.BLUE) || (currentTurn == PlayerTurn.PLAYER_RED && previouslySelected.getPiece().side == Piece.Sides.RED)) {
             selected.setPiece(this.previouslySelected.getPiece());
-            this.previouslySelected.setState(Square.ActionStates.NONE);
             this.previouslySelected.clearPiece();
-            this.previouslySelected = null;  // cut the reference
-            return;
+            deselectCurrent();
+            swapTurns();
         }
-        selected.setState(Square.ActionStates.PLAYER_SELECTED);
-        previouslySelected = selected;
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
           Square squareSelected = board.getSquareClicked(e.getX(), e.getY());
-          attemptMove(squareSelected);
+          if (previouslySelected != null && previouslySelected.hasPiece()) {  // if the player has previously selected a piece to move
+              if (squareSelected == previouslySelected) {  // if the newly selected Square is the same as the previous one
+                  deselectCurrent();
+                  return;
+              }
+              attemptMove(squareSelected);
+          }
+          else if (squareSelected.getPiece() != null) {  // if we are selecting a new piece to move
+              squareSelected.setState(Square.ActionStates.PLAYER_SELECTED);
+              previouslySelected = squareSelected;
+          }
+
 //        if (this.playerSelected != null && this.playerSelected.getPiece() != null) {  // the player has selected a piece and a new Square to move it to
 //            clicked.setPiece(this.playerSelected.getPiece());
 //            this.playerSelected.setState(Square.ActionStates.NONE);

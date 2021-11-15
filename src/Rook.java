@@ -31,14 +31,14 @@ public class Rook extends Piece {
         int temp = 1;
         if (file != fileSize) {
             while (temp+pos <= fileSize) {
-                if (!b[pos+temp].isOccupied()) {
+                if (!b[pos+temp].hasPiece()) {
                     legalMoves.add(b[pos+temp]);
                 }
-                if (b[pos+temp].isOccupied() && canCapture(b[pos+temp])) {
+                if (b[pos+temp].hasPiece() && canCapture(b[pos+temp])) {
                     legalMoves.add(b[pos+temp]);
                     break;
                 }
-                if (b[pos+temp].isOccupied() && !canCapture(b[pos+temp])) {
+                if (b[pos+temp].hasPiece() && !canCapture(b[pos+temp])) {
                     break;
                 }
                 temp++;
@@ -47,14 +47,14 @@ public class Rook extends Piece {
         temp = 1;
         if (file != 0) {
             while (pos-temp >= 0) {
-                if (!b[pos-temp].isOccupied()) {
+                if (!b[pos-temp].hasPiece()) {
                     legalMoves.add(b[pos-temp]);
                 }
-                if (b[pos-temp].isOccupied() && canCapture(b[pos-temp])) {
+                if (b[pos-temp].hasPiece() && canCapture(b[pos-temp])) {
                     legalMoves.add(b[pos-temp]);
                     break;
                 }
-                if (b[pos-temp].isOccupied() && !canCapture(b[pos-temp])) {
+                if (b[pos-temp].hasPiece() && !canCapture(b[pos-temp])) {
                     break;
                 }
                 temp++;

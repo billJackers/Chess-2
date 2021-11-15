@@ -1,9 +1,5 @@
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Pawn extends Piece {
 
@@ -37,44 +33,44 @@ public class Pawn extends Piece {
         switch (this.side) {
             case RED:
                 if (!wasMoved) {
-                    if (!b[pos+(fileSize*2)].isOccupied()) {
+                    if (!b[pos+(fileSize*2)].hasPiece()) {
                         legalMoves.add(b[pos+(fileSize*2)]);
                     }
                 }
                 if (rank+1 < rankSize) {
-                    if (!b[pos+fileSize].isOccupied()) {
+                    if (!b[pos+fileSize].hasPiece()) {
                         legalMoves.add(b[pos+fileSize]);
                     }
                 }
                 if (rank+1 < rankSize && file+1 < fileSize) {
-                    if (b[pos+fileSize+1].isOccupied()) {
+                    if (b[pos+fileSize+1].hasPiece()) {
                         if (this.canCapture(b[pos+fileSize+1])) legalMoves.add(b[pos+fileSize+1]);
                     }
                 }
                 if (rank+1 < rankSize && file-1 > 0) {
-                    if (b[pos+fileSize-1].isOccupied()) {
+                    if (b[pos+fileSize-1].hasPiece()) {
                         if (this.canCapture(b[pos+fileSize-1])) legalMoves.add(b[pos+fileSize-1]);
                     }
                 }
                 break;
             case BLUE:
                 if (!wasMoved) {
-                    if (!b[pos-(fileSize*2)].isOccupied()) {
+                    if (!b[pos-(fileSize*2)].hasPiece()) {
                         legalMoves.add(b[pos-(fileSize*2)]);
                     }
                 }
                 if (rank-1 >= 0) {
-                    if (!b[pos-fileSize].isOccupied()) {
+                    if (!b[pos-fileSize].hasPiece()) {
                         legalMoves.add(b[pos-fileSize]);
                     }
                 }
                 if (rank-1 >= 0 && file+1 < fileSize) {
-                    if (b[pos-fileSize+1].isOccupied()) {
+                    if (b[pos-fileSize+1].hasPiece()) {
                         if (this.canCapture(b[pos-fileSize+1])) legalMoves.add(b[pos-fileSize+1]);
                     }
                 }
                 if (rank-1 >= 0 && file-1 >= 0) {
-                    if (b[pos-fileSize-1].isOccupied()) {
+                    if (b[pos-fileSize-1].hasPiece()) {
                         if (this.canCapture(b[pos-fileSize-1])) legalMoves.add(b[pos-fileSize-1]);
                     }
                 }
