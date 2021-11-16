@@ -3,8 +3,8 @@ import java.util.ArrayList;
 
 public class Pawn extends Piece {
 
-    private static final String IMAGES_PAWN_BLUE = "images/wpawn.png";
-    private static final String IMAGES_PAWN_RED = "images/bpawn.png";
+    private static final String IMAGES_PAWN_BLUE = "images/bpawn.png";
+    private static final String IMAGES_PAWN_RED = "images/rpawn.png";
 
     private boolean wasMoved;
 

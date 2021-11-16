@@ -3,8 +3,8 @@ import java.util.List;
 
 public class Rook extends Piece {
 
-    private static final String IMAGES_ROOK_BLUE = "images/wrook.png";
-    private static final String IMAGES_ROOK_RED = "images/brook.png";
+    private static final String IMAGES_ROOK_BLUE = "images/brook.png";
+    private static final String IMAGES_ROOK_RED = "images/rrook.png";
 
     public Rook(Sides side, int size, Square initSquare) {
         super(side, size, initSquare);

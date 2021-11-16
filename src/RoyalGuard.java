@@ -3,8 +3,8 @@ import java.util.List;
 
 public class RoyalGuard extends Piece {
 
-    private static final String IMAGES_ROYAL_GUARD_BLUE = "images/wrook.png";
-    private static final String IMAGES_ROYAL_GUARD_RED = "images/brook.png";
+    private static final String IMAGES_ROYAL_GUARD_BLUE = "images/broyalguard.png";
+    private static final String IMAGES_ROYAL_GUARD_RED = "images/rroyalguard.png";
 
     public RoyalGuard(Sides side, int size, Square initSquare) {
         super(side, size, initSquare);
