@@ -30,53 +30,50 @@ public class Pawn extends Piece {
 
         switch (this.side) {
             case BLUE -> {
-                if (!wasMoved) {
-                    if (!b[pos + (20)].hasPiece()) {
-                        legalMoves.add(b[pos + (20)]);
-                    }
+                // Forward moves
+                if (!wasMoved && !b[pos+20].hasPiece()) legalMoves.add(b[pos+20]);
+                if (pos+10 < 100 && !b[pos+10].hasPiece()) {
+                    legalMoves.add(b[pos+10]);
                 }
-                if (rank+1 < 10) {
-                    if (!b[pos + 10].hasPiece()) {
-                        legalMoves.add(b[pos + 10]);
-                    }
+
+                // Captures
+                if (pos % 10 != 9 && pos+10 < 100 && b[pos+11].hasPiece() && this.canCapture(b[pos+11])) {
+                    legalMoves.add(b[pos+11]);
                 }
-                if (rank + 1 < 10 && file + 1 < 10) {
-                    if (b[pos + 11].hasPiece()) {
-                        if (this.canCapture(b[pos + 10 + 1])) legalMoves.add(b[pos + 10 + 1]);
-                    }
+
+                if (pos % 10 != 0 && pos+9 < 100 && b[pos+9].hasPiece() && this.canCapture(b[pos+9])) {
+                    legalMoves.add(b[pos+9]);
                 }
-                if (rank + 1 < 10 && file - 1 > 0) {
-                    if (b[pos + 10 - 1].hasPiece()) {
-                        if (this.canCapture(b[pos + 10 - 1])) legalMoves.add(b[pos + 10 - 1]);
-                    }
-                }
+
             }
+
             case RED -> {
-                if (!wasMoved) {
-                    if (!b[pos - (20)].hasPiece()) {
-                        legalMoves.add(b[pos - (20)]);
-                    }
+                // Forward moves
+                if (!wasMoved && !b[pos-20].hasPiece()) legalMoves.add(b[pos-20]);
+                if (pos-10 >= 0 && !b[pos+1].hasPiece()) {
+                    legalMoves.add(b[pos-10]);
                 }
-                if (rank - 1 >= 0) {
-                    if (!b[pos - 10].hasPiece()) {
-                        legalMoves.add(b[pos - 10]);
-                    }
+
+                // Captures
+                if (pos % 10 != 9 && pos-9 >= 0 && b[pos-9].hasPiece() && this.canCapture(b[pos-9])) {
+                    legalMoves.add(b[pos-9]);
                 }
-                if (rank - 1 >= 0 && file + 1 < 10) {
-                    if (b[pos - 10 + 1].hasPiece()) {
-                        if (this.canCapture(b[pos - 10 + 1])) legalMoves.add(b[pos - 10 + 1]);
-                    }
-                }
-                if (rank - 1 >= 0 && file - 1 >= 0) {
-                    if (b[pos - 10 - 1].hasPiece()) {
-                        if (this.canCapture(b[pos - 10 - 1])) legalMoves.add(b[pos - 10 - 1]);
-                    }
+
+                if (pos % 10 != 0 && pos-11 >= 0 && b[pos-11].hasPiece() && this.canCapture(b[pos-11])) {
+                    legalMoves.add(b[pos-11]);
                 }
             }
         }
 
         return legalMoves;
+    }
 
+    public boolean getWasMoved() {
+        return wasMoved;
+    }
+
+    public void setToMoved() {
+        this.wasMoved = true;
     }
 
 }
