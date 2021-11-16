@@ -22,14 +22,15 @@ public class Knight extends Piece {
         int rank = this.parentSquare.getRank();
         int file = this.parentSquare.getFile();
         int fileSize = board.getFileSize();
-        int pos = (file*fileSize) + rank;  // the index of this piece
+        int indexOfPiece = (file*fileSize) + rank;  // the index of this piece in the board[]
 
         Square[] b = board.getBoard();
 
-        int[] positions = {21, 19, 12, 8};  // +- these indexes give us knight's legalMoves
-        for (int currentPos : positions) {
-            if (pos + currentPos < 100 && this.canCapture(b[pos + currentPos])) legalMoves.add(b[pos + currentPos]);
-            if (pos - currentPos >= 0 && this.canCapture(b[pos - currentPos])) legalMoves.add(b[pos - currentPos]);
+        int[] allMoves = {21, 19, 12, 8};  // [+] OR [-] these values RELATIVE TO OUR CURRENT INDEX gives us possible moves for the knight
+        for (int relativeMove : allMoves) {
+            // if the relative moves are within the bounds of the board and capturable, then add to legalMoves
+            if (indexOfPiece + relativeMove < 100 && this.canCapture(b[indexOfPiece + relativeMove])) legalMoves.add(b[indexOfPiece + relativeMove]);
+            if (indexOfPiece - relativeMove >= 0 && this.canCapture(b[indexOfPiece - relativeMove])) legalMoves.add(b[indexOfPiece - relativeMove]);
         }
 
         return legalMoves;
