@@ -30,7 +30,7 @@ public class Rook extends Piece {
         // Horizontal
         int temp = 1;
         if (file != fileSize) {
-            while (temp+pos <= fileSize) {
+            while (pos+temp % 10 != 0) {
                 if (!b[pos+temp].hasPiece()) {
                     legalMoves.add(b[pos+temp]);
                 }
@@ -46,7 +46,7 @@ public class Rook extends Piece {
         }
         temp = 1;
         if (file != 0) {
-            while (pos-temp >= 0) {
+            while (pos-temp % 10 >= 0) {
                 if (!b[pos-temp].hasPiece()) {
                     legalMoves.add(b[pos-temp]);
                 }
