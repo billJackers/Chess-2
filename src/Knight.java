@@ -28,7 +28,7 @@ public class Knight extends Piece {
 
         int[] allMoves = {21, 19, 12, 8};  // [+] OR [-] these values RELATIVE TO OUR CURRENT INDEX gives us possible moves for the knight
         for (int relativeMove : allMoves) {
-            // if the relative moves are within the bounds of the board and capturable, then add to legalMoves
+            // if the relative moves are within the bounds of the board and the position is capturable, then add to legalMoves
             if (indexOfPiece + relativeMove < 100 && this.canCapture(b[indexOfPiece + relativeMove])) legalMoves.add(b[indexOfPiece + relativeMove]);
             if (indexOfPiece - relativeMove >= 0 && this.canCapture(b[indexOfPiece - relativeMove])) legalMoves.add(b[indexOfPiece - relativeMove]);
         }

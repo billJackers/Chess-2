@@ -57,13 +57,14 @@ public class Square extends JComponent {
     public Piece setPiece(Piece newPiece) {  // set a piece and return the old piece
         Piece oldPiece = this.piece;
         this.piece = newPiece;
+        this.piece.setParentSquare(this);  // set the parent square of the piece
         return oldPiece;
     }
     public void setState(ActionStates state) { this.state = state; }
     public void clearPiece() { this.piece = null; }
 
-    public void draw(Graphics g) {  // draws the background square and the piece (if piece exists)
-        if (this.state == ActionStates.NONE) {  // finding the rect's color
+    public void draw(Graphics g) {  // draws the background square and then the piece (if piece exists)
+        if (this.state == ActionStates.NONE) {
             switch (this.side) {  // draw the background square color
                 case BLUE -> g.setColor(new Color(225, 209, 163));
                 case RED -> g.setColor(new Color(196, 159, 117));

@@ -41,6 +41,10 @@ public abstract class Piece {
         return sprite;
     }
 
+    public void setParentSquare(Square newParent) {
+        this.parentSquare = newParent;
+    }
+
     public void draw(Graphics g, int x, int y) {
         g.drawImage(this.image, x, y, null);
     }  // draws image at location

@@ -32,8 +32,10 @@ public class PlayerController implements MouseListener {  // handles player inpu
     public void attemptMove(Square selected) {
         // obnoxiously long if statement that checks if a set side is moving their respective piece
         if ((currentTurn == PlayerTurn.PLAYER_BLUE && previouslySelected.getPiece().side == Piece.Sides.BLUE) || (currentTurn == PlayerTurn.PLAYER_RED && previouslySelected.getPiece().side == Piece.Sides.RED)) {
-            selected.setPiece(this.previouslySelected.getPiece());
-            this.previouslySelected.clearPiece();
+            // Square sq = previouslySelected; // DEBUG STUFF
+            // System.out.println(sq.getPiece() + " old pos: " + sq.getRank() + " " + sq.getFile() + " new pos: " + selected.getRank() + " " + selected.getFile());
+            selected.setPiece(previouslySelected.getPiece());
+            previouslySelected.clearPiece();
             deselectCurrent();
             swapTurns();
         }
