@@ -50,7 +50,7 @@ public class Pawn extends Piece {
             case RED -> {
                 // Forward moves
                 if (!wasMoved && !b[pos-20].hasPiece()) legalMoves.add(b[pos-20]);
-                if (pos-10 >= 0 && !b[pos+1].hasPiece()) {
+                if (pos-10 >= 0 && !b[pos-10].hasPiece()) {
                     legalMoves.add(b[pos-10]);
                 }
 
