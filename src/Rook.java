@@ -25,12 +25,14 @@ public class Rook extends Piece {
 
         Square[] b = board.getBoard();
 
-        int pos = (fileSize*rank) + file;
+        int pos = (file*10) + rank;
 
         // Horizontal
+
         int temp = 1;
-        if (file != fileSize) {
-            while (pos+temp % fileSize != 0) {
+
+        if (file != 10) {
+            while ((pos+temp) % 10 != 0) {
                 if (!b[pos+temp].hasPiece()) {
                     legalMoves.add(b[pos+temp]);
                 }
@@ -46,7 +48,8 @@ public class Rook extends Piece {
         }
         temp = 1;
         if (file != 0) {
-            while (pos-temp % fileSize >= 0) {
+            while ((pos-temp) % 10 != 9) {
+                System.out.println(temp);
                 if (!b[pos-temp].hasPiece()) {
                     legalMoves.add(b[pos-temp]);
                 }
@@ -63,8 +66,8 @@ public class Rook extends Piece {
 
         // Vertical
         temp = 1;
-        if (rank != rankSize) {
-            while (pos+(temp*fileSize) < b.length) {
+        if (rank != 10) {
+            while (pos+(temp*fileSize) < 100) {
                 if (!b[pos+(temp*fileSize)].hasPiece()) {
                     legalMoves.add(b[pos+(temp*fileSize)]);
                 }

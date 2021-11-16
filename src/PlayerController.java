@@ -71,7 +71,7 @@ public class PlayerController implements MouseListener {  // handles player inpu
                       sq.setState(Square.ActionStates.LEGAL_MOVE);
                   }
               }
-              if (squareSelected.getPiece() instanceof King) {  // temporary proof of concept legalMoves code
+              if (squareSelected.getPiece() instanceof Rook) {  // temporary proof of concept legalMoves code
                   for (Square sq : squareSelected.getPiece().getLegalMoves()) {
                       sq.setState(Square.ActionStates.LEGAL_MOVE);
                   }
