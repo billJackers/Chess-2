@@ -55,5 +55,20 @@ public abstract class Piece {
         return target.getPiece() == null || this.side != target.getPiece().side;
     }
 
+    // checks if the square is on either side edge
+    // left edge is -1, right edge is 1, neither is 0
+    public int onEdge(Square target) {
+        if (target.getRank() == 0) return -1;
+        if (target.getRank() == 9) return 1;
+        return 0;
+    }
+
+    // checks if the square is on the top or bottom edge
+    // top edge is -1, bottom edge is 1, neither is 0
+    public int onEnd(Square target) {
+        if (target.getFile() == 0) return -1;
+        if (target.getFile() == 9) return 1;
+        return 0;
+    }
     // public boolean move(Square moveTo);
 }
