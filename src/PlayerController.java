@@ -30,14 +30,23 @@ public class PlayerController implements MouseListener {  // handles player inpu
     }
 
     public void attemptMove(Square selected) {
+
+        // Checks if legal move
+        boolean legal = false;
+        if (previouslySelected.getPiece().getLegalMoves().contains(selected)) legal = true;
+
         // obnoxiously long if statement that checks if a set side is moving their respective piece
-        if ((currentTurn == PlayerTurn.PLAYER_BLUE && previouslySelected.getPiece().side == Piece.Sides.BLUE) || (currentTurn == PlayerTurn.PLAYER_RED && previouslySelected.getPiece().side == Piece.Sides.RED)) {
-            // Square sq = previouslySelected; // DEBUG STUFF
-            // System.out.println(sq.getPiece() + " old pos: " + sq.getRank() + " " + sq.getFile() + " new pos: " + selected.getRank() + " " + selected.getFile());
-            selected.setPiece(previouslySelected.getPiece());
-            previouslySelected.clearPiece();
-            deselectCurrent();
-            swapTurns();
+        if (legal) {
+            if ((currentTurn == PlayerTurn.PLAYER_BLUE && previouslySelected.getPiece().side == Piece.Sides.BLUE) || (currentTurn == PlayerTurn.PLAYER_RED && previouslySelected.getPiece().side == Piece.Sides.RED)) {
+                // Square sq = previouslySelected; // DEBUG STUFF
+                // System.out.println(sq.getPiece() + " old pos: " + sq.getRank() + " " + sq.getFile() + " new pos: " + selected.getRank() + " " + selected.getFile());
+                selected.setPiece(previouslySelected.getPiece());
+                previouslySelected.clearPiece();
+                deselectCurrent();
+                swapTurns();
+            }
+        } else {
+            System.out.println("Illegal move!");
         }
     }
 

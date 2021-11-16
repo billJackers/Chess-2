@@ -10,6 +10,7 @@ public class Pawn extends Piece {
 
     public Pawn(Sides side, int size, Square initSquare) {
         super(side, size, initSquare);
+        wasMoved = false;
         switch (side) {
             case BLUE -> this.image = getImageByFile(IMAGES_PAWN_BLUE);
             case RED -> this.image = getImageByFile(IMAGES_PAWN_RED);
