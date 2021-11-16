@@ -26,7 +26,7 @@ public class Pawn extends Piece {
 
         Square[] b = board.getBoard();
 
-        int pos = (10*rank) + file;
+        int pos = (file*10) + rank;
 
         switch (this.side) {
             case BLUE -> {
