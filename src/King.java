@@ -4,8 +4,8 @@ import java.util.List;
 
 public class King extends Piece {
 
-    private static final String IMAGES_KING_BLUE = "images/wking.png";
-    private static final String IMAGES_KING_RED = "images/bking.png";
+    private static final String IMAGES_KING_BLUE = "images/bking.png";
+    private static final String IMAGES_KING_RED = "images/rking.png";
 
     public King(Sides side, int size, Square initSquare) {
         super(side, size, initSquare);

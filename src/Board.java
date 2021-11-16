@@ -84,7 +84,7 @@ public class Board extends JPanel implements ActionListener {
         //Bomber – o
         //Royal Guard – g
         int pos = 0;
-        for (int c = 0; c < FEN.length(); c++) {
+        for (int c = 0; c < FEN.length(); c++) {  // looping through the characters
             char curr = FEN.toLowerCase().charAt(c);
 
             Piece.Sides side;  // if the character is lowercase then the side is blue else red

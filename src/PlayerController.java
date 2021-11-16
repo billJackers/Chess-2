@@ -50,6 +50,11 @@ public class PlayerController implements MouseListener {  // handles player inpu
               attemptMove(squareSelected);
           }
           else if (squareSelected.getPiece() != null) {  // if we are selecting a new piece to move
+              if (squareSelected.getPiece() instanceof Knight) {
+                  for (Square sq : squareSelected.getPiece().getLegalMoves()) {
+                      sq.setState(Square.ActionStates.LEGAL_MOVE);
+                  }
+              }
               squareSelected.setState(Square.ActionStates.PLAYER_SELECTED);
               previouslySelected = squareSelected;
           }

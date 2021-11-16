@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,48 +17,19 @@ public class Knight extends Piece {
 
     public List<Square> getLegalMoves() {
 
-        LinkedList<Square> legalMoves = new LinkedList<>();
+        ArrayList<Square> legalMoves = new ArrayList<>();
 
         int rank = this.parentSquare.getRank();
         int file = this.parentSquare.getFile();
-
-        int rankSize = board.getRankSize();
         int fileSize = board.getFileSize();
-
-        int pos = (fileSize*rank) + file;
+        int pos = (file*fileSize) + rank;
 
         Square[] b = board.getBoard();
 
-        if (rank-2 >= 0 && file-1 >= 0 && this.canCapture(b[pos-(fileSize*2)-1])) {
-            legalMoves.add(b[pos-(fileSize*2)-1]);
-        }
-
-        if (rank-2 >= 0 && file+1 <= fileSize && this.canCapture(b[pos-(fileSize*2)+1])) {
-            legalMoves.add(b[pos-(fileSize*2)+1]);
-        }
-
-        if (rank+2 <= rankSize && file-1 >= 0 && this.canCapture(b[pos+(fileSize*2)-1])) {
-            legalMoves.add(b[pos+(fileSize*2)-1]);
-        }
-
-        if (rank+2 <= rankSize && file+1 <= fileSize && this.canCapture(b[pos+(fileSize*2)+1])) {
-            legalMoves.add(b[pos+(fileSize*2)+1]);
-        }
-
-        if (rank-1 >= 0 && file-2 >= 0 && this.canCapture(b[pos-fileSize-2])) {
-            legalMoves.add(b[pos-fileSize-2]);
-        }
-
-        if (rank-1 >= 0 && file+2 <= fileSize && this.canCapture(b[pos-fileSize+2])) {
-            legalMoves.add(b[pos-fileSize+2]);
-        }
-
-        if (rank+1 <= rankSize && file-2 >= 0 && this.canCapture(b[pos+fileSize-2])) {
-            legalMoves.add(b[pos+fileSize-2]);
-        }
-
-        if (rank+1 <= rankSize && file+2 <= fileSize && this.canCapture(b[pos+fileSize+2])) {
-            legalMoves.add(b[pos+fileSize+2]);
+        int[] positions = {21, 19, 12, 8};  // +- these indexes give us knight's legalMoves
+        for (int currentPos : positions) {
+            if (pos + currentPos < 100) legalMoves.add(b[pos + currentPos]);
+            if (pos - currentPos >= 0) legalMoves.add(b[pos - currentPos]);
         }
 
         return legalMoves;
