@@ -30,7 +30,7 @@ public class Rook extends Piece {
         // Horizontal
         int temp = 1;
         if (file != fileSize) {
-            while (pos+temp % 10 != 0) {
+            while (pos+temp % fileSize != 0) {
                 if (!b[pos+temp].hasPiece()) {
                     legalMoves.add(b[pos+temp]);
                 }
@@ -46,7 +46,7 @@ public class Rook extends Piece {
         }
         temp = 1;
         if (file != 0) {
-            while (pos-temp % 10 >= 0) {
+            while (pos-temp % fileSize >= 0) {
                 if (!b[pos-temp].hasPiece()) {
                     legalMoves.add(b[pos-temp]);
                 }
@@ -55,6 +55,41 @@ public class Rook extends Piece {
                     break;
                 }
                 if (b[pos-temp].hasPiece() && !canCapture(b[pos-temp])) {
+                    break;
+                }
+                temp++;
+            }
+        }
+
+        // Vertical
+        temp = 1;
+        if (rank != rankSize) {
+            while (pos+(temp*fileSize) < b.length) {
+                if (!b[pos+(temp*fileSize)].hasPiece()) {
+                    legalMoves.add(b[pos+(temp*fileSize)]);
+                }
+                if (b[pos+(temp*fileSize)].hasPiece() && canCapture(b[pos+(temp*fileSize)])) {
+                    legalMoves.add(b[pos+(temp*fileSize)]);
+                    break;
+                }
+                if (b[pos+(temp*fileSize)].hasPiece() && !canCapture(b[pos+(temp*fileSize)])) {
+                    break;
+                }
+                temp++;
+            }
+        }
+
+        temp = 1;
+        if (rank != 0) {
+            while (pos-(temp*fileSize) >= 0) {
+                if (!b[pos-(temp*fileSize)].hasPiece()) {
+                    legalMoves.add(b[pos-(temp*fileSize)]);
+                }
+                if (b[pos-(temp*fileSize)].hasPiece() && canCapture(b[pos-(temp*fileSize)])) {
+                    legalMoves.add(b[pos-(temp*fileSize)]);
+                    break;
+                }
+                if (b[pos-(temp*fileSize)].hasPiece() && !canCapture(b[pos-(temp*fileSize)])) {
                     break;
                 }
                 temp++;
