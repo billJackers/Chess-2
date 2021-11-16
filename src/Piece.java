@@ -47,8 +47,8 @@ public abstract class Piece {
 
     public abstract List<Square> getLegalMoves();
 
-    protected boolean canCapture(Square sq) {
-        return this.side != sq.getPiece().side;
+    protected boolean canCapture(Square target) {
+        return target.getPiece() == null || this.side != target.getPiece().side;
     }
 
     // public boolean move(Square moveTo);
