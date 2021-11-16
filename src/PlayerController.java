@@ -57,7 +57,7 @@ public class PlayerController implements MouseListener {  // handles player inpu
                 move(previouslySelected, selected);
             }
             deselectCurrent();  // clear board states on after this click
-        } else {
+        } else {  //
             if (selected.hasPiece()) {
                 selectSquare(selected);
             }
@@ -68,19 +68,6 @@ public class PlayerController implements MouseListener {  // handles player inpu
     public void mouseClicked(MouseEvent e) {
           Square squareSelected = board.getSquareClicked(e.getX(), e.getY());
           attemptMove(squareSelected);
-
-
-//        if (this.playerSelected != null && this.playerSelected.getPiece() != null) {  // the player has selected a piece and a new Square to move it to
-//            clicked.setPiece(this.playerSelected.getPiece());
-//            this.playerSelected.setState(Square.ActionStates.NONE);
-//            this.playerSelected.clearPiece();
-//            this.playerSelected = null;  // cut the reference
-//            return;
-//        }
-          // if (squareSelected.getPiece() == null) return;
-//        this.playerSelected = clicked;
-//        clicked.setState(Square.ActionStates.PLAYER_SELECTED);
-          //System.out.println("Pressed: " + squareSelected.getPiece());
     }
 
     @Override
