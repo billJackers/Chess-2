@@ -19,7 +19,7 @@ public class Pawn extends Piece {
 
     @Override
     public List<Square> getLegalMoves() {
-        ArrayList<Square> legalMoves = new ArrayList<>();
+        List<Square> legalMoves = new ArrayList<>();
 
         int rank = this.parentSquare.getRank();
         int file = this.parentSquare.getFile();
@@ -31,7 +31,7 @@ public class Pawn extends Piece {
         switch (this.side) {
             case BLUE -> {
                 // Forward moves
-                if (!wasMoved && !b[pos+20].hasPiece()) legalMoves.add(b[pos+20]);
+                if (!wasMoved && !b[pos+20].hasPiece() && !b[pos+10].hasPiece()) legalMoves.add(b[pos+20]);
                 if (pos+10 < 100 && !b[pos+10].hasPiece()) {
                     legalMoves.add(b[pos+10]);
                 }
@@ -49,7 +49,7 @@ public class Pawn extends Piece {
 
             case RED -> {
                 // Forward moves
-                if (!wasMoved && !b[pos-20].hasPiece()) legalMoves.add(b[pos-20]);
+                if (!wasMoved && !b[pos-20].hasPiece() && !b[pos-10].hasPiece()) legalMoves.add(b[pos-20]);
                 if (pos-10 >= 0 && !b[pos-10].hasPiece()) {
                     legalMoves.add(b[pos-10]);
                 }
