@@ -66,13 +66,13 @@ public class PlayerController implements MouseListener {  // handles player inpu
 
     @Override
     public void mouseClicked(MouseEvent e) {
-          Square squareSelected = board.getSquareClicked(e.getX(), e.getY());
-          attemptMove(squareSelected);
+
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        Square squareSelected = board.getSquareClicked(e.getX(), e.getY());
+        attemptMove(squareSelected);
     }
 
     @Override
