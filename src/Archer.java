@@ -16,7 +16,7 @@ public class Archer extends Piece {
     }
 
     public List<Square> getLegalMoves() {
-        return new ArrayList<Square>();
+        return super.getKingLegalMoves();
     }
 
 }
