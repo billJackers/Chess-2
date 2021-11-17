@@ -52,7 +52,6 @@ public class Pawn extends Piece {
                     if (pos - 20 >= 0 && !wasMoved && !b[pos - 20].hasPiece() && !b[pos - 10].hasPiece()) legalMoves.add(b[pos - 20]);
                     if (pos - 10 >= 0 && !b[pos - 10].hasPiece()) {
                         legalMoves.add(b[pos - 10]);
-                        System.out.println(pos);
                     }
 
                     // Captures
