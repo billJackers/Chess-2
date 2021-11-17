@@ -2,10 +2,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.sql.SQLOutput;
+import java.util.*;
 import javax.imageio.ImageIO;
 
 public abstract class Piece {
@@ -229,5 +227,42 @@ public abstract class Piece {
         return legalMoves;
     }
 
+    public List<Square> getKingLegalMoves() {
+        List<Square> legalMoves = new ArrayList<>();
+        int rank = this.parentSquare.getRank();
+        int file = this.parentSquare.getFile();
+        int fileSize = board.getFileSize();
+        int indexOfPiece = (file*fileSize) + rank;  // the index of this piece in the board[]
+
+        Square[] b = board.getBoard();
+
+        ArrayList<Integer> allMoves = new ArrayList<>(Arrays.asList(1, -1, 9, -9, 10, -10, 11, -11));  // [+] OR [-] these values RELATIVE TO OUR CURRENT INDEX gives us possible moves for the King
+        if (onEnd(this.parentSquare) == -1) {
+            if (allMoves.contains(-9)) allMoves.remove(allMoves.indexOf(-9));
+            if (allMoves.contains(-10)) allMoves.remove(allMoves.indexOf(-10));
+            if (allMoves.contains(-11)) allMoves.remove(allMoves.indexOf(-11));
+        }
+        if (onEnd(this.parentSquare) == 1) {
+            if (allMoves.contains(9)) allMoves.remove(allMoves.indexOf(9));
+            if (allMoves.contains(10)) allMoves.remove(allMoves.indexOf(10));
+            if (allMoves.contains(11)) allMoves.remove(allMoves.indexOf(11));
+        }
+        if (onEdge(this.parentSquare) == -1) {
+            if (allMoves.contains(9)) allMoves.remove(allMoves.indexOf(9));
+            if (allMoves.contains(-1)) allMoves.remove(allMoves.indexOf(-1));
+            if (allMoves.contains(-11)) allMoves.remove(allMoves.indexOf(-11));
+        }
+        if (onEdge(this.parentSquare) == 1) {
+            if (allMoves.contains(-9)) allMoves.remove(allMoves.indexOf(-9));
+            if (allMoves.contains(1)) allMoves.remove(allMoves.indexOf(1));
+            if (allMoves.contains(11)) allMoves.remove(allMoves.indexOf(11));
+        }
+        for (int index:allMoves) {
+            if (canCapture(b[indexOfPiece + index])) legalMoves.add(b[indexOfPiece + index]);
+        }
+
+
+        return legalMoves;
+    }
     // public boolean move(Square moveTo);
 }
