@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,7 +16,11 @@ public class Queen extends Piece {
     }
 
     public List<Square> getLegalMoves() {
-        return null;
+        List<Square> legalMoves = new ArrayList<>();
+        legalMoves.addAll(getBishopLegalMoves());
+        legalMoves.addAll(getRookLegalMoves());
+
+        return legalMoves;
     }
 
 }

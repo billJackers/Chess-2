@@ -2,6 +2,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -70,5 +71,163 @@ public abstract class Piece {
         if (target.getFile() == 9) return 1;
         return 0;
     }
+
+    public List<Square> getBishopLegalMoves() {
+        List<Square> legalMoves = new ArrayList<>();
+
+        int rank = this.parentSquare.getRank();
+        int file = this.parentSquare.getFile();
+
+        Square[] b = board.getBoard();
+
+        int pos = (file*10) + rank;
+
+        int temp = 1;
+
+        // up and to the left
+        if (pos >= 10 && pos % 10 != 0) {
+            while ((pos-temp-(temp*10)) % 10 != 9 && pos-temp-(temp*10) >= 0) {
+                if (!b[pos-temp-(temp*10)].hasPiece()) legalMoves.add(b[pos-temp-(temp*10)]);
+                else if (this.canCapture(b[pos-temp-(temp*10)])) {
+                    legalMoves.add(b[pos-temp-(temp*10)]);
+                    break;
+                } else break;
+
+                temp++;
+            }
+        }
+
+        // up and to the right
+        temp = 1;
+        if (pos >= 10 && pos % 10 != 9) {
+            while ((pos+temp-(temp*10)) % 10 != 0 && pos+temp-(temp*10) >= 0) {
+                if (!b[pos+temp-(temp*10)].hasPiece()) legalMoves.add(b[pos+temp-(temp*10)]);
+                else if (this.canCapture(b[pos+temp-(temp*10)])) {
+                    legalMoves.add(b[pos+temp-(temp*10)]);
+                    break;
+                } else break;
+
+                temp++;
+            }
+        }
+
+        // Down and to the left
+        temp = 1;
+        if (pos < 90 && pos % 10 != 0) {
+            while ((pos-temp+(temp*10)) % 10 != 9 && pos-temp+(temp*10) < 100) {
+                if (!b[pos-temp+(temp*10)].hasPiece()) legalMoves.add(b[pos-temp+(temp*10)]);
+                else if (this.canCapture(b[pos-temp+(temp*10)])) {
+                    legalMoves.add(b[pos-temp+(temp*10)]);
+                    break;
+                } else break;
+
+                temp++;
+            }
+        }
+
+        // Down and to the right
+        temp = 1;
+        if (pos < 90 && pos % 10 != 9) {
+            while ((pos+temp+(temp*10)) % 10 != 0 && pos+temp+(temp*10) < 100) {
+                if (!b[pos+temp+(temp*10)].hasPiece()) legalMoves.add(b[pos+temp+(temp*10)]);
+                else if (this.canCapture(b[pos+temp+(temp*10)])) {
+                    legalMoves.add(b[pos+temp+(temp*10)]);
+                    break;
+                } else break;
+
+                temp++;
+            }
+        }
+
+        return legalMoves;
+    }
+
+    public List<Square> getRookLegalMoves() {
+        List<Square> legalMoves = new ArrayList<>();
+
+        int rank = this.parentSquare.getRank();
+        int file = this.parentSquare.getFile();
+
+        int rankSize = board.getRankSize();
+        int fileSize = board.getFileSize();
+
+        Square[] b = board.getBoard();
+
+        int pos = (file*10) + rank;
+
+        // Horizontal
+
+        int temp = 1;
+
+        if (pos % 10 != 9) {
+            while ((pos+temp) % 10 != 0) {
+                if (!b[pos+temp].hasPiece()) {
+                    legalMoves.add(b[pos+temp]);
+                }
+                if (b[pos+temp].hasPiece() && canCapture(b[pos+temp])) {
+                    legalMoves.add(b[pos+temp]);
+                    break;
+                }
+                if (b[pos+temp].hasPiece() && !canCapture(b[pos+temp])) {
+                    break;
+                }
+                temp++;
+            }
+        }
+        temp = 1;
+        if (pos % 10 != 0) {
+            while ((pos-temp) % 10 != 9) {
+                if (!b[pos-temp].hasPiece()) {
+                    legalMoves.add(b[pos-temp]);
+                }
+                if (b[pos-temp].hasPiece() && canCapture(b[pos-temp])) {
+                    legalMoves.add(b[pos-temp]);
+                    break;
+                }
+                if (b[pos-temp].hasPiece() && !canCapture(b[pos-temp])) {
+                    break;
+                }
+                temp++;
+            }
+        }
+
+        // Vertical
+        temp = 1;
+        if (pos < 90) {
+            while (pos+(temp*fileSize) < 100) {
+                if (!b[pos+(temp*fileSize)].hasPiece()) {
+                    legalMoves.add(b[pos+(temp*fileSize)]);
+                }
+                if (b[pos+(temp*fileSize)].hasPiece() && canCapture(b[pos+(temp*fileSize)])) {
+                    legalMoves.add(b[pos+(temp*fileSize)]);
+                    break;
+                }
+                if (b[pos+(temp*fileSize)].hasPiece() && !canCapture(b[pos+(temp*fileSize)])) {
+                    break;
+                }
+                temp++;
+            }
+        }
+
+        temp = 1;
+        if (pos >= 10) {
+            while (pos-(temp*fileSize) >= 0) {
+                if (!b[pos-(temp*fileSize)].hasPiece()) {
+                    legalMoves.add(b[pos-(temp*fileSize)]);
+                }
+                if (b[pos-(temp*fileSize)].hasPiece() && canCapture(b[pos-(temp*fileSize)])) {
+                    legalMoves.add(b[pos-(temp*fileSize)]);
+                    break;
+                }
+                if (b[pos-(temp*fileSize)].hasPiece() && !canCapture(b[pos-(temp*fileSize)])) {
+                    break;
+                }
+                temp++;
+            }
+        }
+
+        return legalMoves;
+    }
+
     // public boolean move(Square moveTo);
 }
