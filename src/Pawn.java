@@ -64,8 +64,6 @@ public class Pawn extends Piece {
                         legalMoves.add(b[pos - 11]);
                     }
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    System.out.println("Current pos:" + pos);
-                    System.out.println("Movement squares:" + (pos-10) + "" + (pos - 11) + "" + (pos-9));
                     System.out.println(e.getMessage());
                 }
             }
