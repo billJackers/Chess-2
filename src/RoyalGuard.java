@@ -16,7 +16,7 @@ public class RoyalGuard extends Piece {
     }
 
     public List<Square> getLegalMoves() {
-        return new ArrayList<Square>();
+        return getKingLegalMoves();
     }
 
 }
