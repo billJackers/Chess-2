@@ -29,6 +29,7 @@ public class PlayerController implements MouseListener {  // handles player inpu
 
 
     public void selectSquare(Square selected) {  // conditions: square must contain a piece
+        selected.setState(Square.ActionStates.PLAYER_SELECTED);  // highlight square selected
         this.previouslySelected = selected;
         legalMovesOfSelectedPiece = selected.getPiece().getLegalMoves();
         for (Square move : legalMovesOfSelectedPiece) {
@@ -36,8 +37,8 @@ public class PlayerController implements MouseListener {  // handles player inpu
         }
     }
     public void deselectCurrent() {
-        this.previouslySelected.setState(Square.ActionStates.NONE);
-        for (Square move : legalMovesOfSelectedPiece) {
+        this.previouslySelected.setState(Square.ActionStates.NONE);  // unhighlight square highlighted
+        for (Square move : legalMovesOfSelectedPiece) {  // remove all legalMove highlights
             move.setState(Square.ActionStates.NONE);
         }
         this.previouslySelected = null;  // cut the references

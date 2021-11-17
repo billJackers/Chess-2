@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Assassin extends Piece {
@@ -14,7 +15,7 @@ public class Assassin extends Piece {
     }
 
     public List<Square> getLegalMoves() {
-        return null;
+        return new ArrayList<Square>();
     }
 
 }

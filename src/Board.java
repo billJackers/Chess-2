@@ -1,5 +1,4 @@
-import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -65,7 +64,9 @@ public class Board extends JPanel implements ActionListener {
     }
 
     public void paintComponent(Graphics g) {  // draws all the squares in the board
-        for (Square sq : this.board) {
+        g.setColor(new Color(225, 209, 163, 255));
+        g.fillRect(0, 0, RANK_SIZE*SQUARE_SIZE, FILE_SIZE*SQUARE_SIZE);  // fill background
+        for (Square sq : this.board) {  // then draw squares
             sq.draw(g);
         }
     }
