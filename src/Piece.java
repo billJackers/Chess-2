@@ -238,24 +238,24 @@ public abstract class Piece {
 
         ArrayList<Integer> allMoves = new ArrayList<>(Arrays.asList(1, -1, 9, -9, 10, -10, 11, -11));  // [+] OR [-] these values RELATIVE TO OUR CURRENT INDEX gives us possible moves for the King
         if (onEnd(this.parentSquare) == -1) {
-            if (allMoves.contains(-9)) allMoves.remove(allMoves.indexOf(-9));
-            if (allMoves.contains(-10)) allMoves.remove(allMoves.indexOf(-10));
-            if (allMoves.contains(-11)) allMoves.remove(allMoves.indexOf(-11));
+            if (allMoves.contains(-9)) allMoves.remove(new Integer(-9));
+            if (allMoves.contains(-10)) allMoves.remove(new Integer(-10));
+            if (allMoves.contains(-11)) allMoves.remove(new Integer(-11));
         }
         if (onEnd(this.parentSquare) == 1) {
-            if (allMoves.contains(9)) allMoves.remove(allMoves.indexOf(9));
-            if (allMoves.contains(10)) allMoves.remove(allMoves.indexOf(10));
-            if (allMoves.contains(11)) allMoves.remove(allMoves.indexOf(11));
+            if (allMoves.contains(9)) allMoves.remove(new Integer(9));
+            if (allMoves.contains(10)) allMoves.remove(new Integer(10));
+            if (allMoves.contains(11)) allMoves.remove(new Integer(11));
         }
         if (onEdge(this.parentSquare) == -1) {
-            if (allMoves.contains(9)) allMoves.remove(allMoves.indexOf(9));
-            if (allMoves.contains(-1)) allMoves.remove(allMoves.indexOf(-1));
-            if (allMoves.contains(-11)) allMoves.remove(allMoves.indexOf(-11));
+            if (allMoves.contains(9)) allMoves.remove(new Integer(9));
+            if (allMoves.contains(-1)) allMoves.remove(new Integer(-1));
+            if (allMoves.contains(-11)) allMoves.remove(new Integer(-11));
         }
         if (onEdge(this.parentSquare) == 1) {
-            if (allMoves.contains(-9)) allMoves.remove(allMoves.indexOf(-9));
-            if (allMoves.contains(1)) allMoves.remove(allMoves.indexOf(1));
-            if (allMoves.contains(11)) allMoves.remove(allMoves.indexOf(11));
+            if (allMoves.contains(-9)) allMoves.remove(new Integer(-9));
+            if (allMoves.contains(1)) allMoves.remove(new Integer(1));
+            if (allMoves.contains(11)) allMoves.remove(new Integer(11));
         }
         for (int index:allMoves) {
             if (canCapture(b[indexOfPiece + index])) legalMoves.add(b[indexOfPiece + index]);
