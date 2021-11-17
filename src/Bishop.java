@@ -20,43 +20,63 @@ public class Bishop extends Piece {
         int rank = this.parentSquare.getRank();
         int file = this.parentSquare.getFile();
 
-        int rankSize = board.getRankSize();
-        int fileSize = board.getFileSize();
-
         Square[] b = board.getBoard();
 
-        int pos = (fileSize*rank) + file;
+        int pos = (file*10) + rank;
 
         int temp = 1;
 
         // up and to the left
-        if (rank != 0 && file != 0) {
-            while (pos-(temp*fileSize)-temp % fileSize >= 0 && pos-(temp*fileSize)-temp >= 0 ) {
-                if (!b[pos-(temp*fileSize)-temp].hasPiece()) {
-                    legalMoves.add(b[pos-(temp*fileSize)-temp]);
-                }
-                if (b[pos-(temp*fileSize)-temp].hasPiece()) {
-                    if (this.canCapture(b[pos-(temp*fileSize)-temp])) {
-                        legalMoves.add(b[pos-(temp*fileSize)-temp]);
-                    }
+        if (pos >= 10 && pos % 10 != 0) {
+            while ((pos-temp-(temp*10)) % 10 != 9 && pos-temp-(temp*10) >= 0) {
+                if (!b[pos-temp-(temp*10)].hasPiece()) legalMoves.add(b[pos-temp-(temp*10)]);
+                else if (this.canCapture(b[pos-temp-(temp*10)])) {
+                    legalMoves.add(b[pos-temp-(temp*10)]);
                     break;
-                }
+                } else break;
+
                 temp++;
             }
         }
 
         // up and to the right
-        if (rank != 0 && file < fileSize) {
-            while (pos-(temp*fileSize)+temp+1 % fileSize != 0 && pos-(temp*fileSize)+temp >= 0 ) {
-                if (!b[pos-(temp*fileSize)+temp].hasPiece()) {
-                    legalMoves.add(b[pos-(temp*fileSize)+temp]);
-                }
-                if (b[pos-(temp*fileSize)+temp].hasPiece()) {
-                    if (this.canCapture(b[pos-(temp*fileSize)+temp])) {
-                        legalMoves.add(b[pos-(temp*fileSize)+temp]);
-                    }
+        temp = 1;
+        if (pos >= 10 && pos % 10 != 9) {
+            while ((pos+temp-(temp*10)) % 10 != 0 && pos+temp-(temp*10) >= 0) {
+                if (!b[pos+temp-(temp*10)].hasPiece()) legalMoves.add(b[pos+temp-(temp*10)]);
+                else if (this.canCapture(b[pos+temp-(temp*10)])) {
+                    legalMoves.add(b[pos+temp-(temp*10)]);
                     break;
-                }
+                } else break;
+
+                temp++;
+            }
+        }
+
+        // Down and to the left
+        temp = 1;
+        if (pos < 90 && pos % 10 != 0) {
+            while ((pos-temp+(temp*10)) % 10 != 9 && pos-temp+(temp*10) < 100) {
+                if (!b[pos-temp+(temp*10)].hasPiece()) legalMoves.add(b[pos-temp+(temp*10)]);
+                else if (this.canCapture(b[pos-temp+(temp*10)])) {
+                    legalMoves.add(b[pos-temp+(temp*10)]);
+                    break;
+                } else break;
+
+                temp++;
+            }
+        }
+
+        // Down and to the right
+        temp = 1;
+        if (pos < 90 && pos % 10 != 9) {
+            while ((pos+temp+(temp*10)) % 10 != 0 && pos+temp+(temp*10) < 100) {
+                if (!b[pos+temp+(temp*10)].hasPiece()) legalMoves.add(b[pos+temp+(temp*10)]);
+                else if (this.canCapture(b[pos+temp+(temp*10)])) {
+                    legalMoves.add(b[pos+temp+(temp*10)]);
+                    break;
+                } else break;
+
                 temp++;
             }
         }

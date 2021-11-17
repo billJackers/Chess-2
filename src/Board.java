@@ -31,6 +31,7 @@ public class Board extends JPanel implements ActionListener {
 
         initializeSquares();
         generateBoardState("rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBRBKQBRBR");
+
     }
 
     public Square[] getBoard() {
