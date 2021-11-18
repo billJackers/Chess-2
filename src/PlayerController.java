@@ -60,18 +60,25 @@ public class PlayerController implements MouseListener {  // handles player inpu
     public void attemptMove(Square selected) {
         if (previouslySelected != null && previouslySelected.hasPiece()) {  // if we currently have a piece selected to move
             Piece pieceToMove = previouslySelected.getPiece();
-            if (legalMovesOfSelectedPiece.contains(selected) && pieceToMove.canCapture(selected)) {  // if it is legal to move to the new location
-                move(previouslySelected, selected);
-            }
-            if (pieceToMove instanceof Archer && pieceToMove.getTargets().contains(selected)) {
-                selected.clearPiece();
+            if (isCorrectPlayerMoving()) {
+                if (legalMovesOfSelectedPiece.contains(selected) && pieceToMove.canCapture(selected)) {  // if it is legal to move to the new location
+                    move(previouslySelected, selected);
+                    swapTurns();  // swap player turns after player moves
+                }
+                if (pieceToMove instanceof Archer && pieceToMove.getTargets().contains(selected)) {
+                    selected.clearPiece();
+                }
             }
             deselectCurrent();  // clear board states on after this click
         } else {  //
-            if (selected.hasPiece()) {
+            if (selected.hasPiece()) {  // if we dont have a square selected
                 selectSquare(selected);
             }
         }
+    }
+
+    public boolean isCorrectPlayerMoving() {  // if the correct player is making their move
+        return (currentTurn == PlayerTurn.PLAYER_BLUE && previouslySelected.getPiece().getSide() == Piece.Sides.BLUE) || (currentTurn == PlayerTurn.PLAYER_RED && previouslySelected.getPiece().getSide() == Piece.Sides.RED);
     }
 
     @Override

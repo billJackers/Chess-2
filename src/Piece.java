@@ -57,6 +57,10 @@ public abstract class Piece {
         return target.getPiece() == null || this.side != target.getPiece().side;
     }
 
+    public Sides getSide() {
+        return this.side;
+    }
+
     // checks if the square is on either side edge
     // left edge is -1, right edge is 1, neither is 0
     public int onEdge(Square target) {
