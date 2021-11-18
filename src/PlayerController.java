@@ -48,7 +48,12 @@ public class PlayerController implements MouseListener {  // handles player inpu
     public void move(Square from, Square to) {
         Piece pieceToMove = from.getPiece();
         from.clearPiece();
-        to.setPiece(pieceToMove);
+
+        if (to.getPiece() instanceof Bomber) {
+            List<Square> targets = to.getPiece().getTargets();
+            for (Square target : targets) target.clearPiece();
+            to.clearPiece();
+        } else to.setPiece(pieceToMove);
     }
 
     public void attemptMove(Square selected) {

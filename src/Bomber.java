@@ -67,4 +67,27 @@ public class Bomber extends Piece {
         return legalMoves;
     }
 
+    @Override
+    public List<Square> getTargets() {
+        ArrayList<Square> targets = new ArrayList<>();
+
+        int rank = this.parentSquare.getRank();
+        int file = this.parentSquare.getFile();
+
+        Square[] b = board.getBoard();
+
+        int pos = (file*10) + rank;
+
+        // North
+        if (pos >= 10 && b[pos-10].hasPiece()) targets.add(b[pos-10]);
+        // South
+        if (pos < 90 && b[pos+10].hasPiece()) targets.add(b[pos+10]);
+        // East
+        if (pos % 10 != 9 && b[pos+1].hasPiece()) targets.add(b[pos+1]);
+        // West
+        if (pos % 10 != 0 && b[pos-1].hasPiece()) targets.add(b[pos-1]);
+
+        return targets;
+    }
+
 }

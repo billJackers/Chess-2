@@ -36,4 +36,9 @@ public class Knight extends Piece {
         return legalMoves;
     }
 
+    @Override
+    public List<Square> getTargets() {
+        return null;
+    }
+
 }

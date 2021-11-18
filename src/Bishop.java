@@ -18,4 +18,9 @@ public class Bishop extends Piece {
     public List<Square> getLegalMoves() {
         return getBishopLegalMoves();
     }
+
+    @Override
+    public List<Square> getTargets() {
+        return null;
+    }
 }
