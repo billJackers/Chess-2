@@ -29,7 +29,7 @@ public class Board extends JPanel implements ActionListener {
         PlayerController controller = new PlayerController(this);
 
         initializeSquares();
-        generateBoardState("rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBRBKQBRBR");
+        generateBoardState("rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBRBQKBRBR");
 
     }
 
