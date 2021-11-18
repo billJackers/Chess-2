@@ -19,4 +19,9 @@ public class RoyalGuard extends Piece {
         return getKingLegalMoves();
     }
 
+    @Override
+    public List<Square> getTargets() {
+        return null;
+    }
+
 }

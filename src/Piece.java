@@ -50,6 +50,9 @@ public abstract class Piece {
 
     public abstract List<Square> getLegalMoves();
 
+    // This is for the bombers and archers
+    public abstract List<Square> getTargets();
+
     protected boolean canCapture(Square target) {
         return target.getPiece() == null || this.side != target.getPiece().side;
     }

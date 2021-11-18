@@ -79,4 +79,9 @@ public class Pawn extends Piece {
         this.wasMoved = true;
     }
 
+    @Override
+    public List<Square> getTargets() {
+        return null;
+    }
+
 }

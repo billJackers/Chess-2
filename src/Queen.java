@@ -23,4 +23,9 @@ public class Queen extends Piece {
         return legalMoves;
     }
 
+    @Override
+    public List<Square> getTargets() {
+        return null;
+    }
+
 }

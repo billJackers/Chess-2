@@ -18,4 +18,9 @@ public class Assassin extends Piece {
         return new ArrayList<Square>();
     }
 
+    @Override
+    public List<Square> getTargets() {
+        return null;
+    }
+
 }

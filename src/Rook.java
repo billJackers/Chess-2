@@ -17,5 +17,10 @@ public class Rook extends Piece {
     public List<Square> getLegalMoves() {
         return getRookLegalMoves();
     }
-    
+
+    @Override
+    public List<Square> getTargets() {
+        return null;
+    }
+
 }
