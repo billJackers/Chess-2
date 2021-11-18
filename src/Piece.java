@@ -57,6 +57,7 @@ public abstract class Piece {
         if (!target.hasPiece() || (this.side != target.getPiece().side && !(target.getPiece() instanceof RoyalGuard))) {
             return true;
         } else if (target.hasPiece() && target.getPiece() instanceof RoyalGuard && (this.side != target.getPiece().side)) {
+            if (this instanceof Assassin) return true;
             switch (this.side) {
                 case BLUE -> {
                     if (this.parentSquare.getFile() > target.getFile()) return true;
