@@ -77,7 +77,9 @@ public class Square extends JComponent {
             }
         }
         // System.out.println(this.getX() + " " + this.getY());
-        g.fillRect(this.getX(), this.getY(), size, size);
+        int borderOffset = 2;
+        int positionOffset = borderOffset/2;
+        g.fillRect(this.getX()+positionOffset, this.getY()+positionOffset, size-borderOffset, size-borderOffset);
 
         if(this.piece != null) {  // if there's a piece, draw the piece over the background
             piece.draw(g, this.getX(), this.getY());

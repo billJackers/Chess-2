@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,6 +16,16 @@ public class RoyalGuard extends Piece {
     }
 
     public List<Square> getLegalMoves() {
+        ArrayList<Square> legalMoves = new ArrayList<>();
+        legalMoves.addAll(this.getKingLegalMoves());
+
+        legalMoves.removeIf(Square::hasPiece);
+
+        return legalMoves;
+    }
+
+    @Override
+    public List<Square> getTargets() {
         return null;
     }
 

@@ -1,5 +1,7 @@
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerController implements MouseListener {  // handles player inputs
 
@@ -10,6 +12,7 @@ public class PlayerController implements MouseListener {  // handles player inpu
     private Square previouslySelected;
     private PlayerTurn currentTurn;
     private final Board board;
+    private List<Square> legalMovesOfSelectedPiece;
 
     public PlayerController(Board board) {
         previouslySelected = null;
@@ -24,78 +27,93 @@ public class PlayerController implements MouseListener {  // handles player inpu
         System.out.println("it is " + currentTurn.name() + "'s turn");
     }
 
+
+    public void selectSquare(Square selected) {  // conditions: square must contain a piece
+        selected.setState(Square.ActionStates.PLAYER_SELECTED);  // highlight square selected
+        this.previouslySelected = selected;
+        legalMovesOfSelectedPiece = selected.getPiece().getLegalMoves();
+        for (Square move : legalMovesOfSelectedPiece) {
+            move.setState(Square.ActionStates.LEGAL_MOVE);
+        }
+    }
     public void deselectCurrent() {
-        this.previouslySelected.setState(Square.ActionStates.NONE);
-        this.previouslySelected = null;  // cut the reference
+        this.previouslySelected.setState(Square.ActionStates.NONE);  // unhighlight square highlighted
+        for (Square move : legalMovesOfSelectedPiece) {  // remove all legalMove highlights
+            move.setState(Square.ActionStates.NONE);
+        }
+        this.previouslySelected = null;  // cut the references
+        this.legalMovesOfSelectedPiece = null;
+    }
+
+    public void move(Square from, Square to) {
+        Piece pieceToMove = from.getPiece();
+        from.clearPiece();
+
+        // Bomber explosion
+        if (to.getPiece() instanceof Bomber && !(pieceToMove instanceof Assassin)) {
+            explode(to);
+        } else to.setPiece(pieceToMove);
+
+        if (to.getPiece() instanceof Pawn) {
+            ((Pawn) to.getPiece()).setToMoved();
+        }
+
+        // Pawn promotions
+        switch (to.getPiece().side) {
+            case BLUE -> {
+                if (to.getFile() == 9) to.setPiece(new Queen(Piece.Sides.BLUE, 50, to));
+            }
+            case RED -> {
+                if (to.getFile() == 0) to.setPiece(new Queen(Piece.Sides.RED, 50, to));
+            }
+        }
     }
 
     public void attemptMove(Square selected) {
+        if (previouslySelected != null && previouslySelected.hasPiece()) {  // if we currently have a piece selected to move
+            Piece pieceToMove = previouslySelected.getPiece();
 
-        // Checks if legal move
-        boolean legal = false;
-        if (previouslySelected.getPiece().getLegalMoves().contains(selected)) legal = true;
-
-        // obnoxiously long if statement that checks if a set side is moving their respective piece
-        if (legal) {
-            if ((currentTurn == PlayerTurn.PLAYER_BLUE && previouslySelected.getPiece().side == Piece.Sides.BLUE) || (currentTurn == PlayerTurn.PLAYER_RED && previouslySelected.getPiece().side == Piece.Sides.RED)) {
-                // Square sq = previouslySelected; // DEBUG STUFF
-                // System.out.println(sq.getPiece() + " old pos: " + sq.getRank() + " " + sq.getFile() + " new pos: " + selected.getRank() + " " + selected.getFile());
-                selected.setPiece(previouslySelected.getPiece());
-                previouslySelected.clearPiece();
-                deselectCurrent();
-                swapTurns();
+            if (isCorrectPlayerMoving()) {  // if the correct player is moving
+                if (legalMovesOfSelectedPiece.contains(selected) && pieceToMove.canCapture(selected)) {  // if it is legal to move to the new location
+                    move(previouslySelected, selected);
+                    swapTurns();  // swap the turns on a successful move
+                }
+                if (pieceToMove instanceof Archer && pieceToMove.getTargets().contains(selected)) {
+                    if (selected.getPiece() instanceof Bomber) explode(selected);
+                    else {
+                        selected.clearPiece();
+                        swapTurns();
+                    }
+                }
             }
-        } else {
-            System.out.println("Illegal move!");
+
+            deselectCurrent();  // clear board states on after this click
+        } else {  //
+            if (selected.hasPiece()) {
+                selectSquare(selected);
+            }
         }
+    }
+
+    public boolean isCorrectPlayerMoving() {  // checks whether it is the correct player's turn
+        return (currentTurn == PlayerTurn.PLAYER_BLUE && previouslySelected.getPiece().getSide() == Piece.Sides.BLUE) || (currentTurn == PlayerTurn.PLAYER_RED && previouslySelected.getPiece().getSide() == Piece.Sides.RED);
+    }
+
+    public void explode(Square s) {
+        List<Square> targets = s.getPiece().getTargets();
+        for (Square target : targets) target.clearPiece();
+        s.clearPiece();
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-          Square squareSelected = board.getSquareClicked(e.getX(), e.getY());
-          if (previouslySelected != null && previouslySelected.hasPiece()) {  // if the player has previously selected a piece to move
-              if (squareSelected == previouslySelected) {  // if the newly selected Square is the same as the previous one
-                  deselectCurrent();
-                  return;
-              }
-              attemptMove(squareSelected);
-          }
-          else if (squareSelected.getPiece() != null) {  // if we are selecting a new piece to move
-              if (squareSelected.getPiece() instanceof Knight) {  // temporary proof of concept legalMoves code
-                  for (Square sq : squareSelected.getPiece().getLegalMoves()) {
-                      sq.setState(Square.ActionStates.LEGAL_MOVE);
-                  }
-              }
-              if (squareSelected.getPiece() instanceof Pawn) {  // temporary proof of concept legalMoves code
-                  for (Square sq : squareSelected.getPiece().getLegalMoves()) {
-                      sq.setState(Square.ActionStates.LEGAL_MOVE);
-                  }
-              }
-              if (squareSelected.getPiece() instanceof Rook) {  // temporary proof of concept legalMoves code
-                  for (Square sq : squareSelected.getPiece().getLegalMoves()) {
-                      sq.setState(Square.ActionStates.LEGAL_MOVE);
-                  }
-              }
-              squareSelected.setState(Square.ActionStates.PLAYER_SELECTED);
-              previouslySelected = squareSelected;
-          }
 
-//        if (this.playerSelected != null && this.playerSelected.getPiece() != null) {  // the player has selected a piece and a new Square to move it to
-//            clicked.setPiece(this.playerSelected.getPiece());
-//            this.playerSelected.setState(Square.ActionStates.NONE);
-//            this.playerSelected.clearPiece();
-//            this.playerSelected = null;  // cut the reference
-//            return;
-//        }
-          // if (squareSelected.getPiece() == null) return;
-//        this.playerSelected = clicked;
-//        clicked.setState(Square.ActionStates.PLAYER_SELECTED);
-          //System.out.println("Pressed: " + squareSelected.getPiece());
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        Square squareSelected = board.getSquareClicked(e.getX(), e.getY());
+        attemptMove(squareSelected);
     }
 
     @Override

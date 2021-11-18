@@ -19,7 +19,7 @@ public class Pawn extends Piece {
 
     @Override
     public List<Square> getLegalMoves() {
-        ArrayList<Square> legalMoves = new ArrayList<>();
+        List<Square> legalMoves = new ArrayList<>();
 
         int rank = this.parentSquare.getRank();
         int file = this.parentSquare.getFile();
@@ -31,7 +31,7 @@ public class Pawn extends Piece {
         switch (this.side) {
             case BLUE -> {
                 // Forward moves
-                if (!wasMoved && !b[pos+20].hasPiece()) legalMoves.add(b[pos+20]);
+                if (pos+20 < 100 && !wasMoved && !b[pos+20].hasPiece() && !b[pos+10].hasPiece()) legalMoves.add(b[pos+20]);
                 if (pos+10 < 100 && !b[pos+10].hasPiece()) {
                     legalMoves.add(b[pos+10]);
                 }
@@ -46,21 +46,24 @@ public class Pawn extends Piece {
                 }
 
             }
-
             case RED -> {
-                // Forward moves
-                if (!wasMoved && !b[pos-20].hasPiece()) legalMoves.add(b[pos-20]);
-                if (pos-10 >= 0 && !b[pos-10].hasPiece()) {
-                    legalMoves.add(b[pos-10]);
-                }
+                try {
+                    // Forward moves
+                    if (pos - 20 >= 0 && !wasMoved && !b[pos - 20].hasPiece() && !b[pos - 10].hasPiece()) legalMoves.add(b[pos - 20]);
+                    if (pos - 10 >= 0 && !b[pos - 10].hasPiece()) {
+                        legalMoves.add(b[pos - 10]);
+                    }
 
-                // Captures
-                if (pos % 10 != 9 && pos-9 >= 0 && b[pos-9].hasPiece() && this.canCapture(b[pos-9])) {
-                    legalMoves.add(b[pos-9]);
-                }
+                    // Captures
+                    if (pos % 10 != 9 && pos - 9 >= 0 && b[pos - 9].hasPiece() && this.canCapture(b[pos - 9])) {
+                        legalMoves.add(b[pos - 9]);
+                    }
 
-                if (pos % 10 != 0 && pos-11 >= 0 && b[pos-11].hasPiece() && this.canCapture(b[pos-11])) {
-                    legalMoves.add(b[pos-11]);
+                    if (pos % 10 != 0 && pos - 11 >= 0 && b[pos - 11].hasPiece() && this.canCapture(b[pos - 11])) {
+                        legalMoves.add(b[pos - 11]);
+                    }
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    System.out.println(e.getMessage());
                 }
             }
         }
@@ -74,6 +77,11 @@ public class Pawn extends Piece {
 
     public void setToMoved() {
         this.wasMoved = true;
+    }
+
+    @Override
+    public List<Square> getTargets() {
+        return null;
     }
 
 }

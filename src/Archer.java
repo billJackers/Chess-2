@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,7 +16,30 @@ public class Archer extends Piece {
     }
 
     public List<Square> getLegalMoves() {
-        return null;
+        return super.getKingLegalMoves();
+    }
+
+    @Override
+    public List<Square> getTargets() {
+        List<Square> targets = new ArrayList<>();
+
+        int rank = this.parentSquare.getRank();
+        int file = this.parentSquare.getFile();
+
+        Square[] b = board.getBoard();
+
+        int pos = (file*10) + rank;
+
+        // Northwest
+        if (pos % 10 > 1 && pos >= 20 && b[pos-22].hasPiece() && this.canCapture(b[pos-22])) targets.add(b[pos-22]);
+        // Northeast
+        if (pos % 10 < 8 && pos >= 20 && b[pos-18].hasPiece() && this.canCapture(b[pos-18])) targets.add(b[pos-18]);
+        // Southwest
+        if (pos % 10 > 1 && pos < 80 && b[pos+18].hasPiece() && this.canCapture(b[pos+18])) targets.add(b[pos+18]);
+        // Southeast
+        if (pos % 10 < 8 && pos < 80 && b[pos+22].hasPiece() && this.canCapture(b[pos+22])) targets.add(b[pos+22]);
+
+        return targets;
     }
 
 }
