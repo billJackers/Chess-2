@@ -14,8 +14,6 @@ public class PlayerController implements MouseListener {  // handles player inpu
     private Board board;
     private List<Square> legalMovesOfSelectedPiece;
 
-    private CheckmateDetector cmd;
-
     public PlayerController(Board board) {
         previouslySelected = null;
         currentTurn = PlayerTurn.PLAYER_BLUE;
@@ -70,8 +68,6 @@ public class PlayerController implements MouseListener {  // handles player inpu
                 if (to.getFile() == 0) to.setPiece(new Queen(Piece.Sides.RED, 50, to));
             }
         }
-
-        cmd.updateLegalMoves();
     }
 
     public void attemptMove(Square selected) {
