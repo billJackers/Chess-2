@@ -12,6 +12,8 @@ public class Board extends JPanel implements ActionListener {
 
     private static final int DELAY = 25; // delay in ms to update board
 
+    private CheckmateDetector cmd;
+
     public Board() {
         // create a new board
         this.board = new Square[100];
@@ -87,6 +89,7 @@ public class Board extends JPanel implements ActionListener {
         //Bomber – o
         //Royal Guard – g
         int pos = 0;
+
         for (int c = 0; c < FEN.length(); c++) {  // looping through the characters
             char curr = FEN.toLowerCase().charAt(c);
 
