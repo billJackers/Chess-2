@@ -54,7 +54,19 @@ public abstract class Piece {
     public abstract List<Square> getTargets();
 
     protected boolean canCapture(Square target) {
-        return target.getPiece() == null || this.side != target.getPiece().side;
+        if (!target.hasPiece() || (this.side != target.getPiece().side && !(target.getPiece() instanceof RoyalGuard))) {
+            return true;
+        } else if (target.hasPiece() && target.getPiece() instanceof RoyalGuard && (this.side != target.getPiece().side)) {
+            switch (this.side) {
+                case BLUE -> {
+                    if (this.parentSquare.getFile() > target.getFile()) return true;
+                }
+                case RED -> {
+                    if (this.parentSquare.getFile() < target.getFile()) return true;
+                }
+            }
+        }
+        return false;
     }
 
     public Sides getSide() {

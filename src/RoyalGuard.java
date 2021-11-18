@@ -16,7 +16,12 @@ public class RoyalGuard extends Piece {
     }
 
     public List<Square> getLegalMoves() {
-        return getKingLegalMoves();
+        ArrayList<Square> legalMoves = new ArrayList<>();
+        legalMoves.addAll(this.getKingLegalMoves());
+
+        legalMoves.removeIf(Square::hasPiece);
+
+        return legalMoves;
     }
 
     @Override
