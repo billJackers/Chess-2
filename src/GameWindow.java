@@ -1,11 +1,4 @@
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class GameWindow {
@@ -14,9 +7,13 @@ public class GameWindow {
 
         JFrame gameWindow = new JFrame("Chess 2");
         gameWindow.setLocationRelativeTo(null);
-        Board board = new Board(); // our board, also our gameloop
 
-        gameWindow.add(board); // create the JPanel to draw on. This also initializes the game loop
+        Board board = new Board(); // our board, also our gameloop
+        StatsDisplay stats = new StatsDisplay(board);  // stats displayer panel
+
+        gameWindow.add(stats, BorderLayout.NORTH); // creates the stats JPanel to display the games statistics above the board panel
+        gameWindow.add(board, BorderLayout.SOUTH); // creates the board JPanel to draw on. This also initializes the game loop
+
         gameWindow.setSize(board.getPreferredSize()); // Set the size of the window based on the size of the board
 
         gameWindow.setResizable(false); // don't allow the user to resize the window
