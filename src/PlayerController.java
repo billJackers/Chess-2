@@ -57,6 +57,16 @@ public class PlayerController implements MouseListener {  // handles player inpu
         if (to.getPiece() instanceof Pawn) {
             ((Pawn) to.getPiece()).setToMoved();
         }
+
+        // Pawn promotions
+        switch (to.getPiece().side) {
+            case BLUE -> {
+                if (to.getFile() == 9) to.setPiece(new Queen(Piece.Sides.BLUE, 50, to));
+            }
+            case RED -> {
+                if (to.getFile() == 0) to.setPiece(new Queen(Piece.Sides.RED, 50, to));
+            }
+        }
     }
 
     public void attemptMove(Square selected) {

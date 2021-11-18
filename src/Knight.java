@@ -4,8 +4,8 @@ import java.util.List;
 
 public class Knight extends Piece {
 
-    private static final String IMAGES_KNIGHT_BLUE = "images/wknight.png";
-    private static final String IMAGES_KNIGHT_RED = "images/bknight.png";
+    private static final String IMAGES_KNIGHT_BLUE = "images/bknight.png";
+    private static final String IMAGES_KNIGHT_RED = "images/rknight.png";
 
     public Knight(Sides side, int size, Square initSquare) {
         super(side, size, initSquare);
