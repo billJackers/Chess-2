@@ -11,7 +11,7 @@ public class PlayerController implements MouseListener {  // handles player inpu
     }
     private Square previouslySelected;
     private PlayerTurn currentTurn;
-    private final Board board;
+    private Board board;
     private List<Square> legalMovesOfSelectedPiece;
 
     public PlayerController(Board board) {
@@ -20,6 +20,7 @@ public class PlayerController implements MouseListener {  // handles player inpu
         this.board = board;
         board.addMouseListener(this); // OOP black magic
     }
+
 
     public void swapTurns() {
         if (currentTurn == PlayerTurn.PLAYER_BLUE) currentTurn = PlayerTurn.PLAYER_RED;
