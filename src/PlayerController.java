@@ -53,6 +53,10 @@ public class PlayerController implements MouseListener {  // handles player inpu
         if (to.getPiece() instanceof Bomber && !(pieceToMove instanceof Assassin)) {
             explode(to);
         } else to.setPiece(pieceToMove);
+
+        if (to.getPiece() instanceof Pawn) {
+            ((Pawn) to.getPiece()).setToMoved();
+        }
     }
 
     public void attemptMove(Square selected) {
@@ -66,7 +70,10 @@ public class PlayerController implements MouseListener {  // handles player inpu
                 }
                 if (pieceToMove instanceof Archer && pieceToMove.getTargets().contains(selected)) {
                     if (selected.getPiece() instanceof Bomber) explode(selected);
-                    else selected.clearPiece();
+                    else {
+                        selected.clearPiece();
+                        swapTurns();
+                    }
                 }
             }
 
