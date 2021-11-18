@@ -58,19 +58,28 @@ public class PlayerController implements MouseListener {  // handles player inpu
     public void attemptMove(Square selected) {
         if (previouslySelected != null && previouslySelected.hasPiece()) {  // if we currently have a piece selected to move
             Piece pieceToMove = previouslySelected.getPiece();
-            if (legalMovesOfSelectedPiece.contains(selected) && pieceToMove.canCapture(selected)) {  // if it is legal to move to the new location
-                move(previouslySelected, selected);
+
+            if (isCorrectPlayerMoving()) {  // if the correct player is moving
+                if (legalMovesOfSelectedPiece.contains(selected) && pieceToMove.canCapture(selected)) {  // if it is legal to move to the new location
+                    move(previouslySelected, selected);
+                    swapTurns();  // swap the turns on a successful move
+                }
+                if (pieceToMove instanceof Archer && pieceToMove.getTargets().contains(selected)) {
+                    if (selected.getPiece() instanceof Bomber) explode(selected);
+                    else selected.clearPiece();
+                }
             }
-            if (pieceToMove instanceof Archer && pieceToMove.getTargets().contains(selected)) {
-                if (selected.getPiece() instanceof Bomber) explode(selected);
-                else selected.clearPiece();
-            }
+
             deselectCurrent();  // clear board states on after this click
         } else {  //
             if (selected.hasPiece()) {
                 selectSquare(selected);
             }
         }
+    }
+
+    public boolean isCorrectPlayerMoving() {  // checks whether it is the correct player's turn
+        return (currentTurn == PlayerTurn.PLAYER_BLUE && previouslySelected.getPiece().getSide() == Piece.Sides.BLUE) || (currentTurn == PlayerTurn.PLAYER_RED && previouslySelected.getPiece().getSide() == Piece.Sides.RED);
     }
 
     public void explode(Square s) {
