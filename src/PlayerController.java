@@ -50,10 +50,8 @@ public class PlayerController implements MouseListener {  // handles player inpu
         from.clearPiece();
 
         // Bomber explosion
-        if (to.getPiece() instanceof Bomber) {
-            List<Square> targets = to.getPiece().getTargets();
-            for (Square target : targets) target.clearPiece();
-            to.clearPiece();
+        if (to.getPiece() instanceof Bomber && !(pieceToMove instanceof Assassin)) {
+            explode(to);
         } else to.setPiece(pieceToMove);
     }
 
@@ -64,7 +62,8 @@ public class PlayerController implements MouseListener {  // handles player inpu
                 move(previouslySelected, selected);
             }
             if (pieceToMove instanceof Archer && pieceToMove.getTargets().contains(selected)) {
-                selected.clearPiece();
+                if (selected.getPiece() instanceof Bomber) explode(selected);
+                else selected.clearPiece();
             }
             deselectCurrent();  // clear board states on after this click
         } else {  //
@@ -72,6 +71,12 @@ public class PlayerController implements MouseListener {  // handles player inpu
                 selectSquare(selected);
             }
         }
+    }
+
+    public void explode(Square s) {
+        List<Square> targets = s.getPiece().getTargets();
+        for (Square target : targets) target.clearPiece();
+        s.clearPiece();
     }
 
     @Override
