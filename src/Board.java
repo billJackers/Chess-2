@@ -28,8 +28,6 @@ public class Board extends JPanel implements ActionListener {
 
         // Player controller to handle mouse input
         PlayerController controller = new PlayerController(this);
-
-
     }
     @Override //  all i have to say is bruh
     public int getHeight() {

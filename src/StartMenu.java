@@ -44,13 +44,34 @@ public class StartMenu {
 
         Button casualBtn = new Button("Play a casual game");
         Button timedBtn = new Button("Play a timed game");
+
+        // server mode
+        Button serverBtn = new Button("Host a local game");
+        Button clientBtn = new Button("Join a local game");
+
         menu.add(casualBtn);
         menu.add(timedBtn);
+        menu.add(serverBtn);
+        menu.add(clientBtn);
 
         casualBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new GameWindow();
+            }
+        });
+
+        serverBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new GameServer();
+            }
+        });
+
+        serverBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new GameClient();
             }
         });
 
