@@ -22,6 +22,8 @@ public class CheckmateDetector {
             }
         }
 
+        rLegalMoves = new ArrayList<>();
+        bLegalMoves = new ArrayList<>();
         updateLegalMoves();
     }
 
@@ -34,10 +36,12 @@ public class CheckmateDetector {
                     case BLUE -> {
                         bLegalMoves.addAll(p.getLegalMoves());
                         if (p instanceof Archer) bLegalMoves.addAll(p.getTargets());
+                        if (p instanceof Pawn) bLegalMoves.addAll(p.getPawnAttacks(Piece.Sides.BLUE));
                     }
                     case RED -> {
                         rLegalMoves.addAll(p.getLegalMoves());
                         if (p instanceof Archer) rLegalMoves.addAll(p.getTargets());
+                        if (p instanceof Pawn) rLegalMoves.addAll(p.getPawnAttacks(Piece.Sides.RED));
                     }
                 }
             }
@@ -52,6 +56,14 @@ public class CheckmateDetector {
 
     public boolean redInCheck() {
         return bLegalMoves.contains(rKing.parentSquare);
+    }
+
+    public List<Square> getRLegalMoves() {
+        return rLegalMoves;
+    }
+
+    public List<Square> getBLegalMoves() {
+        return bLegalMoves;
     }
 
 }

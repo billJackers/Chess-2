@@ -284,5 +284,32 @@ public abstract class Piece {
 
         return legalMoves;
     }
+
+    public List<Square> getPawnAttacks(Sides s) {
+        if (!(this instanceof Pawn)) return new ArrayList<>();
+
+        List<Square> attacks = new ArrayList<>();
+
+        int rank = this.parentSquare.getRank();
+        int file = this.parentSquare.getFile();
+
+        Square[] b = board.getBoard();
+
+        int pos = (file*10) + rank;
+
+        switch (s) {
+            case BLUE -> {
+                if (pos % 10 != 0) attacks.add(b[pos+9]);
+                if (pos % 10 != 9) attacks.add(b[pos+11]);
+            }
+            case RED -> {
+                if (pos % 10 != 0) attacks.add(b[pos-11]);
+                if (pos % 10 != 9) attacks.add(b[pos-9]);
+            }
+        }
+
+        return attacks;
+
+    }
     // public boolean move(Square moveTo);
 }

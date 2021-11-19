@@ -21,6 +21,7 @@ public class PlayerController implements MouseListener {  // handles player inpu
         currentTurn = PlayerTurn.PLAYER_BLUE;
         this.board = board;
         board.addMouseListener(this); // OOP black magic
+        this.cmd = new CheckmateDetector(board);
     }
 
 
@@ -80,6 +81,22 @@ public class PlayerController implements MouseListener {  // handles player inpu
             Piece pieceToMove = previouslySelected.getPiece();
 
             if (isCorrectPlayerMoving()) {  // if the correct player is moving
+
+                if (pieceToMove instanceof King) {
+                    cmd.updateLegalMoves();
+                    switch (pieceToMove.side) {
+                        case BLUE -> {
+                            if (cmd.getRLegalMoves().contains(selected)) return;
+                            move(previouslySelected, selected);
+                        }
+                        case RED -> {
+                            if (cmd.getBLegalMoves().contains(selected)) return;
+                            move(previouslySelected, selected);
+                        }
+                    }
+                    swapTurns();
+                }
+
                 if (legalMovesOfSelectedPiece.contains(selected) && pieceToMove.canCapture(selected)) {  // if it is legal to move to the new location
                     move(previouslySelected, selected);
                     swapTurns();  // swap the turns on a successful move
