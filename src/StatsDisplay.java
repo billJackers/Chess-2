@@ -2,6 +2,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -23,9 +24,8 @@ public class StatsDisplay extends JPanel {
 
         String backgroundPath = "images/display_background.png";
         try {
-            System.out.println("why");
-            background = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/display_background.png")));
-            background = background.getScaledInstance(HEADER_WIDTH, HEADER_HEIGHT, Image.SCALE_DEFAULT); // scale the image based on game configurations
+            BufferedImage bg = ImageIO.read(new File(backgroundPath));
+            background = bg.getScaledInstance(HEADER_WIDTH, HEADER_HEIGHT, Image.SCALE_DEFAULT); // scale the image based on game configurations
         } catch (IOException e) {
             System.out.println("File not found: " + e.getMessage());
         }
