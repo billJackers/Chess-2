@@ -22,13 +22,13 @@ public class StatsDisplay extends JPanel {
         this.setMaximumSize(this.getPreferredSize());
 
         String backgroundPath = "images/display_background.png";
-//        try {
-//            System.out.println("why");
-//            background = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/display_background.png")));
-//            background = background.getScaledInstance(HEADER_WIDTH, HEADER_HEIGHT, Image.SCALE_DEFAULT); // scale the image based on game configurations
-//        } catch (IOException e) {
-//            System.out.println("File not found: " + e.getMessage());
-//        }
+        try {
+            System.out.println("why");
+            background = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/display_background.png")));
+            background = background.getScaledInstance(HEADER_WIDTH, HEADER_HEIGHT, Image.SCALE_DEFAULT); // scale the image based on game configurations
+        } catch (IOException e) {
+            System.out.println("File not found: " + e.getMessage());
+        }
 
     }
 
