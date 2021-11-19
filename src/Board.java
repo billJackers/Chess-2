@@ -8,15 +8,11 @@ public class Board extends JPanel implements ActionListener {
     private static final int FILE_SIZE = 10; // columns
     private static final int RANK_SIZE = 10; // rows
 
-    private final Square[] board;
+    private final Square[] board = new Square[100];
 
     private static final int DELAY = 25; // delay in ms to update board
 
-    private CheckmateDetector cmd;
-
     public Board() {
-        // create a new board
-        this.board = new Square[100];
         Piece.setBoard(this);  // add a way for pieces to access the board
 
         // window size
@@ -27,11 +23,12 @@ public class Board extends JPanel implements ActionListener {
         Timer timer = new Timer(DELAY, this);
         timer.start();
 
+        initializeSquares();
+        generateBoardState("rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBRBQKBRBR");
+
         // Player controller to handle mouse input
         PlayerController controller = new PlayerController(this);
 
-        initializeSquares();
-        generateBoardState("rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBRBQKBRBR");
 
     }
     @Override //  all i have to say is bruh

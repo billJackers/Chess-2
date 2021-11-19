@@ -14,6 +14,8 @@ public class PlayerController implements MouseListener {  // handles player inpu
     private Board board;
     private List<Square> legalMovesOfSelectedPiece;
 
+    private CheckmateDetector cmd;
+
     public PlayerController(Board board) {
         previouslySelected = null;
         currentTurn = PlayerTurn.PLAYER_BLUE;
@@ -70,6 +72,7 @@ public class PlayerController implements MouseListener {  // handles player inpu
                 }
             }
         }
+        cmd.updateLegalMoves();
     }
 
     public void attemptMove(Square selected) {
@@ -83,10 +86,8 @@ public class PlayerController implements MouseListener {  // handles player inpu
                 }
                 if (pieceToMove instanceof Archer && pieceToMove.getTargets().contains(selected)) {
                     if (selected.getPiece() instanceof Bomber) explode(selected);
-                    else {
-                        selected.clearPiece();
-                        swapTurns();
-                    }
+                    else selected.clearPiece();
+                    swapTurns();
                 }
             }
 

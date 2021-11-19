@@ -24,7 +24,7 @@ public class StatsDisplay extends JPanel {
 
         String backgroundPath = "images/display_background.png";
         try {
-            BufferedImage bg = ImageIO.read(new File(backgroundPath));
+            BufferedImage bg = ImageIO.read(Objects.requireNonNull(getClass().getResource(backgroundPath)));
             background = bg.getScaledInstance(HEADER_WIDTH, HEADER_HEIGHT, Image.SCALE_DEFAULT); // scale the image based on game configurations
         } catch (IOException e) {
             System.out.println("File not found: " + e.getMessage());

@@ -5,19 +5,22 @@ public class CheckmateDetector {
 
     private Board b;
 
-    private List<Piece> bPieces;
-    private List<Piece> rPieces;
-
     private Piece bKing;
     private Piece rKing;
 
     private List<Square> rLegalMoves;
     private List<Square> bLegalMoves;
 
-    public CheckmateDetector(Board b, Piece bk, Piece rk) {
+    public CheckmateDetector(Board b) {
         this.b = b;
-        this.bKing = bk;
-        this.rKing = rk;
+        for (Square square : b.getBoard()) {
+            if (square.hasPiece() && square.getPiece() instanceof King) {
+                switch (square.getPiece().side) {
+                    case BLUE: bKing = square.getPiece();
+                    case RED: rKing = square.getPiece();
+                }
+            }
+        }
 
         updateLegalMoves();
     }
@@ -30,9 +33,11 @@ public class CheckmateDetector {
                 switch (p.side) {
                     case BLUE -> {
                         bLegalMoves.addAll(p.getLegalMoves());
+                        if (p instanceof Archer) bLegalMoves.addAll(p.getTargets());
                     }
                     case RED -> {
                         rLegalMoves.addAll(p.getLegalMoves());
+                        if (p instanceof Archer) rLegalMoves.addAll(p.getTargets());
                     }
                 }
             }
