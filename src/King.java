@@ -16,7 +16,9 @@ public class King extends Piece {
         }
     }
 
-    public List<Square> getLegalMoves() { return getKingLegalMoves();}
+    public List<Square> getLegalMoves() {
+        return getKingLegalMoves();
+    }
 
     @Override
     public List<Square> getTargets() {

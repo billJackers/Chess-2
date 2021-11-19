@@ -77,17 +77,51 @@ public class Bomber extends Piece {
         Square[] b = board.getBoard();
 
         int pos = (file*10) + rank;
-
-        // North
-        if (pos >= 10 && b[pos-10].hasPiece()) targets.add(b[pos-10]);
-        // South
-        if (pos < 90 && b[pos+10].hasPiece()) targets.add(b[pos+10]);
-        // East
-        if (pos % 10 != 9 && b[pos+1].hasPiece()) targets.add(b[pos+1]);
-        // West
-        if (pos % 10 != 0 && b[pos-1].hasPiece()) targets.add(b[pos-1]);
-
+        int row = pos / 10;
+        int column = pos % 10;
+        /*
+        // Up
+        if (pos >= 10 && b[pos-10].hasPiece()) {
+            targets.add(b[pos-10]);
+        }
+        // Down
+        if (pos < 90 && b[pos+10].hasPiece()) {
+            targets.add(b[pos+10]);
+        }
+        // Right
+        if (pos % 10 != 9 && b[pos+1].hasPiece()) {
+            targets.add(b[pos+1]);
+        }
+        // Left
+        if (pos % 10 != 0 && b[pos-1].hasPiece()) {
+            targets.add(b[pos-1]);
+        }
+         */
+        int[] bombTargets = {-11, -10, -9,-1, 1, 9, 10, 11};
+        for (int target : bombTargets) {
+            if (pos + target < 100 && pos + target >= 0 && acceptableRow(row, pos / 10) && acceptableColumn(column, pos % 10) && b[pos + target].hasPiece()) {
+                targets.add(b[pos + target]);
+            }
+        }
         return targets;
+    }
+
+    public boolean acceptableRow(int row, int proposedRow) {
+        int maxRow = row + 1;
+        int minRow = row - 1;
+        if (proposedRow <= maxRow && proposedRow >= minRow) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean acceptableColumn(int column, int proposedColumn) {
+        int maxColumn = column + 1;
+        int minColumn = column - 1;
+        if (proposedColumn <= maxColumn && proposedColumn >= minColumn) {
+            return true;
+        }
+        return false;
     }
 
 }
