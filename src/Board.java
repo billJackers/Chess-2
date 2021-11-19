@@ -32,6 +32,14 @@ public class Board extends JPanel implements ActionListener {
         generateBoardState("rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBRBQKBRBR");
 
     }
+    @Override //  all i have to say is bruh
+    public int getHeight() {
+        return SQUARE_SIZE*FILE_SIZE;
+    }
+    @Override
+    public int getWidth() {
+        return SQUARE_SIZE*RANK_SIZE;
+    }
 
     public Square[] getBoard() {
         return board;
