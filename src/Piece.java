@@ -248,7 +248,8 @@ public abstract class Piece {
     }
 
     public List<Square> getKingLegalMoves() {
-        List<Square> legalMoves = new ArrayList<>();
+        ArrayList<Square> legalMoves = new ArrayList<>();
+
         int rank = this.parentSquare.getRank();
         int file = this.parentSquare.getFile();
         int fileSize = board.getFileSize();
@@ -256,32 +257,12 @@ public abstract class Piece {
 
         Square[] b = board.getBoard();
 
-        ArrayList<Integer> allMoves = new ArrayList<>(Arrays.asList(1, -1, 9, -9, 10, -10, 11, -11));  // [+] OR [-] these values RELATIVE TO OUR CURRENT INDEX gives us possible moves for the King
-        if (onEnd(this.parentSquare) == -1) {
-            if (allMoves.contains(-9)) allMoves.remove(new Integer(-9));
-            if (allMoves.contains(-10)) allMoves.remove(new Integer(-10));
-            if (allMoves.contains(-11)) allMoves.remove(new Integer(-11));
+        int[] allMoves = {10, 9, 11, 1};  // [+] OR [-] these values RELATIVE TO OUR CURRENT INDEX gives us possible moves for the knight
+        for (int relativeMove : allMoves) {
+            // if the relative moves are within the bounds of the board and the position is capturable, then add to legalMoves
+            if (indexOfPiece + relativeMove < 100 && Math.abs(((indexOfPiece + relativeMove)%10)-(indexOfPiece%10)) <= 1 && this.canCapture(b[indexOfPiece + relativeMove])) legalMoves.add(b[indexOfPiece + relativeMove]);
+            if (indexOfPiece - relativeMove >= 0  && Math.abs(((indexOfPiece - relativeMove)%10)-(indexOfPiece%10)) <= 1 && this.canCapture(b[indexOfPiece - relativeMove])) legalMoves.add(b[indexOfPiece - relativeMove]);
         }
-        if (onEnd(this.parentSquare) == 1) {
-            if (allMoves.contains(9)) allMoves.remove(new Integer(9));
-            if (allMoves.contains(10)) allMoves.remove(new Integer(10));
-            if (allMoves.contains(11)) allMoves.remove(new Integer(11));
-        }
-        if (onEdge(this.parentSquare) == -1) {
-            if (allMoves.contains(9)) allMoves.remove(new Integer(9));
-            if (allMoves.contains(-1)) allMoves.remove(new Integer(-1));
-            if (allMoves.contains(-11)) allMoves.remove(new Integer(-11));
-        }
-        if (onEdge(this.parentSquare) == 1) {
-            if (allMoves.contains(-9)) allMoves.remove(new Integer(-9));
-            if (allMoves.contains(1)) allMoves.remove(new Integer(1));
-            if (allMoves.contains(11)) allMoves.remove(new Integer(11));
-        }
-        for (int index:allMoves) {
-            if (canCapture(b[indexOfPiece + index])) legalMoves.add(b[indexOfPiece + index]);
-        }
-
-
         return legalMoves;
     }
 
