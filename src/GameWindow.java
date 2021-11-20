@@ -17,7 +17,7 @@ public class GameWindow {
         JFrame gameWindow = new JFrame("Chess 2");
         gameWindow.setLocationRelativeTo(null);
 
-        board = new Board(null); // our board, also our gameloop
+        board = new Board(); // our board, also our gameloop
 
         redClock = new Clock(hours, minutes, seconds);
         blueClock = new Clock(hours, minutes, seconds);
