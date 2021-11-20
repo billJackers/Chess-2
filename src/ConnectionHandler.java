@@ -32,7 +32,8 @@ public class ConnectionHandler extends Thread {
     public void send() {
         try {
             System.out.println("sending");
-            dataOutput.write("hello\n");
+            dataOutput.write("hello\r\n");  // write thing then flush output
+            dataOutput.flush();
         } catch (IOException IOe) {
             System.out.println("burh");
         }
@@ -46,7 +47,7 @@ public class ConnectionHandler extends Thread {
                 try {
                     System.out.println(playerSide.toString() + " attempting to read");
                     line = dataInput.readLine();
-                    System.out.println(line);
+                    System.out.println(line + " received!");
 
                 } catch (IOException IOe) {
                     System.out.println(IOe);
