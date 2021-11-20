@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 import java.net.Socket;
 import javax.swing.*;
 
@@ -15,8 +16,11 @@ public class Board extends JPanel implements ActionListener {
 
     private static final int DELAY = 25; // delay in ms to update board
 
-    public Board(Socket connection) {
+    public Board() {
+        this(null, null);
+    }
 
+    public Board(Socket connection, Sides playerSide) {
         // window size
         this.setPreferredSize(new Dimension(SQUARE_SIZE*RANK_SIZE, SQUARE_SIZE*FILE_SIZE)); // dimensions based on the size of the grid
         this.setMaximumSize(this.getPreferredSize());
@@ -28,9 +32,16 @@ public class Board extends JPanel implements ActionListener {
         initializeSquares();
         generateBoardState("rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBRBQKBRBR");
 
-        // Player controller to handle mouse input
+        // PlayerController to handle mouse input
         PlayerController controller = new PlayerController(this);
+
+        // ConnectionHandler to handle multiplayer sessions
+        ConnectionHandler connectionHandler;
+
+        if (connection != null)  // if we are doing multiplayer, instanciate ConnectionHandler
+            connectionHandler = new ConnectionHandler(connection, controller, playerSide);
     }
+
     @Override //  all i have to say is bruh
     public int getHeight() {
         return SQUARE_SIZE*FILE_SIZE;
@@ -70,6 +81,8 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 
+    private void rotateSquares() {} // idea: rotatesquares method to flip board
+
     public void paintComponent(Graphics g) {  // draws all the squares in the board
         super.paintComponent(g);
         g.setColor(new Color(225, 209, 163, 255));
@@ -98,12 +111,12 @@ public class Board extends JPanel implements ActionListener {
         for (int c = 0; c < FEN.length(); c++) {  // looping through the characters
             char curr = FEN.toLowerCase().charAt(c);
 
-            Piece.Sides side;  // if the character is lowercase then the side is blue else red
+            Sides side;  // if the character is lowercase then the side is blue else red
             if (curr == FEN.charAt(c)) {
-                side = Piece.Sides.BLUE;
+                side = Sides.BLUE;
             }
             else {
-                side = Piece.Sides.RED;
+                side = Sides.RED;
             }
 
             switch (curr) {

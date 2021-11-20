@@ -14,7 +14,8 @@ public class GameClient {
         gameWindow.setLocationRelativeTo(null);
 
         Socket connectionToServer = getClientSocket();
-        Board board = new Board(connectionToServer); // our board, also our gameloop
+        // our board, also our gameloop
+        Board board = new Board(connectionToServer, Sides.RED);  // the client is the RED side
         StatsDisplay stats = new StatsDisplay(board);  // stats displayer panel
 
         gameWindow.add(stats, BorderLayout.NORTH); // creates the stats JPanel to display the games statistics above the board panel
