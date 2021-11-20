@@ -10,7 +10,7 @@ public class GameWindow {
         JFrame gameWindow = new JFrame("Chess 2");
         gameWindow.setLocationRelativeTo(null);
 
-        Board board = new Board(null); // our board, also our gameloop
+        Board board = new Board(); // our board, also our gameloop
         StatsDisplay stats = new StatsDisplay(board);  // stats displayer panel
 
 

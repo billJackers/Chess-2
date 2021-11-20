@@ -6,7 +6,7 @@ import java.net.Socket;
 
 public class GameServer extends Thread {
 
-    private class DisplayConnecting extends JPanel {  // for displaying initial "waiting" text on screen
+    private static class DisplayConnecting extends JPanel {  // for displaying initial "waiting" text on screen
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
@@ -38,7 +38,8 @@ public class GameServer extends Thread {
 
         // Try to establish a connection with the client
         Socket connectionToClient = getServerSocket();
-        Board board = new Board(connectionToClient); // our board, also our gameloop
+        // our board, also our gameloop
+        Board board = new Board(connectionToClient, Sides.BLUE);  // the Server is the BLUE side
         StatsDisplay stats = new StatsDisplay(board);  // stats displayer panel
 
         gameWindow.remove(waitingScreen);  // remove the "waiting for client" panel, as we have connected with the client
