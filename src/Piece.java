@@ -189,7 +189,7 @@ public abstract class Piece {
         }
         temp = 1;
         if (pos % 10 != 0) {
-            while ((pos-temp) % 10 != 9) {
+            while ((pos-temp) % 10 != 9 && (pos-temp) >= 0) {
                 if (!b[pos-temp].hasPiece()) {
                     legalMoves.add(b[pos-temp]);
                 }

@@ -3,6 +3,8 @@ import javax.swing.*;
 
 public class GameWindow {
 
+    private JLabel turn = new JLabel("Blue to move");
+
     public GameWindow() {
 
         JFrame gameWindow = new JFrame("Chess 2");
@@ -10,6 +12,9 @@ public class GameWindow {
 
         Board board = new Board(null); // our board, also our gameloop
         StatsDisplay stats = new StatsDisplay(board);  // stats displayer panel
+
+
+        stats.add(turn);
 
         gameWindow.add(stats, BorderLayout.NORTH); // creates the stats JPanel to display the games statistics above the board panel
         gameWindow.add(board, BorderLayout.SOUTH); // creates the board JPanel to draw on. This also initializes the game loop
