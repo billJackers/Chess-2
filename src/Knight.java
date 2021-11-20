@@ -15,7 +15,7 @@ public class Knight extends Piece {
         }
     }
 
-    public List<Square> getLegalMoves() {
+    public List<Square> getLegalMoves(Board board) {
 
         ArrayList<Square> legalMoves = new ArrayList<>();
 
@@ -36,7 +36,7 @@ public class Knight extends Piece {
     }
 
     @Override
-    public List<Square> getTargets() {
+    public List<Square> getTargets(Board board) {
         return null;
     }
 

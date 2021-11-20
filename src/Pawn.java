@@ -18,7 +18,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public List<Square> getLegalMoves() {
+    public List<Square> getLegalMoves(Board board) {
         List<Square> legalMoves = new ArrayList<>();
 
         int rank = this.parentSquare.getRank();
@@ -80,7 +80,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public List<Square> getTargets() {
+    public List<Square> getTargets(Board board) {
         return null;
     }
 

@@ -8,11 +8,6 @@ import javax.imageio.ImageIO;
 
 public abstract class Piece {
 
-    protected static Board board;
-    public static void setBoard(Board board) {  // the board should only be set once in the board class constructor
-        Piece.board = board;
-    }
-
     public enum Sides {
         BLUE,
         RED
@@ -48,10 +43,10 @@ public abstract class Piece {
         g.drawImage(this.image, x, y, null);
     }  // draws image at location
 
-    public abstract List<Square> getLegalMoves();
+    public abstract List<Square> getLegalMoves(Board board);
 
     // This is for the bombers and archers
-    public abstract List<Square> getTargets();
+    public abstract List<Square> getTargets(Board board);
 
     protected boolean canCapture(Square target) {
         if (!target.hasPiece() || (this.side != target.getPiece().side && !(target.getPiece() instanceof RoyalGuard))) {
@@ -90,7 +85,7 @@ public abstract class Piece {
         return 0;
     }
 
-    public List<Square> getBishopLegalMoves() {
+    public List<Square> getBishopLegalMoves(Board board) {
         List<Square> legalMoves = new ArrayList<>();
 
         int rank = this.parentSquare.getRank();
@@ -160,7 +155,7 @@ public abstract class Piece {
         return legalMoves;
     }
 
-    public List<Square> getRookLegalMoves() {
+    public List<Square> getRookLegalMoves(Board board) {
         List<Square> legalMoves = new ArrayList<>();
 
         int rank = this.parentSquare.getRank();
@@ -247,7 +242,7 @@ public abstract class Piece {
         return legalMoves;
     }
 
-    public List<Square> getKingLegalMoves() {
+    public List<Square> getKingLegalMoves(Board board) {
         ArrayList<Square> legalMoves = new ArrayList<>();
 
         int rank = this.parentSquare.getRank();
@@ -266,31 +261,31 @@ public abstract class Piece {
         return legalMoves;
     }
 
-    public List<Square> getPawnAttacks(Sides s) {
-        if (!(this instanceof Pawn)) return new ArrayList<>();
-
-        List<Square> attacks = new ArrayList<>();
-
-        int rank = this.parentSquare.getRank();
-        int file = this.parentSquare.getFile();
-
-        Square[] b = board.getBoard();
-
-        int pos = (file*10) + rank;
-
-        switch (s) {
-            case BLUE -> {
-                if (pos % 10 != 0) attacks.add(b[pos+9]);
-                if (pos % 10 != 9) attacks.add(b[pos+11]);
-            }
-            case RED -> {
-                if (pos % 10 != 0) attacks.add(b[pos-11]);
-                if (pos % 10 != 9) attacks.add(b[pos-9]);
-            }
-        }
-
-        return attacks;
-
-    }
+//    public List<Square> getPawnAttacks(Sides s) {
+//        if (!(this instanceof Pawn)) return new ArrayList<>();
+//
+//        List<Square> attacks = new ArrayList<>();
+//
+//        int rank = this.parentSquare.getRank();
+//        int file = this.parentSquare.getFile();
+//
+//        Square[] b = board.getBoard();
+//
+//        int pos = (file*10) + rank;
+//
+//        switch (s) {
+//            case BLUE -> {
+//                if (pos % 10 != 0) attacks.add(b[pos+9]);
+//                if (pos % 10 != 9) attacks.add(b[pos+11]);
+//            }
+//            case RED -> {
+//                if (pos % 10 != 0) attacks.add(b[pos-11]);
+//                if (pos % 10 != 9) attacks.add(b[pos-9]);
+//            }
+//        }
+//
+//        return attacks;
+//
+//    }
     // public boolean move(Square moveTo);
 }

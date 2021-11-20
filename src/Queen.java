@@ -15,16 +15,15 @@ public class Queen extends Piece {
         }
     }
 
-    public List<Square> getLegalMoves() {
+    public List<Square> getLegalMoves(Board board) {
         List<Square> legalMoves = new ArrayList<>();
-        legalMoves.addAll(getBishopLegalMoves());
-        legalMoves.addAll(getRookLegalMoves());
-
+        legalMoves.addAll(getBishopLegalMoves(board));
+        legalMoves.addAll(getRookLegalMoves(board));
         return legalMoves;
     }
 
     @Override
-    public List<Square> getTargets() {
+    public List<Square> getTargets(Board board) {
         return null;
     }
 

@@ -1,35 +1,54 @@
 import javax.swing.*;
-import javax.xml.crypto.Data;
 import java.awt.*;
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class GameServer {
+public class GameServer extends Thread {
+
+    private class DisplayConnecting extends JPanel {  // for displaying initial "waiting" text on screen
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawString("Waiting for client...", 10, 35);
+        }
+    }
 
     private final int PORT = 42069;
     // https://www.geeksforgeeks.org/socket-programming-in-java/
 
     public GameServer () {
-        JFrame gameWindow = new JFrame("Chess 2");
+        start();
+    }
+
+    public void run() {  // functions are run in a separate thread currently for testing purposes
+        JFrame gameWindow = new JFrame("Chess 2 (Server)");
         gameWindow.setLocationRelativeTo(null);
 
+        //  Initial waiting text on screen
+        DisplayConnecting waitingScreen = new DisplayConnecting();
+        gameWindow.add(waitingScreen);
+        gameWindow.setSize(100, 100);
+        waitingScreen.repaint();
+
+        // setting settings
+        gameWindow.setResizable(false); // don't allow the user to resize the window
+        gameWindow.setVisible(true);
+        gameWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        // Try to establish a connection with the client
         Socket connectionToClient = getServerSocket();
-        Board board = new Board(); // our board, also our gameloop
+        Board board = new Board(connectionToClient); // our board, also our gameloop
         StatsDisplay stats = new StatsDisplay(board);  // stats displayer panel
+
+        gameWindow.remove(waitingScreen);  // remove the "waiting for client" panel, as we have connected with the client
 
         gameWindow.add(stats, BorderLayout.NORTH); // creates the stats JPanel to display the games statistics above the board panel
         gameWindow.add(board, BorderLayout.SOUTH); // creates the board JPanel to draw on. This also initializes the game loop
 
         gameWindow.setSize(board.getPreferredSize()); // Set the size of the window based on the size of the board
 
-        gameWindow.setResizable(false); // don't allow the user to resize the window
         gameWindow.pack(); // pack() should be called after setResizable() to avoid issues on some platforms
-
-        gameWindow.setVisible(true);
-        gameWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     private Socket getServerSocket() {

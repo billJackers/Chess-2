@@ -15,12 +15,12 @@ public class Bishop extends Piece {
     }
 
     @Override
-    public List<Square> getLegalMoves() {
-        return getBishopLegalMoves();
+    public List<Square> getLegalMoves(Board board) {
+        return getBishopLegalMoves(board);
     }
 
     @Override
-    public List<Square> getTargets() {
+    public List<Square> getTargets(Board board) {
         return null;
     }
 }

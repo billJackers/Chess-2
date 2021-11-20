@@ -14,12 +14,12 @@ public class Rook extends Piece {
         }
     }
 
-    public List<Square> getLegalMoves() {
-        return getRookLegalMoves();
+    public List<Square> getLegalMoves(Board board) {
+        return getRookLegalMoves(board);
     }
 
     @Override
-    public List<Square> getTargets() {
+    public List<Square> getTargets(Board board) {
         return null;
     }
 

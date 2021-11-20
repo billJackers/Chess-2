@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.net.Socket;
 import javax.swing.*;
 
 public class Board extends JPanel implements ActionListener {
@@ -12,8 +13,7 @@ public class Board extends JPanel implements ActionListener {
 
     private static final int DELAY = 25; // delay in ms to update board
 
-    public Board() {
-        Piece.setBoard(this);  // add a way for pieces to access the board
+    public Board(Socket connection) {
 
         // window size
         this.setPreferredSize(new Dimension(SQUARE_SIZE*RANK_SIZE, SQUARE_SIZE*FILE_SIZE)); // dimensions based on the size of the grid

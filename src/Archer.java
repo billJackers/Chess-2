@@ -15,12 +15,12 @@ public class Archer extends Piece {
         }
     }
 
-    public List<Square> getLegalMoves() {
-        return super.getKingLegalMoves();
+    public List<Square> getLegalMoves(Board board) {
+        return super.getKingLegalMoves(board);
     }
 
     @Override
-    public List<Square> getTargets() {
+    public List<Square> getTargets(Board board) {
         List<Square> targets = new ArrayList<>();
 
         int rank = this.parentSquare.getRank();

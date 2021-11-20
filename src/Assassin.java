@@ -14,7 +14,7 @@ public class Assassin extends Piece {
         }
     }
 
-    public List<Square> getLegalMoves() {
+    public List<Square> getLegalMoves(Board board) {
 
         ArrayList<Square> legalMoves = new ArrayList<>();
 
@@ -44,23 +44,17 @@ public class Assassin extends Piece {
     public boolean acceptableRow(int row, int proposedRow) {
         int maxRow = row + 2;
         int minRow = row - 2;
-            if (proposedRow <= maxRow && proposedRow >= minRow) {
-                return true;
-            }
-        return false;
+        return proposedRow <= maxRow && proposedRow >= minRow;
     }
 
     public boolean acceptableColumn(int column, int proposedColumn) {
         int maxColumn = column + 2;
         int minColumn = column - 2;
-        if (proposedColumn <= maxColumn && proposedColumn >= minColumn) {
-            return true;
-        }
-        return false;
+        return proposedColumn <= maxColumn && proposedColumn >= minColumn;
     }
 
     @Override
-    public List<Square> getTargets() {
+    public List<Square> getTargets(Board board) {
         return null;
     }
 }

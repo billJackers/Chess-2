@@ -32,7 +32,7 @@ public class PlayerController implements MouseListener {  // handles player inpu
     public void selectSquare(Square selected) {  // conditions: square must contain a piece
         selected.setState(Square.ActionStates.PLAYER_SELECTED);  // highlight square selected
         this.previouslySelected = selected;
-        legalMovesOfSelectedPiece = selected.getPiece().getLegalMoves();
+        legalMovesOfSelectedPiece = selected.getPiece().getLegalMoves(board);
         for (Square move : legalMovesOfSelectedPiece) {
             move.setState(Square.ActionStates.LEGAL_MOVE);
         }
@@ -82,7 +82,7 @@ public class PlayerController implements MouseListener {  // handles player inpu
                     move(previouslySelected, selected);
                     swapTurns();  // swap the turns on a successful move
                 }
-                if (pieceToMove instanceof Archer && pieceToMove.getTargets().contains(selected)) {
+                if (pieceToMove instanceof Archer && pieceToMove.getTargets(board).contains(selected)) {
                     if (selected.getPiece() instanceof Bomber) explode(selected);
                     else selected.clearPiece();
                     swapTurns();
@@ -102,7 +102,7 @@ public class PlayerController implements MouseListener {  // handles player inpu
     }
 
     public void explode(Square s) {
-        List<Square> targets = s.getPiece().getTargets();
+        List<Square> targets = s.getPiece().getTargets(board);
         for (Square target : targets) target.clearPiece();
         s.clearPiece();
     }

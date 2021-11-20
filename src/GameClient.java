@@ -4,16 +4,17 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class GameClient {
+
     private final String LOCAL_ADDR = "127.0.0.1";
     private final int PORT = 42069;
     // https://www.geeksforgeeks.org/socket-programming-in-java/
 
     public GameClient () {
-        JFrame gameWindow = new JFrame("Chess 2");
+        JFrame gameWindow = new JFrame("Chess 2 (Client)");
         gameWindow.setLocationRelativeTo(null);
 
         Socket connectionToServer = getClientSocket();
-        Board board = new Board(); // our board, also our gameloop
+        Board board = new Board(connectionToServer); // our board, also our gameloop
         StatsDisplay stats = new StatsDisplay(board);  // stats displayer panel
 
         gameWindow.add(stats, BorderLayout.NORTH); // creates the stats JPanel to display the games statistics above the board panel
