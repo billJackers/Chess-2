@@ -49,6 +49,34 @@ public class StartMenu {
         Button serverBtn = new Button("Host a local game");
         Button clientBtn = new Button("Join a local game");
 
+        // Clocks
+        final String[] minSecInts = new String[60];
+        for (int i = 0; i < 60; i++) {
+            if (i < 10) minSecInts[i] = "0" + i;
+            else minSecInts[i] = Integer.toString(i);
+        }
+        final String[] hourInts = new String[24];
+        for (int i = 0; i < 24; i++) {
+            if (i < 10) hourInts[i] = "0" + i;
+            else hourInts[i] = Integer.toString(i);
+        }
+
+        final JComboBox<String> seconds = new JComboBox<>(minSecInts);
+        final JComboBox<String> minutes = new JComboBox<>(minSecInts);
+        final JComboBox<String> hours = new JComboBox<>(hourInts);
+
+        Box timerSettings = Box.createHorizontalBox();
+
+        hours.setMaximumSize(hours.getPreferredSize());
+        minutes.setMaximumSize(minutes.getPreferredSize());
+        seconds.setMaximumSize(minutes.getPreferredSize());
+
+        timerSettings.add(hours);
+        timerSettings.add(seconds);
+        timerSettings.add(minutes);
+
+        menu.add(timerSettings);
+
         menu.add(casualBtn);
         menu.add(timedBtn);
         menu.add(serverBtn);
@@ -57,7 +85,12 @@ public class StartMenu {
         casualBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new GameWindow();
+
+                int h = Integer.parseInt((String) hours.getSelectedItem());
+                int m = Integer.parseInt((String) minutes.getSelectedItem());
+                int s = Integer.parseInt((String) seconds.getSelectedItem());
+
+                new GameWindow(h, m, s);
             }
         });
 

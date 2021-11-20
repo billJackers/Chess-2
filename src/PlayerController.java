@@ -26,6 +26,8 @@ public class PlayerController implements MouseListener {  // handles player inpu
         if (currentTurn == PlayerTurn.PLAYER_BLUE) currentTurn = PlayerTurn.PLAYER_RED;
         else currentTurn = PlayerTurn.PLAYER_BLUE;
         System.out.println("it is " + currentTurn.name() + "'s turn");
+
+        board.swapTurns();
     }
 
 
