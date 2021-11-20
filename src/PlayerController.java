@@ -14,14 +14,11 @@ public class PlayerController implements MouseListener {  // handles player inpu
     private Board board;
     private List<Square> legalMovesOfSelectedPiece;
 
-    private CheckmateDetector cmd;
-
     public PlayerController(Board board) {
         previouslySelected = null;
         currentTurn = PlayerTurn.PLAYER_BLUE;
         this.board = board;
         board.addMouseListener(this); // OOP black magic
-        this.cmd = new CheckmateDetector(board);
     }
 
 
@@ -73,7 +70,6 @@ public class PlayerController implements MouseListener {  // handles player inpu
                 }
             }
         }
-        cmd.updateLegalMoves();
     }
 
     public void attemptMove(Square selected) {
@@ -82,49 +78,6 @@ public class PlayerController implements MouseListener {  // handles player inpu
 
             if (isCorrectPlayerMoving()) {  // if the correct player is moving
 
-                /*
-                switch (pieceToMove.side) {
-                    case BLUE -> {
-                        if (cmd.blueInCheck() && !(pieceToMove instanceof King)) {
-                            Piece tempPieceToMove = pieceToMove;
-                            Piece capturedPiece = null;
-                            if (selected.hasPiece()) capturedPiece = selected.getPiece();
-                            move(previouslySelected, selected);
-                            cmd.updateLegalMoves();
-                            if (!cmd.blueInCheck()) {
-                                swapTurns();
-                                return;
-                            }
-                            previouslySelected.setPiece(tempPieceToMove);
-                            if (capturedPiece != null) selected.setPiece(capturedPiece);
-                            cmd.updateLegalMoves();
-                            return;
-                        }
-                    }
-                }
-
-                 */
-                /*
-                if (pieceToMove instanceof King) {
-                    cmd.updateLegalMoves();
-                    switch (pieceToMove.side) {
-                        case BLUE -> {
-                            if (cmd.getRLegalMoves().contains(selected)) return;
-                            if (!selected.hasPiece() || pieceToMove.canCapture(selected)) {
-                                move(previouslySelected, selected);
-                                swapTurns();
-                            }
-                        }
-                        case RED -> {
-                            if (cmd.getBLegalMoves().contains(selected)) return;
-                            if (!selected.hasPiece() || pieceToMove.canCapture(selected)) {
-                                move(previouslySelected, selected);
-                                swapTurns();
-                            }
-                        }
-                    }
-                }
-*/
                 if (legalMovesOfSelectedPiece.contains(selected) && pieceToMove.canCapture(selected)) {  // if it is legal to move to the new location
                     move(previouslySelected, selected);
                     swapTurns();  // swap the turns on a successful move
@@ -142,8 +95,6 @@ public class PlayerController implements MouseListener {  // handles player inpu
                 selectSquare(selected);
             }
         }
-
-        cmd.updateLegalMoves();
     }
 
     public boolean isCorrectPlayerMoving() {  // checks whether it is the correct player's turn
