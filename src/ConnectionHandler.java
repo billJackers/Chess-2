@@ -29,10 +29,10 @@ public class ConnectionHandler extends Thread {
         start();
     }
 
-    public void send() {
+    public void send(String data) {
         try {
             System.out.println("sending");
-            dataOutput.write("hello\r\n");  // write thing then flush output
+            dataOutput.write(data + "\r\n");  // write thing then flush output
             dataOutput.flush();
         } catch (IOException IOe) {
             System.out.println("burh");
@@ -54,6 +54,5 @@ public class ConnectionHandler extends Thread {
                 }
             }
         }
-        System.out.println("ran");
     }
 }

@@ -16,7 +16,7 @@ public class Board extends JPanel implements ActionListener {
 
     private static final int DELAY = 25; // delay in ms to update board
 
-    public Board() {
+    public Board() {  // single player board
         this(null, null);
     }
 
@@ -38,7 +38,7 @@ public class Board extends JPanel implements ActionListener {
         // ConnectionHandler to handle multiplayer sessions
         ConnectionHandler connectionHandler;
 
-        if (connection != null)  // if we are doing multiplayer, instanciate ConnectionHandler
+        if (connection != null)  // if we are doing multiplayer, instantiate ConnectionHandler
             connectionHandler = new ConnectionHandler(connection, controller, playerSide);
     }
 

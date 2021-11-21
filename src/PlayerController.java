@@ -9,7 +9,7 @@ public class PlayerController implements MouseListener {  // handles player inpu
     private Sides currentTurn;
     private final Board board;
     private List<Square> legalMovesOfSelectedPiece;
-    private ConnectionHandler connectionHandler;
+    private ConnectionHandler connectionHandler = null;
 
     public PlayerController(Board board) {
         previouslySelected = null;
@@ -86,9 +86,13 @@ public class PlayerController implements MouseListener {  // handles player inpu
 
                 if (legalMovesOfSelectedPiece.contains(selected) && pieceToMove.canCapture(selected)) {  // if it is legal to move to the new location
                     move(previouslySelected, selected);
+                    if (connectionHandler != null) {
+                        String moves = previouslySelected.getX() + " " + previouslySelected.getY() + " " + selected.getX() + " " + selected.getY();  // coords movedto and movedfrom
+                        connectionHandler.send(moves);
+                    }
                     swapTurns();  // swap the turns on a successful move
                 }
-                if (pieceToMove instanceof Archer && pieceToMove.getTargets(board).contains(selected)) {
+                if (pieceToMove instanceof Archer && pieceToMove.getTargets(board).contains(selected)) {  // COMMENT YOUR CODE <-----------------------
                     if (selected.getPiece() instanceof Bomber) explode(selected);
                     else selected.clearPiece();
                     swapTurns();
@@ -122,7 +126,6 @@ public class PlayerController implements MouseListener {  // handles player inpu
     public void mousePressed(MouseEvent e) {
         Square squareSelected = board.getSquareClicked(e.getX(), e.getY());
         attemptMove(squareSelected);
-        connectionHandler.send();
     }
 
     @Override
