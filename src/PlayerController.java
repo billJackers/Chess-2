@@ -9,6 +9,7 @@ public class PlayerController implements MouseListener {  // handles player inpu
     private Sides currentTurn;
     private final Board board;
     private List<Square> legalMovesOfSelectedPiece;
+    private List<Square> targetsOfSelectedArcher;
     private ConnectionHandler connectionHandler = null;
 
     public PlayerController(Board board) {
@@ -42,11 +43,23 @@ public class PlayerController implements MouseListener {  // handles player inpu
         for (Square move : legalMovesOfSelectedPiece) {
             move.setState(Square.ActionStates.LEGAL_MOVE);
         }
+        if (selected.getPiece() instanceof Archer) { // if piece is archer
+            targetsOfSelectedArcher = selected.getPiece().getTargets(board);
+            for (Square shot : targetsOfSelectedArcher) { // highlight all targets
+                shot.setState(Square.ActionStates.ARCHER_SHOT);
+            }
+        }
     }
     public void deselectCurrent() {
         this.previouslySelected.setState(Square.ActionStates.NONE);  // unhighlight square highlighted
         for (Square move : legalMovesOfSelectedPiece) {  // remove all legalMove highlights
             move.setState(Square.ActionStates.NONE);
+        }
+        System.out.println(previouslySelected.getPiece());
+        if (targetsOfSelectedArcher != null) { // if piece is archer
+            for (Square shot : targetsOfSelectedArcher) { // unhighlight all archer shot squares
+                shot.setState(Square.ActionStates.NONE);
+            }
         }
         this.previouslySelected = null;  // cut the references
         this.legalMovesOfSelectedPiece = null;
