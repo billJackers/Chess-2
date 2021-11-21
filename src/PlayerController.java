@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -67,6 +68,13 @@ public class PlayerController implements MouseListener {  // handles player inpu
         Piece pieceToMove = from.getPiece();
         from.clearPiece();
 
+        // King taken
+        if (to.hasPiece() && to.getPiece() instanceof King) {
+            System.out.println(pieceToMove.side + " has won!");
+            WinFrame winFrame = new WinFrame(pieceToMove.side);
+            SwingUtilities.invokeLater((Runnable) winFrame);
+        }
+
         // Bomber explosion
         if (to.getPiece() instanceof Bomber && !(pieceToMove instanceof Assassin)) {
             explode(to);
@@ -87,6 +95,7 @@ public class PlayerController implements MouseListener {  // handles player inpu
                 }
             }
         }
+
     }
 
     public void attemptMove(Square selected) {
