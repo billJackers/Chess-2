@@ -3,14 +3,8 @@ import java.awt.Graphics;
 
 import javax.swing.*;
 
-
-
 public class Square extends JComponent {
 
-    private enum Sides {  // Dictates the background color of a Square
-        BLUE,
-        RED
-    }
     enum ActionStates {  // If the square currently has a unique state (ActionStates != none), then these will effect the background color instead of Sides
         NONE,
         PLAYER_SELECTED,

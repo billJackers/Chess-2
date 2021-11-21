@@ -8,11 +8,6 @@ import javax.imageio.ImageIO;
 
 public abstract class Piece {
 
-    public enum Sides {
-        BLUE,
-        RED
-    }
-
     protected Sides side;
     protected int size;
     protected Image image;

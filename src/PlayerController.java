@@ -5,27 +5,33 @@ import java.util.List;
 
 public class PlayerController implements MouseListener {  // handles player inputs
 
-    private enum PlayerTurn {
-        PLAYER_BLUE,
-        PLAYER_RED
-    }
     private Square previouslySelected;
-    private PlayerTurn currentTurn;
-    private Board board;
+    private Sides currentTurn;
+    private final Board board;
     private List<Square> legalMovesOfSelectedPiece;
+    private ConnectionHandler connectionHandler = null;
 
     public PlayerController(Board board) {
         previouslySelected = null;
-        currentTurn = PlayerTurn.PLAYER_BLUE;
+        currentTurn = Sides.BLUE;
         this.board = board;
         board.addMouseListener(this); // OOP black magic
     }
 
+    public void setConnectionHandler(ConnectionHandler connectionHandler) {
+        this.connectionHandler = connectionHandler;
+    }
+
+    public Sides getCurrentTurn() {
+        return currentTurn;
+    }
 
     public void swapTurns() {
-        if (currentTurn == PlayerTurn.PLAYER_BLUE) currentTurn = PlayerTurn.PLAYER_RED;
-        else currentTurn = PlayerTurn.PLAYER_BLUE;
+        if (currentTurn == Sides.BLUE) currentTurn = Sides.RED;
+        else currentTurn = Sides.BLUE;
         System.out.println("it is " + currentTurn.name() + "'s turn");
+
+        board.swapTurns();
     }
 
 
@@ -63,10 +69,10 @@ public class PlayerController implements MouseListener {  // handles player inpu
         if (to.getPiece() instanceof Pawn) {
             switch (to.getPiece().side) {
                 case BLUE -> {
-                    if (to.getFile() == 9) to.setPiece(new Queen(Piece.Sides.BLUE, 50, to));
+                    if (to.getFile() == 9) to.setPiece(new Queen(Sides.BLUE, 50, to));
                 }
                 case RED -> {
-                    if (to.getFile() == 0) to.setPiece(new Queen(Piece.Sides.RED, 50, to));
+                    if (to.getFile() == 0) to.setPiece(new Queen(Sides.RED, 50, to));
                 }
             }
         }
@@ -80,9 +86,13 @@ public class PlayerController implements MouseListener {  // handles player inpu
 
                 if (legalMovesOfSelectedPiece.contains(selected) && pieceToMove.canCapture(selected)) {  // if it is legal to move to the new location
                     move(previouslySelected, selected);
+                    if (connectionHandler != null) {
+                        String moves = previouslySelected.getX() + " " + previouslySelected.getY() + " " + selected.getX() + " " + selected.getY();  // coords movedto and movedfrom
+                        connectionHandler.send(moves);
+                    }
                     swapTurns();  // swap the turns on a successful move
                 }
-                if (pieceToMove instanceof Archer && pieceToMove.getTargets(board).contains(selected)) {
+                if (pieceToMove instanceof Archer && pieceToMove.getTargets(board).contains(selected)) {  // COMMENT YOUR CODE <-----------------------
                     if (selected.getPiece() instanceof Bomber) explode(selected);
                     else selected.clearPiece();
                     swapTurns();
@@ -98,7 +108,7 @@ public class PlayerController implements MouseListener {  // handles player inpu
     }
 
     public boolean isCorrectPlayerMoving() {  // checks whether it is the correct player's turn
-        return (currentTurn == PlayerTurn.PLAYER_BLUE && previouslySelected.getPiece().getSide() == Piece.Sides.BLUE) || (currentTurn == PlayerTurn.PLAYER_RED && previouslySelected.getPiece().getSide() == Piece.Sides.RED);
+        return (currentTurn == Sides.BLUE && previouslySelected.getPiece().getSide() == Sides.BLUE) || (currentTurn == Sides.RED && previouslySelected.getPiece().getSide() == Sides.RED);
     }
 
     public void explode(Square s) {
