@@ -11,6 +11,7 @@ public class GameWindow {
     private Timer timer;
 
     private Board board;
+    private PlayerController pc;
 
     public GameWindow(int hours, int minutes, int seconds) {
 
@@ -18,13 +19,14 @@ public class GameWindow {
         gameWindow.setLocationRelativeTo(null);
 
         board = new Board(); // our board, also our gameloop
+        pc = new PlayerController(board);
 
         redClock = new Clock(hours, minutes, seconds);
         blueClock = new Clock(hours, minutes, seconds);
 
         //StatsDisplay stats = new StatsDisplay(board);  // stats displayer panel
 
-        JPanel statsPanel = statsDisplayPanel(hours, minutes, seconds, board.getTurn());
+        JPanel statsPanel = statsDisplayPanel(hours, minutes, seconds, pc.getCurrentTurn());
         statsPanel.setSize(statsPanel.getPreferredSize());
         gameWindow.add(statsPanel, BorderLayout.NORTH);
 
@@ -42,7 +44,7 @@ public class GameWindow {
 
     }
 
-    private JPanel statsDisplayPanel(final int h, final int m, final int s, final String turn) {
+    private JPanel statsDisplayPanel(final int h, final int m, final int s, final Sides turn) {
         JPanel stats = new JPanel();
         stats.setLayout(new GridLayout(3, 3, 0, 5));
 
@@ -78,25 +80,26 @@ public class GameWindow {
             timer.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    String turn = board.getTurn();
-                    if (turn.equals("Blue")) {
-                        blueClock.decrement();
-                        bTime.setText(blueClock.getTime());
+                    switch (pc.getCurrentTurn()) {
+                        case BLUE -> {
+                            blueClock.decrement();
+                            bTime.setText(blueClock.getTime());
 
-                        if (blueClock.outOfTime()) {
-                            timer.stop();
-                            System.out.println("Red has won on time!");
+                            if (blueClock.outOfTime()) {
+                                timer.stop();
+                                System.out.println("Red has won on time!");
+                            }
                         }
-                    } else {
-                        redClock.decrement();
-                        rTime.setText(redClock.getTime());
-                        if (redClock.outOfTime()) {
-                            timer.stop();
-                            System.out.println("Blue has won on time!");
+                        case RED -> {
+                            redClock.decrement();
+                            rTime.setText(redClock.getTime());
+                            if (redClock.outOfTime()) {
+                                timer.stop();
+                                System.out.println("Blue has won on time!");
+                            }
                         }
                     }
-                    timer.start();
-                    System.out.println(bTime.getText());
+                        timer.start();
                 }
             });
         } else {
