@@ -12,8 +12,6 @@ public class Board extends JPanel implements ActionListener {
 
     private final Square[] board = new Square[100];
 
-    private String turn = "Blue";
-
     private static final int DELAY = 25; // delay in ms to update board
 
     public Board() {  // single player board
@@ -146,15 +144,6 @@ public class Board extends JPanel implements ActionListener {
         int file = mouseY / SQUARE_SIZE;
         int boardPos = file * FILE_SIZE + rank;  // calculate the position instead of looping through in for loop
         return board[boardPos];
-    }
-
-    public String getTurn() {
-        return turn;
-    }
-
-    public void swapTurns() {
-        if (turn.equals("Blue")) turn = "Red";
-        else turn = "Blue";
     }
 
 }

@@ -42,8 +42,7 @@ public class StartMenu {
 
         menu.setBackground(Color.PINK);
 
-        Button casualBtn = new Button("Play a casual game");
-        Button timedBtn = new Button("Play a timed game");
+        Button quickStartBtn = new Button("Quick start");
 
         // server mode
         Button serverBtn = new Button("Host a local game");
@@ -77,12 +76,11 @@ public class StartMenu {
 
         menu.add(timerSettings);
 
-        menu.add(casualBtn);
-        menu.add(timedBtn);
+        menu.add(quickStartBtn);
         menu.add(serverBtn);
         menu.add(clientBtn);
 
-        casualBtn.addActionListener(new ActionListener() {
+        quickStartBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
