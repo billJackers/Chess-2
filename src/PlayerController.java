@@ -1,6 +1,5 @@
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.net.StandardSocketOptions;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +13,6 @@ public class PlayerController implements MouseListener {  // handles player inpu
     private PlayerTurn currentTurn;
     private Board board;
     private List<Square> legalMovesOfSelectedPiece;
-    private List<Square> targetsOfSelectedArcher;
 
     public PlayerController(Board board) {
         previouslySelected = null;
@@ -38,24 +36,11 @@ public class PlayerController implements MouseListener {  // handles player inpu
         for (Square move : legalMovesOfSelectedPiece) {
             move.setState(Square.ActionStates.LEGAL_MOVE);
         }
-        if (selected.getPiece() instanceof Archer) { // if piece is archer
-            targetsOfSelectedArcher = selected.getPiece().getTargets(board);
-            for (Square shot : targetsOfSelectedArcher) { // highlight all targets
-                shot.setState(Square.ActionStates.ARCHER_SHOT);
-            }
-        }
     }
-
     public void deselectCurrent() {
         this.previouslySelected.setState(Square.ActionStates.NONE);  // unhighlight square highlighted
         for (Square move : legalMovesOfSelectedPiece) {  // remove all legalMove highlights
             move.setState(Square.ActionStates.NONE);
-        }
-        System.out.println(previouslySelected.getPiece());
-        if (targetsOfSelectedArcher != null) { // if piece is archer
-            for (Square shot : targetsOfSelectedArcher) { // unhighlight all archer shot squares
-                shot.setState(Square.ActionStates.NONE);
-            }
         }
         this.previouslySelected = null;  // cut the references
         this.legalMovesOfSelectedPiece = null;
@@ -98,12 +83,8 @@ public class PlayerController implements MouseListener {  // handles player inpu
                     swapTurns();  // swap the turns on a successful move
                 }
                 if (pieceToMove instanceof Archer && pieceToMove.getTargets(board).contains(selected)) {
-                    if (selected.getPiece() instanceof Bomber) {
-                        explode(selected);
-                    }
-                    else {
-                        selected.clearPiece();
-                    }
+                    if (selected.getPiece() instanceof Bomber) explode(selected);
+                    else selected.clearPiece();
                     swapTurns();
                 }
             }

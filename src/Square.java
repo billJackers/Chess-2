@@ -14,8 +14,7 @@ public class Square extends JComponent {
     enum ActionStates {  // If the square currently has a unique state (ActionStates != none), then these will effect the background color instead of Sides
         NONE,
         PLAYER_SELECTED,
-        LEGAL_MOVE,
-        ARCHER_SHOT
+        LEGAL_MOVE
     }
 
     private Piece piece;
@@ -75,7 +74,6 @@ public class Square extends JComponent {
             switch (this.state) {  // If the tile currently has a unique state (ActionStates != none), then draw the state instead
                 case PLAYER_SELECTED -> g.setColor(new Color(255, 229, 79));
                 case LEGAL_MOVE -> g.setColor(new Color(255, 205, 79));
-                case ARCHER_SHOT -> g.setColor(new Color(255, 254, 184));
             }
         }
         // System.out.println(this.getX() + " " + this.getY());
