@@ -1,9 +1,10 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import javax.swing.*;
 
-public class GameWindow {
+public class GameWindow implements ActionListener {
 
     public Clock blueClock;
     public Clock redClock;
@@ -12,6 +13,12 @@ public class GameWindow {
 
     private Board board;
     private Sides turn;
+
+    private JPanel stats;
+    private JLabel bTime;
+    private JLabel rTime;
+    private JLabel turnLabel;
+
 
     public GameWindow(int hours, int minutes, int seconds) {
 
@@ -27,9 +34,47 @@ public class GameWindow {
 
         //StatsDisplay stats = new StatsDisplay(board);  // stats displayer panel
 
-        JPanel statsPanel = statsDisplayPanel(hours, minutes, seconds);
-        statsPanel.setSize(statsPanel.getPreferredSize());
-        gameWindow.add(statsPanel, BorderLayout.NORTH);
+        stats = new JPanel();
+        stats.setLayout(new GridLayout(3, 3, 0, 5));
+
+        turnLabel = new JLabel(turn + " to move");
+        turnLabel.setHorizontalAlignment(JLabel.CENTER);
+        turnLabel.setVerticalAlignment(JLabel.CENTER);
+
+        JLabel b = new JLabel("Blue");
+        JLabel r = new JLabel("Red");
+
+        r.setHorizontalAlignment(JLabel.CENTER);
+        r.setVerticalAlignment(JLabel.CENTER);
+        b.setHorizontalAlignment(JLabel.CENTER);
+        b.setVerticalAlignment(JLabel.CENTER);
+
+        r.setSize(r.getMinimumSize());
+        b.setSize(b.getMinimumSize());
+
+        stats.add(r);
+        stats.add(b);
+
+        // Clocks
+        bTime = new JLabel(blueClock.getTime());
+        rTime = new JLabel(redClock.getTime());
+
+        bTime.setHorizontalAlignment(JLabel.CENTER);
+        bTime.setVerticalAlignment(JLabel.CENTER);
+        rTime.setHorizontalAlignment(JLabel.CENTER);
+        rTime.setVerticalAlignment(JLabel.CENTER);
+
+        stats.add(bTime);
+        stats.add(rTime);
+
+        stats.add(turnLabel);
+
+        stats.setPreferredSize(stats.getMinimumSize());
+
+
+        //JPanel statsPanel = statsDisplayPanel(hours, minutes, seconds);
+        //statsPanel.setSize(statsPanel.getPreferredSize());
+        gameWindow.add(stats, BorderLayout.NORTH);
 
 
         //gameWindow.add(stats, BorderLayout.NORTH); // creates the stats JPanel to display the games statistics above the board panel
@@ -40,13 +85,17 @@ public class GameWindow {
         gameWindow.setResizable(false); // don't allow the user to resize the window
         gameWindow.pack(); // pack() should be called after setResizable() to avoid issues on some platforms
 
+
+
         gameWindow.setVisible(true);
         gameWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        Timer timer = new Timer(1000, this);
 
     }
 
     private JPanel statsDisplayPanel(final int h, final int m, final int s) {
-        JPanel stats = new JPanel();
+        stats = new JPanel();
         stats.setLayout(new GridLayout(3, 3, 0, 5));
 
         JLabel turnLabel = new JLabel(turn + " to move");
@@ -84,7 +133,7 @@ public class GameWindow {
                     if (turn.equals("Blue")) {
                         blueClock.decrement();
                         bTime.setText(blueClock.getTime());
-
+                        turnLabel.setText("RED to move");
                         if (blueClock.outOfTime()) {
                             timer.stop();
                             System.out.println("Red has won on time!");
@@ -92,6 +141,7 @@ public class GameWindow {
                     } else {
                         redClock.decrement();
                         rTime.setText(redClock.getTime());
+                        turnLabel.setText("BLUE to move");
                         if (redClock.outOfTime()) {
                             timer.stop();
                             System.out.println("Blue has won on time!");
@@ -99,6 +149,7 @@ public class GameWindow {
                     }
                     timer.start();
                     System.out.println(bTime.getText());
+                    stats.repaint();
                 }
             });
         } else {
@@ -116,4 +167,27 @@ public class GameWindow {
         return stats;
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (turn.equals("Blue")) {
+            blueClock.decrement();
+            bTime.setText(blueClock.getTime());
+            turnLabel.setText("RED to move");
+            if (blueClock.outOfTime()) {
+                timer.stop();
+                System.out.println("Red has won on time!");
+            }
+        } else {
+            redClock.decrement();
+            rTime.setText(redClock.getTime());
+            turnLabel.setText("BLUE to move");
+            if (redClock.outOfTime()) {
+                timer.stop();
+                System.out.println("Blue has won on time!");
+            }
+        }
+        timer.start();
+        System.out.println(bTime.getText());
+        stats.repaint();
+    }
 }
