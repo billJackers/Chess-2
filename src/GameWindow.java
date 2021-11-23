@@ -30,7 +30,7 @@ public class GameWindow implements ActionListener {
         redClock = new Clock(hours, minutes, seconds);
         blueClock = new Clock(hours, minutes, seconds);
 
-        turn = Sides.BLUE;
+        turn = Sides.RED;
 
         //StatsDisplay stats = new StatsDisplay(board);  // stats displayer panel
 
@@ -90,8 +90,8 @@ public class GameWindow implements ActionListener {
         gameWindow.setVisible(true);
         gameWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        Timer timer = new Timer(1000, this);
-
+        timer = new Timer(1000, this);
+        timer.start();
     }
 
     private JPanel statsDisplayPanel(final int h, final int m, final int s) {
@@ -169,24 +169,26 @@ public class GameWindow implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (turn.equals("Blue")) {
-            blueClock.decrement();
-            bTime.setText(blueClock.getTime());
-            turnLabel.setText("RED to move");
-            if (blueClock.outOfTime()) {
-                timer.stop();
-                System.out.println("Red has won on time!");
+        switch (turn) {
+            case BLUE -> {
+                blueClock.decrement();
+                bTime.setText(blueClock.getTime());
+                turnLabel.setText("RED to move");
+                if (blueClock.outOfTime()) {
+                    timer.stop();
+                    System.out.println("Red has won on time!");
+                }
             }
-        } else {
-            redClock.decrement();
-            rTime.setText(redClock.getTime());
-            turnLabel.setText("BLUE to move");
-            if (redClock.outOfTime()) {
-                timer.stop();
-                System.out.println("Blue has won on time!");
+            case RED -> {
+                redClock.decrement();
+                rTime.setText(redClock.getTime());
+                turnLabel.setText("BLUE to move");
+                if (redClock.outOfTime()) {
+                    timer.stop();
+                    System.out.println("Blue has won on time!");
+                }
             }
         }
-        timer.start();
         System.out.println(bTime.getText());
         stats.repaint();
     }
