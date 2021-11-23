@@ -45,6 +45,19 @@ public class Pawn extends Piece {
                     legalMoves.add(b[pos+9]);
                 }
 
+                // En Passant
+                if (pos % 10 != 9 && pos + 10 < 100) {
+                    if (b[pos+1].hasPiece() && b[pos+1].getPiece().isEnPassantable()) {
+                        legalMoves.add(b[pos+11]);
+                    }
+                }
+
+                if (pos % 10 != 0 && pos + 9 < 100) {
+                    if (b[pos-1].hasPiece() && b[pos-1].getPiece().isEnPassantable()) {
+                        legalMoves.add(b[pos+9]);
+                    }
+                }
+
             }
             case RED -> {
                 try {
@@ -62,6 +75,20 @@ public class Pawn extends Piece {
                     if (pos % 10 != 0 && pos - 11 >= 0 && b[pos - 11].hasPiece() && this.canCapture(b[pos - 11])) {
                         legalMoves.add(b[pos - 11]);
                     }
+
+                    // En Passant
+                    if (pos % 10 != 9 && pos - 9 >= 0) {
+                        if (b[pos+1].hasPiece() && b[pos+1].getPiece().isEnPassantable()) {
+                            legalMoves.add(b[pos-9]);
+                        }
+                    }
+
+                    if (pos % 10 != 0 && pos - 11 < 100) {
+                        if (b[pos-1].hasPiece() && b[pos-1].getPiece().isEnPassantable()) {
+                            legalMoves.add(b[pos-11]);
+                        }
+                    }
+
                 } catch (ArrayIndexOutOfBoundsException e) {
                     System.out.println(e.getMessage());
                 }

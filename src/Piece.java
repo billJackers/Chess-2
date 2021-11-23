@@ -12,11 +12,13 @@ public abstract class Piece {
     protected int size;
     protected Image image;
     protected Square parentSquare;
+    protected boolean enPassantable;
 
     public Piece(Sides side, int size, Square initialSquare) {
         this.side = side;
         this.size = size;
         this.parentSquare = initialSquare;
+        this.enPassantable = false;
     }
 
     protected Image getImageByFile(String file) {  // get our image based on a file name
@@ -254,6 +256,14 @@ public abstract class Piece {
             if (indexOfPiece - relativeMove >= 0  && Math.abs(((indexOfPiece - relativeMove)%10)-(indexOfPiece%10)) <= 1 && this.canCapture(b[indexOfPiece - relativeMove])) legalMoves.add(b[indexOfPiece - relativeMove]);
         }
         return legalMoves;
+    }
+
+    public boolean isEnPassantable() {
+        return this.enPassantable;
+    }
+
+    public void setEnPassantable(boolean b) {
+        this.enPassantable = b;
     }
 
 //    public List<Square> getPawnAttacks(Sides s) {

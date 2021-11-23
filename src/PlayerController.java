@@ -66,6 +66,13 @@ public class PlayerController implements MouseListener {  // handles player inpu
 
     public void move(Square from, Square to) {
         Piece pieceToMove = from.getPiece();
+
+        boolean enPassantMove = false;
+
+        if (pieceToMove instanceof Pawn) {
+            if (!to.hasPiece()) enPassantMove = true;
+        }
+
         from.clearPiece();
 
         // King taken
@@ -94,6 +101,26 @@ public class PlayerController implements MouseListener {  // handles player inpu
                     if (to.getFile() == 0) to.setPiece(new Queen(Sides.RED, 50, to));
                 }
             }
+        }
+
+        // En Passant
+        if (enPassantMove) {
+            switch (pieceToMove.side) {
+                case BLUE -> board.getBoard()[(to.getFile() * 10) + to.getRank() - 10].clearPiece();
+                case RED -> board.getBoard()[(to.getFile() * 10) + to.getRank() + 10].clearPiece();
+            }
+        }
+
+        switch (pieceToMove.side) {
+            case BLUE: resetEnPassants(Sides.BLUE);
+            break;
+            case RED: resetEnPassants(Sides.RED);
+        }
+
+        if (pieceToMove instanceof Pawn) {
+            int fromPos = (from.getFile() * 10) + from.getRank();
+            int toPos = (to.getFile() * 10) + to.getRank();
+            if (Math.abs(toPos-fromPos) == 20) to.getPiece().setEnPassantable(true);
         }
 
     }
@@ -135,6 +162,21 @@ public class PlayerController implements MouseListener {  // handles player inpu
         List<Square> targets = s.getPiece().getTargets(board);
         for (Square target : targets) target.clearPiece();
         s.clearPiece();
+    }
+
+    public void resetEnPassants(Sides side) {
+        for (Square square : board.getBoard()) {
+            if (square.hasPiece()) {
+                switch (side) {
+                    case BLUE -> {
+                        if (square.getPiece().side == Sides.BLUE) square.getPiece().setEnPassantable(false);
+                    }
+                    case RED -> {
+                        if (square.getPiece().side == Sides.RED) square.getPiece().setEnPassantable(false);
+                    }
+                }
+            }
+        }
     }
 
     @Override
