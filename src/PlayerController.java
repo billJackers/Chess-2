@@ -1,4 +1,7 @@
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -95,10 +98,32 @@ public class PlayerController implements MouseListener {  // handles player inpu
         if (to.getPiece() instanceof Pawn) {
             switch (to.getPiece().side) {
                 case BLUE -> {
-                    if (to.getFile() == 9) to.setPiece(new Queen(Sides.BLUE, 50, to));
+                    if (to.getFile() == 9) {
+                        String promotionChoice = promote();
+                        while (!promotionChoice.equals("")) {
+                            if (promotionChoice.equals("queen")) to.setPiece(new Queen(Sides.BLUE, 50, to));
+                            else if (promotionChoice.equals("rook")) to.setPiece(new Rook(Sides.BLUE, 50, to));
+                            else if (promotionChoice.equals("bishop")) to.setPiece(new Bishop(Sides.BLUE, 50, to));
+                            else if (promotionChoice.equals("knight")) to.setPiece(new Knight(Sides.BLUE, 50, to));
+                            else if (promotionChoice.equals("rg")) to.setPiece(new RoyalGuard(Sides.BLUE, 50, to));
+                            else if (promotionChoice.equals("assassin")) to.setPiece(new Assassin(Sides.BLUE, 50, to));
+                            else if (promotionChoice.equals("archer")) to.setPiece(new Archer(Sides.BLUE, 50, to));
+                        }
+                    }
                 }
                 case RED -> {
-                    if (to.getFile() == 0) to.setPiece(new Queen(Sides.RED, 50, to));
+                    if (to.getFile() == 0) {
+                        String promotionChoice = promote();
+                        while (!promotionChoice.equals("")) {
+                            if (promotionChoice.equals("queen")) to.setPiece(new Queen(Sides.RED, 50, to));
+                            else if (promotionChoice.equals("rook")) to.setPiece(new Rook(Sides.RED, 50, to));
+                            else if (promotionChoice.equals("bishop")) to.setPiece(new Bishop(Sides.RED, 50, to));
+                            else if (promotionChoice.equals("knight")) to.setPiece(new Knight(Sides.RED, 50, to));
+                            else if (promotionChoice.equals("rg")) to.setPiece(new RoyalGuard(Sides.RED, 50, to));
+                            else if (promotionChoice.equals("assassin")) to.setPiece(new Assassin(Sides.RED, 50, to));
+                            else if (promotionChoice.equals("archer")) to.setPiece(new Archer(Sides.RED, 50, to));
+                        }
+                    }
                 }
             }
         }
@@ -177,6 +202,88 @@ public class PlayerController implements MouseListener {  // handles player inpu
                 }
             }
         }
+    }
+
+    public String promote() {
+        JPopupMenu popupMenu = new JPopupMenu();
+        JMenuItem queenItem = new JMenuItem("Queen");
+        JMenuItem rookItem = new JMenuItem("Rook");
+        JMenuItem bishopItem = new JMenuItem("Bishop");
+        JMenuItem knightItem = new JMenuItem("Knight");
+        JMenuItem rgItem = new JMenuItem("Royal Guard");
+        JMenuItem archerItem = new JMenuItem("Archer");
+        JMenuItem assassinItem = new JMenuItem("Assassin");
+
+        popupMenu.add(queenItem);
+        popupMenu.add(rookItem);
+        popupMenu.add(bishopItem);
+        popupMenu.add(knightItem);
+        popupMenu.add(rgItem);
+        popupMenu.add(archerItem);
+        popupMenu.add(assassinItem);
+
+        final String[] choice = {""};
+
+        queenItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                choice[0] = "queen";
+                popupMenu.setVisible(false);
+            }
+        });
+
+        rookItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                choice[0] = "rook";
+                popupMenu.setVisible(false);
+            }
+        });
+
+        bishopItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                choice[0] = "bishop";
+                popupMenu.setVisible(false);
+            }
+        });
+
+        knightItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                choice[0] = "knight";
+                popupMenu.setVisible(false);
+            }
+        });
+
+        rgItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                choice[0] = "rg";
+                popupMenu.setVisible(false);
+            }
+        });
+
+        archerItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                choice[0] = "archer";
+                popupMenu.setVisible(false);
+            }
+        });
+
+        assassinItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                choice[0] = "assassin";
+                popupMenu.setVisible(false);
+            }
+        });
+
+        popupMenu.setSize(popupMenu.getMinimumSize());
+        popupMenu.setVisible(true);
+
+        return choice[0];
     }
 
     @Override
