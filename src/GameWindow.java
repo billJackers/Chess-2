@@ -163,7 +163,6 @@ public class GameWindow implements ActionListener, MouseListener {
                 }
             }
         }
-        System.out.println(bTime.getText());
         stats.repaint();
     }
 
