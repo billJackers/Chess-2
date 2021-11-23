@@ -88,6 +88,8 @@ public class StartMenu {
                 int m = Integer.parseInt((String) minutes.getSelectedItem());
                 int s = Integer.parseInt((String) seconds.getSelectedItem());
 
+                System.out.println("Source: " + e.getSource());
+
                 new GameWindow(h, m, s);
             }
         });

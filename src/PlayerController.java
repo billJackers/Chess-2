@@ -81,8 +81,7 @@ public class PlayerController implements MouseListener {  // handles player inpu
         // King taken
         if (to.hasPiece() && to.getPiece() instanceof King) {
             System.out.println(pieceToMove.side + " has won!");
-            WinFrame winFrame = new WinFrame(pieceToMove.side);
-            SwingUtilities.invokeLater((Runnable) winFrame);
+            makeWinFrame(pieceToMove.side);
         }
 
         // Bomber explosion
@@ -284,6 +283,18 @@ public class PlayerController implements MouseListener {  // handles player inpu
         popupMenu.setVisible(true);
 
         return choice[0];
+    }
+
+    public void makeWinFrame(Sides winner) {
+        JFrame winFrame = new JFrame();
+        JLabel winnerLabel = new JLabel(winner + " has won!!! Well played.");
+        winnerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        winnerLabel.setVerticalAlignment(SwingConstants.CENTER);
+        winFrame.add(winnerLabel);
+        winFrame.setVisible(true);
+        winFrame.setSize(300, 300);
+        winFrame.setBackground(Color.pink);
+        winFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     @Override
