@@ -53,8 +53,8 @@ public class GameWindow implements ActionListener, MouseListener {
         r.setSize(r.getMinimumSize());
         b.setSize(b.getMinimumSize());
 
-        stats.add(r);
         stats.add(b);
+        stats.add(r);
 
         // Clocks
         bTime = new JLabel(blueClock.getTime());
