@@ -1,10 +1,11 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.*;
 
-public class GameWindow implements ActionListener {
+public class GameWindow implements ActionListener, MouseListener {
 
     public Clock blueClock;
     public Clock redClock;
@@ -30,7 +31,7 @@ public class GameWindow implements ActionListener {
         redClock = new Clock(hours, minutes, seconds);
         blueClock = new Clock(hours, minutes, seconds);
 
-        turn = Sides.RED;
+        turn = Sides.BLUE;
 
         //StatsDisplay stats = new StatsDisplay(board);  // stats displayer panel
 
@@ -125,34 +126,7 @@ public class GameWindow implements ActionListener {
         rTime.setHorizontalAlignment(JLabel.CENTER);
         rTime.setVerticalAlignment(JLabel.CENTER);
 
-        if (!(h == 0 && m == 0 && s == 0)) {
-            timer = new Timer(1000, null);
-            timer.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if (turn.equals("Blue")) {
-                        blueClock.decrement();
-                        bTime.setText(blueClock.getTime());
-                        turnLabel.setText("RED to move");
-                        if (blueClock.outOfTime()) {
-                            timer.stop();
-                            System.out.println("Red has won on time!");
-                        }
-                    } else {
-                        redClock.decrement();
-                        rTime.setText(redClock.getTime());
-                        turnLabel.setText("BLUE to move");
-                        if (redClock.outOfTime()) {
-                            timer.stop();
-                            System.out.println("Blue has won on time!");
-                        }
-                    }
-                    timer.start();
-                    System.out.println(bTime.getText());
-                    stats.repaint();
-                }
-            });
-        } else {
+        if (h == 0 && m == 0 && s == 0) {
             bTime.setText("Untimed game");
             rTime.setText("Untimed game");
         }
@@ -173,7 +147,7 @@ public class GameWindow implements ActionListener {
             case BLUE -> {
                 blueClock.decrement();
                 bTime.setText(blueClock.getTime());
-                turnLabel.setText("RED to move");
+                //turnLabel.setText("RED to move");
                 if (blueClock.outOfTime()) {
                     timer.stop();
                     System.out.println("Red has won on time!");
@@ -182,7 +156,7 @@ public class GameWindow implements ActionListener {
             case RED -> {
                 redClock.decrement();
                 rTime.setText(redClock.getTime());
-                turnLabel.setText("BLUE to move");
+
                 if (redClock.outOfTime()) {
                     timer.stop();
                     System.out.println("Blue has won on time!");
@@ -191,5 +165,40 @@ public class GameWindow implements ActionListener {
         }
         System.out.println(bTime.getText());
         stats.repaint();
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        switch (board.getController().getCurrentTurn()) {
+            case BLUE -> {
+                turn = Sides.BLUE;
+            }
+
+            case RED -> {
+                turn = Sides.RED;
+            }
+        }
+        turnLabel.setText(turn + " to move");
+        stats.repaint();
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }

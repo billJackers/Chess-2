@@ -10,6 +10,8 @@ public class Board extends JPanel implements ActionListener {
     private static final int FILE_SIZE = 10; // columns
     private static final int RANK_SIZE = 10; // rows
 
+    private PlayerController controller;
+
     private final Square[] board = new Square[100];
 
     private static final int DELAY = 25; // delay in ms to update board
@@ -31,7 +33,7 @@ public class Board extends JPanel implements ActionListener {
         generateBoardState("rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBRBQKBRBR");
 
         // PlayerController to handle mouse input
-        PlayerController controller = new PlayerController(this);
+        controller = new PlayerController(this);
 
         // ConnectionHandler to handle multiplayer sessions
         ConnectionHandler connectionHandler;
@@ -144,6 +146,10 @@ public class Board extends JPanel implements ActionListener {
         int file = mouseY / SQUARE_SIZE;
         int boardPos = file * FILE_SIZE + rank;  // calculate the position instead of looping through in for loop
         return board[boardPos];
+    }
+
+    public PlayerController getController() {
+        return controller;
     }
 
 }
