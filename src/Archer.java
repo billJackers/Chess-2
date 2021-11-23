@@ -31,13 +31,13 @@ public class Archer extends Piece {
         int pos = (file*10) + rank;
 
         // Northwest
-        if (pos % 10 > 1 && pos >= 20 && b[pos-22].hasPiece() && this.canCapture(b[pos-22])) targets.add(b[pos-22]);
+        if (pos % 10 > 1 && pos >= 20 && b[pos-22].hasPiece() && (!b[pos-11].hasPiece()) && this.canCapture(b[pos-22])) targets.add(b[pos-22]);
         // Northeast
-        if (pos % 10 < 8 && pos >= 20 && b[pos-18].hasPiece() && this.canCapture(b[pos-18])) targets.add(b[pos-18]);
+        if (pos % 10 < 8 && pos >= 20 && b[pos-18].hasPiece() && (!b[pos-9].hasPiece()) && this.canCapture(b[pos-18])) targets.add(b[pos-18]);
         // Southwest
-        if (pos % 10 > 1 && pos < 80 && b[pos+18].hasPiece() && this.canCapture(b[pos+18])) targets.add(b[pos+18]);
+        if (pos % 10 > 1 && pos < 80 && b[pos+18].hasPiece() && (!b[pos+9].hasPiece()) && this.canCapture(b[pos+18])) targets.add(b[pos+18]);
         // Southeast
-        if (pos % 10 < 8 && pos < 80 && b[pos+22].hasPiece() && this.canCapture(b[pos+22])) targets.add(b[pos+22]);
+        if (pos % 10 < 8 && pos < 80 && b[pos+22].hasPiece() && (!b[pos+11].hasPiece()) && this.canCapture(b[pos+22])) targets.add(b[pos+22]);
 
         return targets;
     }
