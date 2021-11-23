@@ -71,8 +71,8 @@ public class StartMenu {
         seconds.setMaximumSize(minutes.getPreferredSize());
 
         timerSettings.add(hours);
-        timerSettings.add(seconds);
         timerSettings.add(minutes);
+        timerSettings.add(seconds);
 
         menu.add(timerSettings);
 
