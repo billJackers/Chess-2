@@ -50,6 +50,7 @@ public class StatsDisplay extends JPanel implements ActionListener {
         // drawing new clock states
         g.drawString(blueClock.getTime(), 10, 10);
         g.drawString(redClock.getTime(), 100, 10);
+        g.drawString(turn + " to move", 300, 10);
     }
 
     @Override
