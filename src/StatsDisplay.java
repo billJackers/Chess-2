@@ -20,10 +20,13 @@ public class StatsDisplay extends JPanel implements ActionListener {
     private Sides turn;
     private final Font clockFont;
 
+    private WinFrame winFrame;
+
     private Timer globalClock;
 
     public StatsDisplay(Board board, int hours, int minutes, int seconds) {
         this.board = board;
+        this.winFrame = new WinFrame();
 
         // dimensions of this JPanel
         HEADER_HEIGHT = board.getHeight() / 10;  // dimensions relative to game
@@ -59,6 +62,8 @@ public class StatsDisplay extends JPanel implements ActionListener {
         g.setColor(new Color(56, 211, 255, 255));  // set a color before drawing text for text to be that color
         if (blueClock.outOfTime() || redClock.outOfTime()) {
             globalClock.stop();
+            if (blueClock.outOfTime()) winFrame.makeWinFrame(Sides.RED);
+            else winFrame.makeWinFrame(Sides.BLUE);
         }
         g.drawString(blueClock.getTime(), HEADER_WIDTH * 5 / 26, HEADER_HEIGHT / 2);
         g.setColor(new Color(255, 29, 29, 255));

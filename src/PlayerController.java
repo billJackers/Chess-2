@@ -16,11 +16,14 @@ public class PlayerController implements MouseListener {  // handles player inpu
     private List<Square> targetsOfSelectedArcher;
     private ConnectionHandler connectionHandler = null;
 
+    private WinFrame winFrame;
+
     public PlayerController(Board board) {
         previouslySelected = null;
         currentTurn = Sides.BLUE;
         this.board = board;
         board.addMouseListener(this); // OOP black magic
+        winFrame = new WinFrame();
     }
 
     public void setConnectionHandler(ConnectionHandler connectionHandler) {
@@ -85,7 +88,7 @@ public class PlayerController implements MouseListener {  // handles player inpu
         // King taken
         if (to.hasPiece() && to.getPiece() instanceof King) {
             System.out.println(pieceToMove.side + " has won!");
-            makeWinFrame(pieceToMove.side);
+            winFrame.makeWinFrame(pieceToMove.side);
         }
 
         // Bomber explosion
@@ -287,18 +290,6 @@ public class PlayerController implements MouseListener {  // handles player inpu
         popupMenu.setVisible(true);
 
         return choice[0];
-    }
-
-    public void makeWinFrame(Sides winner) {
-        JFrame winFrame = new JFrame();
-        JLabel winnerLabel = new JLabel(winner + " has won!!! Well played.");
-        winnerLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        winnerLabel.setVerticalAlignment(SwingConstants.CENTER);
-        winFrame.add(winnerLabel);
-        winFrame.setVisible(true);
-        winFrame.setSize(300, 300);
-        winFrame.setBackground(Color.pink);
-        winFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     @Override
