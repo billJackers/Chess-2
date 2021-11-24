@@ -20,6 +20,8 @@ public class StatsDisplay extends JPanel implements ActionListener {
     private Sides turn;
     private final Font clockFont;
 
+    private Timer globalClock;
+
     public StatsDisplay(Board board, int hours, int minutes, int seconds) {
         this.board = board;
 
@@ -42,20 +44,26 @@ public class StatsDisplay extends JPanel implements ActionListener {
         turn = Sides.BLUE;
         clockFont = new Font("Serif", Font.BOLD, HEADER_WIDTH/30);
 
-        Timer globalClock = new Timer(100, this);
+        globalClock = new Timer(100, this);
+
         globalClock.start();
     }
 
     public void paintComponent(Graphics g) {
+
         super.paintComponent(g);
         g.drawImage(background, 0, 0, null);  // background color of stats
         // while seemingly random, positions based on the width and height of the screen lets us alter the size of the board maintaining the correct ratios of text positions and sizes
         // drawing new clock states
         g.setFont(clockFont);
         g.setColor(new Color(56, 211, 255, 255));  // set a color before drawing text for text to be that color
-        g.drawString(blueClock.getTime(), HEADER_WIDTH*5/26, HEADER_HEIGHT/2);
+        if (blueClock.outOfTime() || redClock.outOfTime()) {
+            globalClock.stop();
+        }
+        g.drawString(blueClock.getTime(), HEADER_WIDTH * 5 / 26, HEADER_HEIGHT / 2);
         g.setColor(new Color(255, 29, 29, 255));
-        g.drawString(redClock.getTime(), HEADER_WIDTH*18/26, HEADER_HEIGHT/2);
+        g.drawString(redClock.getTime(), HEADER_WIDTH * 18 / 26, HEADER_HEIGHT / 2);
+
         switch (turn) {
             case BLUE -> g.setColor(new Color(56, 211, 255, 218));
             case RED -> g.setColor(new Color(255, 29, 29, 218));

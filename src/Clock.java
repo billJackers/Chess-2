@@ -13,7 +13,7 @@ public class Clock {
     }
 
     public boolean outOfTime() {
-        return hours == 0 && mins == 0 && secs == 0;
+        return (hours == 0 && mins == 0 && secs == 0) || (hours < 0);
     }
 
     public void decrement() {
