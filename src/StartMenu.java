@@ -68,6 +68,7 @@ public class StartMenu {
 
         hours.setMaximumSize(hours.getPreferredSize());
         minutes.setMaximumSize(minutes.getPreferredSize());
+        minutes.setSelectedIndex(10);  // defaults to 10 minutes
         seconds.setMaximumSize(minutes.getPreferredSize());
 
         timerSettings.add(hours);
