@@ -13,6 +13,7 @@ public abstract class Piece {
     protected Image image;
     protected Square parentSquare;
     protected boolean enPassantable;
+    protected boolean wasMoved;
 
     public Piece(Sides side, int size, Square initialSquare) {
         this.side = side;
@@ -264,6 +265,14 @@ public abstract class Piece {
 
     public void setEnPassantable(boolean b) {
         this.enPassantable = b;
+    }
+
+    public boolean getWasMoved() {
+        return wasMoved;
+    }
+
+    public void setToMoved() {
+        this.wasMoved = true;
     }
 
 //    public List<Square> getPawnAttacks(Sides s) {

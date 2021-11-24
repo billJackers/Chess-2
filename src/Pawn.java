@@ -6,8 +6,6 @@ public class Pawn extends Piece {
     private static final String IMAGES_PAWN_BLUE = "images/bpawn.png";
     private static final String IMAGES_PAWN_RED = "images/rpawn.png";
 
-    private boolean wasMoved;
-
     public Pawn(Sides side, int size, Square initSquare) {
         super(side, size, initSquare);
         wasMoved = false;
@@ -96,14 +94,6 @@ public class Pawn extends Piece {
         }
 
         return legalMoves;
-    }
-
-    public boolean getWasMoved() {
-        return wasMoved;
-    }
-
-    public void setToMoved() {
-        this.wasMoved = true;
     }
 
     @Override
