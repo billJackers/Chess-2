@@ -67,6 +67,10 @@ public class PlayerController implements MouseListener {  // handles player inpu
         this.legalMovesOfSelectedPiece = null;
     }
 
+    public void highlightSquare(Square selected) {
+        selected.setState(Square.ActionStates.HIGHLIGHTED);
+    }
+
     public void move(Square from, Square to) {
         Piece pieceToMove = from.getPiece();
 
@@ -305,7 +309,11 @@ public class PlayerController implements MouseListener {  // handles player inpu
     @Override
     public void mousePressed(MouseEvent e) {
         Square squareSelected = board.getSquareClicked(e.getX(), e.getY());
-        attemptMove(squareSelected);
+        if (SwingUtilities.isLeftMouseButton(e)) {
+            attemptMove(squareSelected);
+        } else if (SwingUtilities.isRightMouseButton(e)) {
+            highlightSquare(squareSelected);
+        }
     }
 
     @Override

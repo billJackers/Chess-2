@@ -9,7 +9,8 @@ public class Square extends JComponent {
         NONE,
         PLAYER_SELECTED,
         LEGAL_MOVE,
-        ARCHER_SHOT
+        ARCHER_SHOT,
+        HIGHLIGHTED
     }
 
     private Piece piece;
@@ -70,6 +71,7 @@ public class Square extends JComponent {
                 case PLAYER_SELECTED -> g.setColor(new Color(255, 229, 79));
                 case LEGAL_MOVE -> g.setColor(new Color(255, 205, 79));
                 case ARCHER_SHOT -> g.setColor(new Color(255, 93, 23));
+                case HIGHLIGHTED -> g.setColor(new Color(200, 100, 100));
             }
         }
         // System.out.println(this.getX() + " " + this.getY());
