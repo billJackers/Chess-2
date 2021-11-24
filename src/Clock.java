@@ -3,11 +3,13 @@ public class Clock {
     private int hours;
     private int mins;
     private int secs;
+    private int decisecs;
 
     public Clock(int h, int m, int s) {
         this.hours = h;
         this.mins = m;
         this.secs = s;
+        this.decisecs = 10;
     }
 
     public boolean outOfTime() {
@@ -22,8 +24,11 @@ public class Clock {
         } else if (this.secs == 0) {
             this.secs = 59;
             this.mins--;
-        } else {
+        } else if (this.decisecs == 0) {
+            this.decisecs = 9;
             this.secs--;
+        } else {
+            this.decisecs--;
         }
     }
 

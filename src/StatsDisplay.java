@@ -42,7 +42,7 @@ public class StatsDisplay extends JPanel implements ActionListener {
         turn = Sides.BLUE;
         clockFont = new Font("Serif", Font.BOLD, HEADER_WIDTH/30);
 
-        Timer globalClock = new Timer(1000, this);
+        Timer globalClock = new Timer(100, this);
         globalClock.start();
     }
 
