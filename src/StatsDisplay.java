@@ -47,11 +47,6 @@ public class StatsDisplay extends JPanel implements ActionListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(background, 0, 0, null);  // background color of stats
-        // determining which clock to decrement
-        switch (turn) {
-            case BLUE -> blueClock.decrement();
-            case RED -> redClock.decrement();
-        }
         // drawing new clock states
         g.drawString(blueClock.getTime(), 10, 10);
         g.drawString(redClock.getTime(), 100, 10);
@@ -60,6 +55,11 @@ public class StatsDisplay extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         turn = board.getController().getCurrentTurn();
+        // determining which clock to decrement
+        switch (turn) {
+            case BLUE -> blueClock.decrement();
+            case RED -> redClock.decrement();
+        }
         repaint();
     }
 

@@ -69,7 +69,7 @@ public class Square extends JComponent {
             switch (this.state) {  // If the tile currently has a unique state (ActionStates != none), then draw the state instead
                 case PLAYER_SELECTED -> g.setColor(new Color(255, 229, 79));
                 case LEGAL_MOVE -> g.setColor(new Color(255, 205, 79));
-                case ARCHER_SHOT -> g.setColor(new Color(255, 254, 184));
+                case ARCHER_SHOT -> g.setColor(new Color(255, 93, 23));
             }
         }
         // System.out.println(this.getX() + " " + this.getY());
