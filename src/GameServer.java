@@ -40,7 +40,7 @@ public class GameServer extends Thread {
         Socket connectionToClient = getServerSocket();
         // our board, also our gameloop
         Board board = new Board(connectionToClient, Sides.BLUE);  // the Server is the BLUE side
-        StatsDisplay stats = new StatsDisplay(board);  // stats displayer panel
+        StatsDisplay stats = new StatsDisplay(board, 0, 20, 0);  // stats displayer panel
 
         gameWindow.remove(waitingScreen);  // remove the "waiting for client" panel, as we have connected with the client
 

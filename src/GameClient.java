@@ -30,7 +30,7 @@ public class GameClient {
         } else {  // client connected to server
             // our board, also our gameloop
             Board board = new Board(connectionToServer, Sides.RED);  // the client is the RED side
-            StatsDisplay stats = new StatsDisplay(board);  // stats displayer panel
+            StatsDisplay stats = new StatsDisplay(board, 0, 10, 0);  // stats displayer panel
 
             gameWindow.add(stats, BorderLayout.NORTH); // creates the stats JPanel to display the games statistics above the board panel
             gameWindow.add(board, BorderLayout.SOUTH); // creates the board JPanel to draw on. This also initializes the game loop

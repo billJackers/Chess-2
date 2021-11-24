@@ -14,7 +14,7 @@ public class GameWindow {
 
         Board board = new Board(); // our board, also our gameloop
 
-        StatsDisplay stats = new StatsDisplay(board);  // stats displayer panel
+        StatsDisplay stats = new StatsDisplay(board, hours, minutes, seconds);  // stats displayer panel
         gameWindow.add(stats, BorderLayout.NORTH);
 
         //gameWindow.add(stats, BorderLayout.NORTH); // creates the stats JPanel to display the games statistics above the board panel

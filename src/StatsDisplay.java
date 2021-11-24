@@ -19,7 +19,7 @@ public class StatsDisplay extends JPanel implements ActionListener {
     private final Clock redClock;
     private Sides turn;
 
-    public StatsDisplay(Board board) {
+    public StatsDisplay(Board board, int hours, int minutes, int seconds) {
         this.board = board;
 
         // dimensions of this JPanel
@@ -36,8 +36,8 @@ public class StatsDisplay extends JPanel implements ActionListener {
             System.out.println("File not found: " + e.getMessage());
         }
 
-        redClock = new Clock(0, 10, 0);
-        blueClock = new Clock(0, 10, 0);
+        redClock = new Clock(hours, minutes, seconds);
+        blueClock = new Clock(hours, minutes, seconds);
         turn = Sides.BLUE;
 
         Timer globalClock = new Timer(1000, this);
