@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PlayerController implements MouseListener {  // handles player inputs
 
@@ -117,7 +118,7 @@ public class PlayerController implements MouseListener {  // handles player inpu
         }
 
         // Pawn promotions
-        if (to.getPiece() instanceof Pawn) {
+        if (to.getPiece() instanceof Pawn && !isPaused) {
             switch (to.getFile()) {
                 case 0 -> doPromotionEvent(to, Sides.RED);   // Red has made it to blue side
                 case 9 -> doPromotionEvent(to, Sides.BLUE);  // Blue has made it to red side
@@ -180,52 +181,31 @@ public class PlayerController implements MouseListener {  // handles player inpu
 
     public void doPromotionEvent(Square parent, Sides side) {
         isPaused = true;  // pause the game while doing promotions
-        JPopupMenu popupMenu = new JPopupMenu("Promote piece");
-        Piece[] pieces = {
-                new Queen(side, board.getSquareSize(), parent),
-                new Rook(side, board.getSquareSize(), parent),
-                new Bishop(side, board.getSquareSize(), parent),
-                new Knight(side, board.getSquareSize(), parent),
-                new RoyalGuard(side, board.getSquareSize(), parent),
-                new Archer(side, board.getSquareSize(), parent),
-                new Assassin(side, board.getSquareSize(), parent)
+        JComboBox popupMenu = new JComboBox();
+        String[] pieces = {
+                "Queen",
+                "Rook",
+                "Bishop",
+                "Knight",
+                "Royal Guard",
+                "Archer",
+                "Assassin",
         };
-        for (Piece piece : pieces) {
-            String pieceName = piece.getName();
-            JMenuItem menuItem = new JMenuItem(pieceName);
-            popupMenu.add(menuItem);
-            menuItem.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    parent.setPiece(piece);
-                    isPaused = false;
-                }
-            });
+        for (String piece : pieces) {
+            popupMenu.addItem(piece);
         }
-        popupMenu.addPopupMenuListener(new PopupMenuListener() {
-            @Override
-            public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-                System.out.println("bruh1");
-            }
-
-            @Override
-            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-                System.out.println("bruh2");
-                if (isPaused()) {
-                    popupMenu.setVisible(true);
-                }
-            }
-
-            @Override
-            public void popupMenuCanceled(PopupMenuEvent e) {
-                System.out.println("why are you closing");
-                if (isPaused()) {
-                    popupMenu.setVisible(true);
-                    //doPromotionEvent(parent, side);
-                }
-            }
-        });
-        popupMenu.show(board, 0, 0);
+        JOptionPane.showMessageDialog(null, popupMenu, "Promote piece", JOptionPane.QUESTION_MESSAGE);
+        String selected = (String) popupMenu.getSelectedItem();
+        switch (Objects.requireNonNull(selected)) {
+            case "Queen" -> parent.setPiece(new Queen(side, board.getSquareSize(), parent));
+            case "Rook" -> parent.setPiece(new Rook(side, board.getSquareSize(), parent));
+            case "Bishop" -> parent.setPiece(new Bishop(side, board.getSquareSize(), parent));
+            case "Knight" -> parent.setPiece(new Knight(side, board.getSquareSize(), parent));
+            case "Royal Guard" -> parent.setPiece(new RoyalGuard(side, board.getSquareSize(), parent));
+            case "Archer" -> parent.setPiece(new Archer(side, board.getSquareSize(), parent));
+            case "Assassin" -> parent.setPiece(new Assassin(side, board.getSquareSize(), parent));
+        }
+        isPaused = false;
     }
 
     public void unhighlightBoard() {
