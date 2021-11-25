@@ -292,6 +292,10 @@ public class PlayerController implements MouseListener {  // handles player inpu
         return choice[0];
     }
 
+    public void unhighlightBoard() {
+        for (Square s : board.getBoard()) s.setState(Square.ActionStates.NONE);
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
 
@@ -301,9 +305,17 @@ public class PlayerController implements MouseListener {  // handles player inpu
     public void mousePressed(MouseEvent e) {
         Square squareSelected = board.getSquareClicked(e.getX(), e.getY());
         if (SwingUtilities.isLeftMouseButton(e)) {
+            unhighlightBoard();
             attemptMove(squareSelected);
         } else if (SwingUtilities.isRightMouseButton(e)) {
-            highlightSquare(squareSelected);
+            try {
+                if (squareSelected.getState() == Square.ActionStates.HIGHLIGHTED)
+                    squareSelected.setState(Square.ActionStates.NONE);
+                else highlightSquare(squareSelected);
+                deselectCurrent();
+            } catch (Exception exception) {
+
+            }
         }
     }
 

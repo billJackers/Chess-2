@@ -57,6 +57,9 @@ public class Square extends JComponent {
         return oldPiece;
     }
     public void setState(ActionStates state) { this.state = state; }
+    public ActionStates getState() {
+        return this.state;
+    }
     public void clearPiece() { this.piece = null; }
 
     public void draw(Graphics g) {  // draws the background square and then the piece (if piece exists)
