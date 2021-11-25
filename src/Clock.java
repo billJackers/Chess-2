@@ -32,6 +32,17 @@ public class Clock {
         }
     }
 
+    public void increment(int s) {
+        if (this.secs+s >= 60) {
+            this.secs = (this.secs + s) / 60;
+            this.mins++;
+        } else this.secs += s;
+        if (this.mins == 60) {
+            this.mins = 0;
+            this.hours++;
+        }
+    }
+
     public String getTime() {
         String fHrs = String.format("%02d", this.hours);
         String fMins = String.format("%02d", this.mins);

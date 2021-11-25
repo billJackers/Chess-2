@@ -7,6 +7,8 @@ import javax.swing.*;
 
 public class GameWindow {
 
+    private PlayerController pc;
+
     public GameWindow(int hours, int minutes, int seconds) {
 
         JFrame gameWindow = new JFrame("Chess 2");
