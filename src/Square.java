@@ -90,11 +90,33 @@ public class Square extends JComponent {
             switch (state) {
                 case LEGAL_MOVE -> {
                     g.setColor(new Color(255, 205, 79));
-                    g.fillOval(this.getX()+centerOffset, this.getY()+centerOffset, circleSize, circleSize);  // draws a circle representing a possible move
+                    if (this.hasPiece()) {
+                        g.fillRect(this.getX(), this.getY(), size, size);
+                        switch (this.side) {
+                            case BLUE -> g.setColor(new Color(225, 209, 163));
+                            case RED -> g.setColor(new Color(196, 159, 117));
+                        }
+                        g.fillOval(this.getX(), this.getY(), size, size);
+                        this.getPiece().draw(g, this.getX(), this.getY());
+                    } else {
+                        g.fillOval(this.getX() + centerOffset, this.getY() + centerOffset, circleSize, circleSize);  // draws a circle representing a possible move
+                    }
                 }
+                // Archer target
                 case ARCHER_SHOT -> {
                     g.setColor(new Color(255, 93, 23));
-                    g.fillOval(this.getX()+centerOffset, this.getY()+centerOffset, circleSize, circleSize);
+                    g.fillOval(this.getX(), this.getY(), size, size);
+
+                    switch (this.side) {
+                        case BLUE -> g.setColor(new Color(225, 209, 163));
+                        case RED -> g.setColor(new Color(196, 159, 117));
+                    }
+                    circleSize = (size*2)/3;
+                    centerOffset = size/2-circleSize/2;
+                    g.fillOval(this.getX() + centerOffset, this.getY() + centerOffset, circleSize, circleSize);
+
+                    piece.draw(g, this.getX(), this.getY());
+
                 }
             }
         }
