@@ -63,29 +63,41 @@ public class Square extends JComponent {
     public void clearPiece() { this.piece = null; }
 
     public void draw(Graphics g) {  // draws the background square and then the piece (if piece exists)
-        if (this.state == ActionStates.NONE) {
-            switch (this.side) {  // draw the background square color
-                case BLUE -> g.setColor(new Color(225, 209, 163));
-                case RED -> g.setColor(new Color(196, 159, 117));
-            }
+
+        switch (this.side) {  // decides the background square color
+            case BLUE -> g.setColor(new Color(225, 209, 163));
+            case RED -> g.setColor(new Color(196, 159, 117));
         }
-        else {
-            switch (this.state) {  // If the tile currently has a unique state (ActionStates != none), then draw the state instead
-                case PLAYER_SELECTED -> g.setColor(new Color(255, 229, 79));
-                case LEGAL_MOVE -> g.setColor(new Color(255, 205, 79));
-                case ARCHER_SHOT -> g.setColor(new Color(255, 93, 23));
-                case HIGHLIGHTED -> g.setColor(new Color(200, 100, 100));
-            }
-        }
-        // System.out.println(this.getX() + " " + this.getY());
         int borderOffset = 2;
         int positionOffset = borderOffset/2;
-        g.fillRect(this.getX()+positionOffset, this.getY()+positionOffset, size-borderOffset, size-borderOffset);
+        g.fillRect(this.getX()+positionOffset, this.getY()+positionOffset, size-borderOffset, size-borderOffset);  // drawing background (side)
 
-        if(this.piece != null) {  // if there's a piece, draw the piece over the background
+        if (state != ActionStates.NONE) {  // draws ActionStates under pieces
+            switch (state) {
+                case PLAYER_SELECTED -> g.setColor(new Color(255, 229, 79));
+                case HIGHLIGHTED -> g.setColor(new Color(200, 100, 100));
+            }
+            g.fillRect(this.getX()+positionOffset, this.getY()+positionOffset, size-borderOffset, size-borderOffset);  // fills a background square
+        }
+
+        if (this.piece != null) {  // if there's a piece, draw the piece over the background
             piece.draw(g, this.getX(), this.getY());
         }
 
+        if (state != ActionStates.NONE) {  // draws ActionStates over pieces
+            int circleSize = size/3;
+            int centerOffset = size/2-circleSize/2;
+            switch (state) {
+                case LEGAL_MOVE -> {
+                    g.setColor(new Color(255, 205, 79));
+                    g.fillOval(this.getX()+centerOffset, this.getY()+centerOffset, circleSize, circleSize);  // draws a circle representing a possible move
+                }
+                case ARCHER_SHOT -> {
+                    g.setColor(new Color(255, 93, 23));
+                    g.fillOval(this.getX()+centerOffset, this.getY()+centerOffset, circleSize, circleSize);
+                }
+            }
+        }
     }
 
 }

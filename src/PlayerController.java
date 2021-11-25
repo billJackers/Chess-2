@@ -16,7 +16,7 @@ public class PlayerController implements MouseListener {  // handles player inpu
     private List<Square> targetsOfSelectedArcher;
     private ConnectionHandler connectionHandler = null;
 
-    private WinFrame winFrame;
+    private final WinFrame winFrame;
 
     public PlayerController(Board board) {
         previouslySelected = null;
@@ -37,7 +37,6 @@ public class PlayerController implements MouseListener {  // handles player inpu
     public void swapTurns() {
         if (currentTurn == Sides.BLUE) currentTurn = Sides.RED;
         else currentTurn = Sides.BLUE;
-        System.out.println("it is " + currentTurn.name() + "'s turn");
     }
 
 
@@ -60,7 +59,6 @@ public class PlayerController implements MouseListener {  // handles player inpu
         for (Square move : legalMovesOfSelectedPiece) {  // remove all legalMove highlights
             move.setState(Square.ActionStates.NONE);
         }
-        System.out.println(previouslySelected.getPiece());
         if (targetsOfSelectedArcher != null) { // if piece is archer
             for (Square shot : targetsOfSelectedArcher) { // unhighlight all archer shot squares
                 shot.setState(Square.ActionStates.NONE);
@@ -68,10 +66,6 @@ public class PlayerController implements MouseListener {  // handles player inpu
         }
         this.previouslySelected = null;  // cut the references
         this.legalMovesOfSelectedPiece = null;
-    }
-
-    public void highlightSquare(Square selected) {
-        selected.setState(Square.ActionStates.HIGHLIGHTED);
     }
 
     public void move(Square from, Square to) {
@@ -107,13 +101,15 @@ public class PlayerController implements MouseListener {  // handles player inpu
                     if (to.getFile() == 9) {
                         String promotionChoice = promote();
                         while (!promotionChoice.equals("")) {
-                            if (promotionChoice.equals("queen")) to.setPiece(new Queen(Sides.BLUE, 50, to));
-                            else if (promotionChoice.equals("rook")) to.setPiece(new Rook(Sides.BLUE, 50, to));
-                            else if (promotionChoice.equals("bishop")) to.setPiece(new Bishop(Sides.BLUE, 50, to));
-                            else if (promotionChoice.equals("knight")) to.setPiece(new Knight(Sides.BLUE, 50, to));
-                            else if (promotionChoice.equals("rg")) to.setPiece(new RoyalGuard(Sides.BLUE, 50, to));
-                            else if (promotionChoice.equals("assassin")) to.setPiece(new Assassin(Sides.BLUE, 50, to));
-                            else if (promotionChoice.equals("archer")) to.setPiece(new Archer(Sides.BLUE, 50, to));
+                            switch (promotionChoice) {
+                                case "queen" -> to.setPiece(new Queen(Sides.BLUE, 50, to));
+                                case "rook" -> to.setPiece(new Rook(Sides.BLUE, 50, to));
+                                case "bishop" -> to.setPiece(new Bishop(Sides.BLUE, 50, to));
+                                case "knight" -> to.setPiece(new Knight(Sides.BLUE, 50, to));
+                                case "rg" -> to.setPiece(new RoyalGuard(Sides.BLUE, 50, to));
+                                case "assassin" -> to.setPiece(new Assassin(Sides.BLUE, 50, to));
+                                case "archer" -> to.setPiece(new Archer(Sides.BLUE, 50, to));
+                            }
                         }
                     }
                 }
@@ -121,13 +117,15 @@ public class PlayerController implements MouseListener {  // handles player inpu
                     if (to.getFile() == 0) {
                         String promotionChoice = promote();
                         while (!promotionChoice.equals("")) {
-                            if (promotionChoice.equals("queen")) to.setPiece(new Queen(Sides.RED, 50, to));
-                            else if (promotionChoice.equals("rook")) to.setPiece(new Rook(Sides.RED, 50, to));
-                            else if (promotionChoice.equals("bishop")) to.setPiece(new Bishop(Sides.RED, 50, to));
-                            else if (promotionChoice.equals("knight")) to.setPiece(new Knight(Sides.RED, 50, to));
-                            else if (promotionChoice.equals("rg")) to.setPiece(new RoyalGuard(Sides.RED, 50, to));
-                            else if (promotionChoice.equals("assassin")) to.setPiece(new Assassin(Sides.RED, 50, to));
-                            else if (promotionChoice.equals("archer")) to.setPiece(new Archer(Sides.RED, 50, to));
+                            switch (promotionChoice) {
+                                case "queen" -> to.setPiece(new Queen(Sides.RED, 50, to));
+                                case "rook" -> to.setPiece(new Rook(Sides.RED, 50, to));
+                                case "bishop" -> to.setPiece(new Bishop(Sides.RED, 50, to));
+                                case "knight" -> to.setPiece(new Knight(Sides.RED, 50, to));
+                                case "rg" -> to.setPiece(new RoyalGuard(Sides.RED, 50, to));
+                                case "assassin" -> to.setPiece(new Assassin(Sides.RED, 50, to));
+                                case "archer" -> to.setPiece(new Archer(Sides.RED, 50, to));
+                            }
                         }
                     }
                 }
@@ -143,9 +141,8 @@ public class PlayerController implements MouseListener {  // handles player inpu
         }
 
         switch (pieceToMove.side) {
-            case BLUE: resetEnPassants(Sides.BLUE);
-            break;
-            case RED: resetEnPassants(Sides.RED);
+            case BLUE -> resetEnPassants(Sides.BLUE);
+            case RED -> resetEnPassants(Sides.RED);
         }
 
         if (pieceToMove instanceof Pawn) {
@@ -307,15 +304,10 @@ public class PlayerController implements MouseListener {  // handles player inpu
         if (SwingUtilities.isLeftMouseButton(e)) {
             unhighlightBoard();
             attemptMove(squareSelected);
-        } else if (SwingUtilities.isRightMouseButton(e)) {
-            try {
-                if (squareSelected.getState() == Square.ActionStates.HIGHLIGHTED)
-                    squareSelected.setState(Square.ActionStates.NONE);
-                else highlightSquare(squareSelected);
-                deselectCurrent();
-            } catch (Exception exception) {
-
-            }
+        } else if (SwingUtilities.isRightMouseButton(e)) {  // for highlighting squares
+            if (squareSelected.getState() == Square.ActionStates.HIGHLIGHTED)
+                squareSelected.setState(Square.ActionStates.NONE);
+            else squareSelected.setState(Square.ActionStates.HIGHLIGHTED);;
         }
     }
 

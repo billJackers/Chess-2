@@ -48,7 +48,6 @@ public class StatsDisplay extends JPanel implements ActionListener {
         clockFont = new Font("Serif", Font.BOLD, HEADER_WIDTH/30);
 
         globalClock = new Timer(100, this);
-
         globalClock.start();
     }
 
@@ -60,11 +59,6 @@ public class StatsDisplay extends JPanel implements ActionListener {
         // drawing new clock states
         g.setFont(clockFont);
         g.setColor(new Color(56, 211, 255, 255));  // set a color before drawing text for text to be that color
-        if (blueClock.outOfTime() || redClock.outOfTime()) {
-            globalClock.stop();
-            if (blueClock.outOfTime()) winFrame.makeWinFrame(Sides.RED);
-            else winFrame.makeWinFrame(Sides.BLUE);
-        }
         g.drawString(blueClock.getTime(), HEADER_WIDTH * 5 / 26, HEADER_HEIGHT / 2);
         g.setColor(new Color(255, 29, 29, 255));
         g.drawString(redClock.getTime(), HEADER_WIDTH * 18 / 26, HEADER_HEIGHT / 2);
@@ -83,6 +77,11 @@ public class StatsDisplay extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         turn = board.getController().getCurrentTurn();
+        if (blueClock.outOfTime() || redClock.outOfTime()) {
+            globalClock.stop();
+            if (blueClock.outOfTime()) winFrame.makeWinFrame(Sides.RED);
+            else winFrame.makeWinFrame(Sides.BLUE);
+        }
         // determining which clock to decrement
         switch (turn) {
             case BLUE -> blueClock.decrement();
