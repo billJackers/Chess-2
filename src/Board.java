@@ -30,7 +30,7 @@ public class Board extends JPanel implements ActionListener {
         timer.start();
 
         initializeSquares();
-        generateBoardState("rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCpS/RBRBQKBRBR");
+        generateBoardState("rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBRBQKBRBR");
 
         // PlayerController to handle mouse input
         controller = new PlayerController(this);
