@@ -180,52 +180,85 @@ public class PlayerController implements MouseListener {  // handles player inpu
 
     public void doPromotionEvent(Square parent, Sides side) {
         isPaused = true;  // pause the game while doing promotions
-        JPopupMenu popupMenu = new JPopupMenu("Promote piece");
-        Piece[] pieces = {
-                new Queen(side, board.getSquareSize(), parent),
-                new Rook(side, board.getSquareSize(), parent),
-                new Bishop(side, board.getSquareSize(), parent),
-                new Knight(side, board.getSquareSize(), parent),
-                new RoyalGuard(side, board.getSquareSize(), parent),
-                new Archer(side, board.getSquareSize(), parent),
-                new Assassin(side, board.getSquareSize(), parent)
-        };
-        for (Piece piece : pieces) {
-            String pieceName = piece.getName();
-            JMenuItem menuItem = new JMenuItem(pieceName);
-            popupMenu.add(menuItem);
-            menuItem.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    parent.setPiece(piece);
-                    isPaused = false;
-                }
-            });
-        }
-        popupMenu.addPopupMenuListener(new PopupMenuListener() {
-            @Override
-            public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-                System.out.println("bruh1");
-            }
+        JFrame popupMenu = new JFrame("Promote piece");
+        JPanel menu = new JPanel();
 
+        Button queenBtn = new Button("Queen");
+        Button rookBtn = new Button("Rook");
+        Button bishopBtn = new Button("Bishop");
+        Button knightBtn = new Button("Knight");
+        Button rgBtn = new Button("Royal Guard");
+        Button archerBtn = new Button("Archer");
+        Button assassinBtn = new Button("Assassin");
+        menu.add(queenBtn);
+        menu.add(rookBtn);
+        menu.add(bishopBtn);
+        menu.add(knightBtn);
+        menu.add(rgBtn);
+        menu.add(archerBtn);
+        menu.add(assassinBtn);
+        queenBtn.addActionListener(new ActionListener() {
             @Override
-            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-                System.out.println("bruh2");
-                if (isPaused()) {
-                    popupMenu.setVisible(true);
-                }
-            }
-
-            @Override
-            public void popupMenuCanceled(PopupMenuEvent e) {
-                System.out.println("why are you closing");
-                if (isPaused()) {
-                    popupMenu.setVisible(true);
-                    //doPromotionEvent(parent, side);
-                }
+            public void actionPerformed(ActionEvent e) {
+                parent.setPiece(new Queen(side, board.getSquareSize(), parent));
+                isPaused = false;
+                popupMenu.dispose();
             }
         });
-        popupMenu.show(board, 0, 0);
+        rookBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parent.setPiece(new Rook(side, board.getSquareSize(), parent));
+                isPaused = false;
+                popupMenu.dispose();
+            }
+        });
+        bishopBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parent.setPiece(new Bishop(side, board.getSquareSize(), parent));
+                isPaused = false;
+                popupMenu.dispose();
+            }
+        });
+        knightBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parent.setPiece(new Knight(side, board.getSquareSize(), parent));
+                isPaused = false;
+                popupMenu.dispose();
+            }
+        });
+        rgBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parent.setPiece(new RoyalGuard(side, board.getSquareSize(), parent));
+                isPaused = false;
+                popupMenu.dispose();
+            }
+        });
+        archerBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parent.setPiece(new Archer(side, board.getSquareSize(), parent));
+                isPaused = false;
+                popupMenu.dispose();
+            }
+        });
+        assassinBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parent.setPiece(new Assassin(side, board.getSquareSize(), parent));
+                isPaused = false;
+                popupMenu.dispose();
+            }
+        });
+
+
+        popupMenu.add(menu);
+        popupMenu.setSize(50, 200);
+        popupMenu.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        popupMenu.setVisible(true);
     }
 
     public void unhighlightBoard() {
