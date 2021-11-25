@@ -15,6 +15,8 @@ public class Pawn extends Piece {
         }
     }
 
+    public String getName() { return "Pawn"; }
+
     @Override
     public List<Square> getLegalMoves(Board board) {
         List<Square> legalMoves = new ArrayList<>();

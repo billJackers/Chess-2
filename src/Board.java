@@ -10,7 +10,7 @@ public class Board extends JPanel implements ActionListener {
     private static final int FILE_SIZE = 10; // columns
     private static final int RANK_SIZE = 10; // rows
 
-    private PlayerController controller;
+    private final PlayerController controller;
 
     private final Square[] board = new Square[100];
 
@@ -42,6 +42,7 @@ public class Board extends JPanel implements ActionListener {
             connectionHandler = new ConnectionHandler(connection, controller, playerSide);
     }
 
+    // getters
     @Override //  all i have to say is bruh
     public int getHeight() {
         return SQUARE_SIZE*FILE_SIZE;
@@ -50,6 +51,8 @@ public class Board extends JPanel implements ActionListener {
     public int getWidth() {
         return SQUARE_SIZE*RANK_SIZE;
     }
+
+    public int getSquareSize() { return SQUARE_SIZE; }
 
     public Square[] getBoard() {
         return board;
@@ -61,6 +64,10 @@ public class Board extends JPanel implements ActionListener {
 
     public int getFileSize() {
         return FILE_SIZE;
+    }
+
+    public PlayerController getController() {
+        return controller;
     }
 
     @Override
@@ -147,9 +154,4 @@ public class Board extends JPanel implements ActionListener {
         int boardPos = file * FILE_SIZE + rank;  // calculate the position instead of looping through in for loop
         return board[boardPos];
     }
-
-    public PlayerController getController() {
-        return controller;
-    }
-
 }

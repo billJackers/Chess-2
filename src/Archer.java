@@ -19,6 +19,8 @@ public class Archer extends Piece {
         return super.getKingLegalMoves(board);
     }
 
+    public String getName() { return "Archer"; }
+
     @Override
     public List<Square> getTargets(Board board) {
         List<Square> targets = new ArrayList<>();

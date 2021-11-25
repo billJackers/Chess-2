@@ -15,6 +15,8 @@ public class Queen extends Piece {
         }
     }
 
+    public String getName() { return "Queen"; }
+
     public List<Square> getLegalMoves(Board board) {
         List<Square> legalMoves = new ArrayList<>();
         legalMoves.addAll(getBishopLegalMoves(board));

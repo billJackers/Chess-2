@@ -14,6 +14,8 @@ public class Bishop extends Piece {
         }
     }
 
+    public String getName() { return "Bishop"; }
+
     @Override
     public List<Square> getLegalMoves(Board board) {
         return getBishopLegalMoves(board);

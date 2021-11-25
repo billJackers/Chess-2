@@ -14,6 +14,8 @@ public class Rook extends Piece {
         }
     }
 
+    public String getName() { return "Rook"; }
+
     public List<Square> getLegalMoves(Board board) {
         return getRookLegalMoves(board);
     }

@@ -43,6 +43,8 @@ public abstract class Piece {
 
     public abstract List<Square> getLegalMoves(Board board);
 
+    public abstract String getName();
+
     // This is for the bombers and archers
     public abstract List<Square> getTargets(Board board);
 

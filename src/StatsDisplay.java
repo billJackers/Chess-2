@@ -76,6 +76,9 @@ public class StatsDisplay extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        if (board.getController().isPaused()) return;  // if the game is paused, don't do any actions
+
         turn = board.getController().getCurrentTurn();
         if (blueClock.outOfTime() || redClock.outOfTime()) {
             globalClock.stop();

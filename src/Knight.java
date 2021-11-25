@@ -15,6 +15,8 @@ public class Knight extends Piece {
         }
     }
 
+    public String getName() { return "Knight"; }
+
     public List<Square> getLegalMoves(Board board) {
 
         ArrayList<Square> legalMoves = new ArrayList<>();

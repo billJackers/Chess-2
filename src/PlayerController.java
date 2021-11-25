@@ -1,9 +1,8 @@
 import javax.swing.*;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +15,8 @@ public class PlayerController implements MouseListener {  // handles player inpu
     private List<Square> targetsOfSelectedArcher;
     private ConnectionHandler connectionHandler = null;
 
+    private boolean isPaused = false;
+
     private final WinFrame winFrame;
 
     public PlayerController(Board board) {
@@ -25,6 +26,8 @@ public class PlayerController implements MouseListener {  // handles player inpu
         board.addMouseListener(this); // OOP black magic
         winFrame = new WinFrame();
     }
+
+    public boolean isPaused() { return isPaused; }
 
     public void setConnectionHandler(ConnectionHandler connectionHandler) {
         this.connectionHandler = connectionHandler;
@@ -91,45 +94,7 @@ public class PlayerController implements MouseListener {  // handles player inpu
         } else to.setPiece(pieceToMove);
 
         if (to.getPiece() instanceof Pawn) {
-            ((Pawn) to.getPiece()).setToMoved();
-        }
-
-        // Pawn promotions
-        if (to.getPiece() instanceof Pawn) {
-            switch (to.getPiece().side) {
-                case BLUE -> {
-                    if (to.getFile() == 9) {
-                        String promotionChoice = promote();
-                        while (!promotionChoice.equals("")) {
-                            switch (promotionChoice) {
-                                case "queen" -> to.setPiece(new Queen(Sides.BLUE, 50, to));
-                                case "rook" -> to.setPiece(new Rook(Sides.BLUE, 50, to));
-                                case "bishop" -> to.setPiece(new Bishop(Sides.BLUE, 50, to));
-                                case "knight" -> to.setPiece(new Knight(Sides.BLUE, 50, to));
-                                case "rg" -> to.setPiece(new RoyalGuard(Sides.BLUE, 50, to));
-                                case "assassin" -> to.setPiece(new Assassin(Sides.BLUE, 50, to));
-                                case "archer" -> to.setPiece(new Archer(Sides.BLUE, 50, to));
-                            }
-                        }
-                    }
-                }
-                case RED -> {
-                    if (to.getFile() == 0) {
-                        String promotionChoice = promote();
-                        while (!promotionChoice.equals("")) {
-                            switch (promotionChoice) {
-                                case "queen" -> to.setPiece(new Queen(Sides.RED, 50, to));
-                                case "rook" -> to.setPiece(new Rook(Sides.RED, 50, to));
-                                case "bishop" -> to.setPiece(new Bishop(Sides.RED, 50, to));
-                                case "knight" -> to.setPiece(new Knight(Sides.RED, 50, to));
-                                case "rg" -> to.setPiece(new RoyalGuard(Sides.RED, 50, to));
-                                case "assassin" -> to.setPiece(new Assassin(Sides.RED, 50, to));
-                                case "archer" -> to.setPiece(new Archer(Sides.RED, 50, to));
-                            }
-                        }
-                    }
-                }
-            }
+            to.getPiece().setToMoved();
         }
 
         // En Passant
@@ -151,6 +116,13 @@ public class PlayerController implements MouseListener {  // handles player inpu
             if (Math.abs(toPos-fromPos) == 20) to.getPiece().setEnPassantable(true);
         }
 
+        // Pawn promotions
+        if (to.getPiece() instanceof Pawn) {
+            switch (to.getFile()) {
+                case 0 -> doPromotionEvent(to, Sides.RED);   // Red has made it to blue side
+                case 9 -> doPromotionEvent(to, Sides.BLUE);  // Blue has made it to red side
+            }
+        }
     }
 
     public void attemptMove(Square selected) {
@@ -173,7 +145,6 @@ public class PlayerController implements MouseListener {  // handles player inpu
                     swapTurns();
                 }
             }
-
             deselectCurrent();  // clear board states on after this click
         } else {  //
             if (selected.hasPiece()) {
@@ -207,86 +178,54 @@ public class PlayerController implements MouseListener {  // handles player inpu
         }
     }
 
-    public String promote() {
-        JPopupMenu popupMenu = new JPopupMenu();
-        JMenuItem queenItem = new JMenuItem("Queen");
-        JMenuItem rookItem = new JMenuItem("Rook");
-        JMenuItem bishopItem = new JMenuItem("Bishop");
-        JMenuItem knightItem = new JMenuItem("Knight");
-        JMenuItem rgItem = new JMenuItem("Royal Guard");
-        JMenuItem archerItem = new JMenuItem("Archer");
-        JMenuItem assassinItem = new JMenuItem("Assassin");
-
-        popupMenu.add(queenItem);
-        popupMenu.add(rookItem);
-        popupMenu.add(bishopItem);
-        popupMenu.add(knightItem);
-        popupMenu.add(rgItem);
-        popupMenu.add(archerItem);
-        popupMenu.add(assassinItem);
-
-        final String[] choice = {""};
-
-        queenItem.addActionListener(new ActionListener() {
+    public void doPromotionEvent(Square parent, Sides side) {
+        isPaused = true;  // pause the game while doing promotions
+        JPopupMenu popupMenu = new JPopupMenu("Promote piece");
+        Piece[] pieces = {
+                new Queen(side, board.getSquareSize(), parent),
+                new Rook(side, board.getSquareSize(), parent),
+                new Bishop(side, board.getSquareSize(), parent),
+                new Knight(side, board.getSquareSize(), parent),
+                new RoyalGuard(side, board.getSquareSize(), parent),
+                new Archer(side, board.getSquareSize(), parent),
+                new Assassin(side, board.getSquareSize(), parent)
+        };
+        for (Piece piece : pieces) {
+            String pieceName = piece.getName();
+            JMenuItem menuItem = new JMenuItem(pieceName);
+            popupMenu.add(menuItem);
+            menuItem.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    parent.setPiece(piece);
+                    isPaused = false;
+                }
+            });
+        }
+        popupMenu.addPopupMenuListener(new PopupMenuListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                choice[0] = "queen";
-                popupMenu.setVisible(false);
+            public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+                System.out.println("bruh1");
+            }
+
+            @Override
+            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+                System.out.println("bruh2");
+                if (isPaused()) {
+                    popupMenu.setVisible(true);
+                }
+            }
+
+            @Override
+            public void popupMenuCanceled(PopupMenuEvent e) {
+                System.out.println("why are you closing");
+                if (isPaused()) {
+                    popupMenu.setVisible(true);
+                    //doPromotionEvent(parent, side);
+                }
             }
         });
-
-        rookItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                choice[0] = "rook";
-                popupMenu.setVisible(false);
-            }
-        });
-
-        bishopItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                choice[0] = "bishop";
-                popupMenu.setVisible(false);
-            }
-        });
-
-        knightItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                choice[0] = "knight";
-                popupMenu.setVisible(false);
-            }
-        });
-
-        rgItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                choice[0] = "rg";
-                popupMenu.setVisible(false);
-            }
-        });
-
-        archerItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                choice[0] = "archer";
-                popupMenu.setVisible(false);
-            }
-        });
-
-        assassinItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                choice[0] = "assassin";
-                popupMenu.setVisible(false);
-            }
-        });
-
-        popupMenu.setSize(popupMenu.getMinimumSize());
-        popupMenu.setVisible(true);
-
-        return choice[0];
+        popupMenu.show(board, 0, 0);
     }
 
     public void unhighlightBoard() {
@@ -300,6 +239,9 @@ public class PlayerController implements MouseListener {  // handles player inpu
 
     @Override
     public void mousePressed(MouseEvent e) {
+
+        if (isPaused()) return;  // if the game is paused, disregard mouse events
+
         Square squareSelected = board.getSquareClicked(e.getX(), e.getY());
         if (SwingUtilities.isLeftMouseButton(e)) {
             unhighlightBoard();

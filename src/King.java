@@ -16,6 +16,8 @@ public class King extends Piece {
         }
     }
 
+    public String getName() { return "King"; }
+
     public List<Square> getLegalMoves(Board board) {
         return getKingLegalMoves(board);
     }
