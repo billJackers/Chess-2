@@ -305,6 +305,7 @@ public class PlayerController implements MouseListener {  // handles player inpu
             unhighlightBoard();
             attemptMove(squareSelected);
         } else if (SwingUtilities.isRightMouseButton(e)) {  // for highlighting squares
+            if (previouslySelected != null) deselectCurrent();
             if (squareSelected.getState() == Square.ActionStates.HIGHLIGHTED)
                 squareSelected.setState(Square.ActionStates.NONE);
             else squareSelected.setState(Square.ActionStates.HIGHLIGHTED);;
