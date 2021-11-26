@@ -181,7 +181,7 @@ public class PlayerController implements MouseListener {  // handles player inpu
 
     public void doPromotionEvent(Square parent, Sides side) {
         isPaused = true;  // pause the game while doing promotions
-        JComboBox popupMenu = new JComboBox();
+        JComboBox<String> popupMenu = new JComboBox<>();
         String[] pieces = {
                 "Queen",
                 "Rook",

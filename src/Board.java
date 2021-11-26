@@ -39,7 +39,7 @@ public class Board extends JPanel implements ActionListener {
         ConnectionHandler connectionHandler;
 
         if (connection != null)  // if we are doing multiplayer, instantiate ConnectionHandler
-            connectionHandler = new ConnectionHandler(connection, controller, playerSide);
+            connectionHandler = new ConnectionHandler(connection, controller, playerSide, this);
     }
 
     // getters
