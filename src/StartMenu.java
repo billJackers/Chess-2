@@ -50,21 +50,13 @@ public class StartMenu {
         startMenu.setResizable(false);
 
         // For dividing the screen into two sides: the singleplayer and multiplayer sections
-        Image background;
         String backgroundPath = "images/menuscreen.png";
-        try {
-            BufferedImage bg = ImageIO.read(Objects.requireNonNull(getClass().getResource(backgroundPath)));
-            background = bg.getScaledInstance(300, 300, Image.SCALE_DEFAULT); // scale the image based on game configurations
-        } catch (IOException e) {
-            System.out.println("File not found: " + e.getMessage());
-            return;
-        }
-        JPanel menuLayout = new JPanel();
+        MenuPanel menuLayout = new MenuPanel(backgroundPath);
         menuLayout.setLayout(new GridLayout(1, 2));
-        MenuImage menuImage = new MenuImage(background);
 
         // singleplayer section
         JPanel singlePlayerMenu = new JPanel();
+        singlePlayerMenu.setOpaque(false);
         JLabel singlePlayerHeader = new JLabel("Singleplayer");
         singlePlayerMenu.setLayout(new FlowLayout(FlowLayout.CENTER));
         Button quickStartBtn = new Button("Quick start");
@@ -105,6 +97,7 @@ public class StartMenu {
 
         // multiplayer section
         JPanel multiPlayerMenu = new JPanel();
+        multiPlayerMenu.setOpaque(false);
         JLabel multiPlayerHeader = new JLabel("Multiplayer");
         multiPlayerMenu.setLayout(new FlowLayout(FlowLayout.CENTER));
         Button serverBtn = new Button("Host a local game");
@@ -129,9 +122,24 @@ public class StartMenu {
         menuLayout.add(singlePlayerMenu);
         menuLayout.add(multiPlayerMenu);
         menuLayout.setVisible(true);
-        menuImage.setVisible(true);
-        startMenu.add(menuImage, BorderLayout.NORTH);
         startMenu.add(menuLayout, BorderLayout.CENTER);
         startMenu.setVisible(true);
     }
+
+    class MenuPanel extends JPanel {
+        private Image backgroundImage;
+        public MenuPanel(String img) {
+            try {
+                BufferedImage bg = ImageIO.read(Objects.requireNonNull(getClass().getResource(img)));
+                backgroundImage = bg.getScaledInstance(300, 300, Image.SCALE_DEFAULT); // scale the image based on game configurations
+            } catch (IOException e) {
+                System.out.println("File not found: " + e.getMessage());
+            }
+        }
+        @Override
+        public void paintComponent(Graphics g) {
+            g.drawImage(backgroundImage, 0, 0, null);
+        }
+    }
+
 }
