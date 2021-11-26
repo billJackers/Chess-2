@@ -23,9 +23,9 @@ import javax.swing.JTextField;
 
 public class StartMenu {
 
-    private class MenuLayout extends JPanel {
-        private Image bg;
-        public MenuLayout(Image background){
+    private class MenuImage extends JPanel {
+        private final Image bg;
+        public MenuImage(Image background){
             bg = background;
         }
         public void paintComponent(Graphics g) {
@@ -42,7 +42,7 @@ public class StartMenu {
 
     public void initialize() {
         startMenu = new JFrame();
-        startMenu.setLayout(new BorderLayout(10, 5));
+        startMenu.setLayout(new BorderLayout());
         startMenu.setTitle("Chess 2");
         startMenu.setSize(300, 300);
         startMenu.setLocationRelativeTo(null);
@@ -59,8 +59,9 @@ public class StartMenu {
             System.out.println("File not found: " + e.getMessage());
             return;
         }
-        MenuLayout menuLayout = new MenuLayout(background);
-        menuLayout.setLayout(new GridLayout());
+        JPanel menuLayout = new JPanel();
+        menuLayout.setLayout(new GridLayout(1, 2));
+        MenuImage menuImage = new MenuImage(background);
 
         // singleplayer section
         JPanel singlePlayerMenu = new JPanel();
@@ -128,7 +129,9 @@ public class StartMenu {
         menuLayout.add(singlePlayerMenu);
         menuLayout.add(multiPlayerMenu);
         menuLayout.setVisible(true);
-        startMenu.add(menuLayout);
+        menuImage.setVisible(true);
+        startMenu.add(menuImage, BorderLayout.NORTH);
+        startMenu.add(menuLayout, BorderLayout.CENTER);
         startMenu.setVisible(true);
     }
 }
