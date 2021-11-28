@@ -15,8 +15,6 @@ public class StatsDisplay extends JPanel implements ActionListener {
     private final Board board;
     private Image background;
 
-    private final Clock blueClock;
-    private final Clock redClock;
     private Sides turn;
     private final Font clockFont;
 
@@ -42,8 +40,6 @@ public class StatsDisplay extends JPanel implements ActionListener {
             System.out.println("File not found: " + e.getMessage());
         }
 
-        redClock = new Clock(hours, minutes, seconds);
-        blueClock = new Clock(hours, minutes, seconds);
         turn = Sides.BLUE;
         clockFont = new Font("Serif", Font.BOLD, HEADER_WIDTH/30);
 
@@ -59,9 +55,9 @@ public class StatsDisplay extends JPanel implements ActionListener {
         // drawing new clock states
         g.setFont(clockFont);
         g.setColor(new Color(56, 211, 255, 255));  // set a color before drawing text for text to be that color
-        g.drawString(blueClock.getTime(), HEADER_WIDTH * 5 / 26, HEADER_HEIGHT / 2);
+        g.drawString(board.getController().getbClock().getTime(), HEADER_WIDTH * 5 / 26, HEADER_HEIGHT / 2);
         g.setColor(new Color(255, 29, 29, 255));
-        g.drawString(redClock.getTime(), HEADER_WIDTH * 18 / 26, HEADER_HEIGHT / 2);
+        g.drawString(board.getController().getrClock().getTime(), HEADER_WIDTH * 18 / 26, HEADER_HEIGHT / 2);
 
         switch (turn) {
             case BLUE -> g.setColor(new Color(56, 211, 255, 218));
@@ -80,15 +76,15 @@ public class StatsDisplay extends JPanel implements ActionListener {
         if (board.getController().isPaused()) return;  // if the game is paused, don't do any actions
 
         turn = board.getController().getCurrentTurn();
-        if (blueClock.outOfTime() || redClock.outOfTime()) {
+        if (board.getController().getbClock().outOfTime() || board.getController().getrClock().outOfTime()) {
             globalClock.stop();
-            if (blueClock.outOfTime()) winFrame.makeWinFrame(Sides.RED);
+            if (board.getController().getbClock().outOfTime()) winFrame.makeWinFrame(Sides.RED);
             else winFrame.makeWinFrame(Sides.BLUE);
         }
         // determining which clock to decrement
         switch (turn) {
-            case BLUE -> blueClock.decrement();
-            case RED -> redClock.decrement();
+            case BLUE -> board.getController().getbClock().decrement();
+            case RED -> board.getController().getrClock().decrement();
         }
         repaint();
     }

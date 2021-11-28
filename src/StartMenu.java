@@ -71,9 +71,15 @@ public class StartMenu {
             if (i < 10) hourInts[i] = "0" + i;
             else hourInts[i] = Integer.toString(i);
         }
+        final String[] incrementInts = new String[11];
+        for (int i = 0; i < 11; i++) {
+            if (i < 10) incrementInts[i] = "0" + i;
+            else hourInts[i] = Integer.toString(i);
+        }
         final JComboBox<String> seconds = new JComboBox<>(minSecInts);
         final JComboBox<String> minutes = new JComboBox<>(minSecInts);
         final JComboBox<String> hours = new JComboBox<>(hourInts);
+        final JComboBox<String> increment = new JComboBox<>(incrementInts);
         Box timerSettings = Box.createHorizontalBox();
         hours.setMaximumSize(hours.getPreferredSize());
         minutes.setMaximumSize(minutes.getPreferredSize());
@@ -82,6 +88,7 @@ public class StartMenu {
         timerSettings.add(hours);
         timerSettings.add(minutes);
         timerSettings.add(seconds);
+        timerSettings.add(increment);
         singlePlayerMenu.add(singlePlayerHeader);
         singlePlayerMenu.add(timerSettings);
         singlePlayerMenu.add(quickStartBtn);
@@ -91,7 +98,9 @@ public class StartMenu {
                 int h = Integer.parseInt((String) hours.getSelectedItem());
                 int m = Integer.parseInt((String) minutes.getSelectedItem());
                 int s = Integer.parseInt((String) seconds.getSelectedItem());
-                new GameWindow(h, m, s);
+                int i = Integer.parseInt((String) increment.getSelectedItem());
+                new GameWindow(h, m, s, i);
+
             }
         });
 

@@ -7,14 +7,14 @@ import javax.swing.*;
 
 public class GameWindow {
 
-    private PlayerController pc;
-
-    public GameWindow(int hours, int minutes, int seconds) {
+    public GameWindow(int hours, int minutes, int seconds, int increment) {
 
         JFrame gameWindow = new JFrame("Chess 2");
         gameWindow.setLocationRelativeTo(null);
 
         Board board = new Board(); // our board, also our gameloop
+
+        board.getController().setClocks(hours, minutes, seconds, increment);
 
         StatsDisplay stats = new StatsDisplay(board, hours, minutes, seconds);  // stats displayer panel
         gameWindow.add(stats, BorderLayout.NORTH);

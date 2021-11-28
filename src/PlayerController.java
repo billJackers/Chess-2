@@ -20,6 +20,10 @@ public class PlayerController implements MouseListener {  // handles player inpu
 
     private final WinFrame winFrame;
 
+    private Clock bClock;
+    private Clock rClock;
+    private int increment;
+
     public PlayerController(Board board) {
         previouslySelected = null;
         currentTurn = Sides.BLUE;
@@ -124,6 +128,12 @@ public class PlayerController implements MouseListener {  // handles player inpu
                 case 9 -> doPromotionEvent(to, Sides.BLUE);  // Blue has made it to red side
             }
         }
+
+        switch (to.getPiece().getSide()) {
+            case BLUE -> bClock.increment(increment);
+            case RED -> rClock.increment(increment);
+        }
+
     }
 
     public void attemptMove(Square selected) {
@@ -206,6 +216,20 @@ public class PlayerController implements MouseListener {  // handles player inpu
             case "Assassin" -> parent.setPiece(new Assassin(side, board.getSquareSize(), parent));
         }
         isPaused = false;
+    }
+
+    public Clock getbClock() {
+        return bClock;
+    }
+
+    public Clock getrClock() {
+        return rClock;
+    }
+
+    public void setClocks(int hours, int minutes, int seconds, int increment) {
+        this.bClock = new Clock(hours, minutes, seconds);
+        this.rClock = new Clock(hours, minutes, seconds);
+        this.increment = increment;
     }
 
     public void unhighlightBoard() {
