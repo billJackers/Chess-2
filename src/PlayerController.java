@@ -79,10 +79,39 @@ public class PlayerController implements MouseListener {  // handles player inpu
     public void move(Square from, Square to) {
         Piece pieceToMove = from.getPiece();
 
+        switch (pieceToMove.getSide()) {
+            case BLUE -> bClock.increment(increment);
+            case RED -> rClock.increment(increment);
+        }
+
         boolean enPassantMove = false;
 
         if (pieceToMove instanceof Pawn) {
             if (!to.hasPiece()) enPassantMove = true;
+        }
+
+        if (to.hasPiece() && to.getPiece() instanceof Bomber) {
+            boolean rKingBlown = false;
+            boolean bKingBlown = false;
+            for (Square square : to.getPiece().getTargets(board)) {
+                if (square.hasPiece() && square.getPiece() instanceof King) {
+                    switch (square.getPiece().side) {
+                        case BLUE -> {
+                            bKingBlown = true;
+                        }
+                        case RED -> {
+                            rKingBlown = true;
+                        }
+                    }
+                }
+            }
+            if (rKingBlown && bKingBlown) {
+                System.out.println("Draw");
+            } else if (rKingBlown) {
+                winFrame.makeWinFrame(Sides.BLUE);
+            } else if (bKingBlown) {
+                winFrame.makeWinFrame(Sides.RED);
+            }
         }
 
         from.clearPiece();
@@ -129,11 +158,6 @@ public class PlayerController implements MouseListener {  // handles player inpu
             }
         }
 
-        switch (to.getPiece().getSide()) {
-            case BLUE -> bClock.increment(increment);
-            case RED -> rClock.increment(increment);
-        }
-
     }
 
     public void attemptMove(Square selected) {
@@ -152,7 +176,17 @@ public class PlayerController implements MouseListener {  // handles player inpu
                 }
                 if (pieceToMove instanceof Archer && pieceToMove.getTargets(board).contains(selected)) {  // COMMENT YOUR CODE <-----------------------
                     if (selected.getPiece() instanceof Bomber) explode(selected);
-                    else selected.clearPiece();
+                    else {
+                        selected.clearPiece();
+                        switch (pieceToMove.getSide()) {
+                            case BLUE -> {
+                                bClock.increment(increment);
+                            }
+                            case RED -> {
+                                rClock.increment(increment);
+                            }
+                        }
+                    }
                     swapTurns();
                 }
             }
