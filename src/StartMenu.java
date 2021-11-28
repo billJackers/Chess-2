@@ -74,7 +74,7 @@ public class StartMenu {
         final String[] incrementInts = new String[11];
         for (int i = 0; i < 11; i++) {
             if (i < 10) incrementInts[i] = "0" + i;
-            else hourInts[i] = Integer.toString(i);
+            else incrementInts[i] = Integer.toString(i);
         }
         final JComboBox<String> seconds = new JComboBox<>(minSecInts);
         final JComboBox<String> minutes = new JComboBox<>(minSecInts);
