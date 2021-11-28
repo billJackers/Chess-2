@@ -10,7 +10,10 @@ public class Square extends JComponent {
         PLAYER_SELECTED,
         LEGAL_MOVE,
         ARCHER_SHOT,
-        HIGHLIGHTED
+        HIGHLIGHTED1,
+        HIGHLIGHTED2,
+        HIGHLIGHTED3,
+        HIGHLIGHTED4
     }
 
     private Piece piece;
@@ -75,7 +78,7 @@ public class Square extends JComponent {
         if (state != ActionStates.NONE) {  // draws ActionStates under pieces
             switch (state) {
                 case PLAYER_SELECTED -> g.setColor(new Color(255, 229, 79));
-                case HIGHLIGHTED -> g.setColor(new Color(200, 100, 100));
+                case HIGHLIGHTED1 -> g.setColor(new Color(200, 100, 100));
             }
             g.fillRect(this.getX()+positionOffset, this.getY()+positionOffset, size-borderOffset, size-borderOffset);  // fills a background square
         }
