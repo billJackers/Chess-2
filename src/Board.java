@@ -29,6 +29,9 @@ public class Board extends JPanel implements ActionListener {
         Timer timer = new Timer(DELAY, this);
         timer.start();
 
+        this.setFocusable(true);
+        this.setFocusTraversalKeysEnabled(true);
+
         initializeSquares();
         generateBoardState("rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBRBQKBRBR");
 

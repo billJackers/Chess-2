@@ -32,6 +32,8 @@ public class Square extends JComponent {
         else
             this.side = Sides.RED;
         this.state = ActionStates.NONE;  // changes the background color of the board based on game Events
+        this.setFocusable(true);
+        this.setFocusTraversalKeysEnabled(true);
     }
 
     // getters
@@ -79,6 +81,9 @@ public class Square extends JComponent {
             switch (state) {
                 case PLAYER_SELECTED -> g.setColor(new Color(255, 229, 79));
                 case HIGHLIGHTED1 -> g.setColor(new Color(200, 100, 100));
+                case HIGHLIGHTED2 -> g.setColor(new Color(50, 170, 200));
+                case HIGHLIGHTED3 -> g.setColor(new Color(50, 200, 100));
+                case HIGHLIGHTED4 -> g.setColor(new Color(200, 100,200));
             }
             g.fillRect(this.getX()+positionOffset, this.getY()+positionOffset, size-borderOffset, size-borderOffset);  // fills a background square
         }

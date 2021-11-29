@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class PlayerController implements MouseListener {  // handles player inputs
+public class PlayerController implements MouseListener, KeyListener {  // handles player inputs
 
     private Square previouslySelected;
     private Sides currentTurn;
@@ -15,6 +15,12 @@ public class PlayerController implements MouseListener {  // handles player inpu
     private List<Square> legalMovesOfSelectedPiece;
     private List<Square> targetsOfSelectedArcher;
     private ConnectionHandler connectionHandler = null;
+
+    private Key currentKey;
+
+    public enum Key {
+        SHIFT, ALT, CONTROL, NONE
+    }
 
     private boolean isPaused = false;
 
@@ -30,6 +36,8 @@ public class PlayerController implements MouseListener {  // handles player inpu
         this.board = board;
         board.addMouseListener(this); // OOP black magic
         winFrame = new WinFrame();
+        this.currentKey = Key.NONE;
+        board.addKeyListener(this);
     }
 
     public boolean isPaused() { return isPaused; }
@@ -286,9 +294,16 @@ public class PlayerController implements MouseListener {  // handles player inpu
             attemptMove(squareSelected);
         } else if (SwingUtilities.isRightMouseButton(e)) {  // for highlighting squares
             if (previouslySelected != null) deselectCurrent();
-            if (squareSelected.getState() == Square.ActionStates.HIGHLIGHTED1)
+            if (squareSelected.getState() != Square.ActionStates.NONE)
                 squareSelected.setState(Square.ActionStates.NONE);
-            else squareSelected.setState(Square.ActionStates.HIGHLIGHTED1);
+            else {
+                switch (currentKey) {
+                    case NONE -> squareSelected.setState(Square.ActionStates.HIGHLIGHTED1);
+                    case SHIFT -> squareSelected.setState(Square.ActionStates.HIGHLIGHTED2);
+                    case ALT -> squareSelected.setState(Square.ActionStates.HIGHLIGHTED3);
+                    case CONTROL -> squareSelected.setState(Square.ActionStates.HIGHLIGHTED4);
+                }
+            }
         }
     }
 
@@ -304,5 +319,23 @@ public class PlayerController implements MouseListener {  // handles player inpu
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.isShiftDown()) currentKey = Key.SHIFT;
+        else if (e.isAltDown()) currentKey = Key.ALT;
+        else if (e.isControlDown()) currentKey = Key.CONTROL;
+        else currentKey = Key.NONE;
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        currentKey = Key.NONE;
     }
 }
