@@ -44,13 +44,13 @@ public class StartMenu {
         startMenu = new JFrame();
         startMenu.setLayout(new BorderLayout());
         startMenu.setTitle("Chess 2");
-        startMenu.setSize(300, 300);
+        startMenu.setSize(375, 300);
         startMenu.setLocationRelativeTo(null);
         startMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         startMenu.setResizable(false);
 
         // For dividing the screen into two sides: the singleplayer and multiplayer sections
-        String backgroundPath = "images/menuscreen.png";
+        String backgroundPath = "images/display_background.png";
         MenuPanel menuLayout = new MenuPanel(backgroundPath);
         menuLayout.setLayout(new GridLayout(1, 2));
 
@@ -89,7 +89,9 @@ public class StartMenu {
         timerSettings.add(minutes);
         timerSettings.add(seconds);
         timerSettings.add(increment);
+        JLabel timerLabels = new JLabel("hrs     min     sec     +time");
         singlePlayerMenu.add(singlePlayerHeader);
+        singlePlayerMenu.add(timerLabels);
         singlePlayerMenu.add(timerSettings);
         singlePlayerMenu.add(quickStartBtn);
         quickStartBtn.addActionListener(new ActionListener() {
