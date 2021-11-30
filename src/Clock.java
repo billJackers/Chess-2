@@ -34,7 +34,7 @@ public class Clock {
 
     public void increment(int s) {
         if (this.secs+s >= 60) {
-            this.secs = (this.secs + s) / 60;
+            this.secs = (this.secs + s) % 60;
             this.mins++;
         } else this.secs += s;
         if (this.mins == 60) {
@@ -47,7 +47,13 @@ public class Clock {
         String fHrs = String.format("%02d", this.hours);
         String fMins = String.format("%02d", this.mins);
         String fSecs = String.format("%02d", this.secs);
+        String fDeciseconds = String.format("%2d", this.decisecs);
         String fTime = fHrs + ":" + fMins + ":" + fSecs;
+
+        if (this.hours == 0 && this.mins == 0 && secs <= 20) {
+            fTime += "." + fDeciseconds;
+        }
+
         return fTime;
     }
 
