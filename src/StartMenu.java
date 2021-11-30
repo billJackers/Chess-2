@@ -89,7 +89,10 @@ public class StartMenu {
         timerSettings.add(minutes);
         timerSettings.add(seconds);
         timerSettings.add(increment);
-        JLabel timerLabels = new JLabel("hrs     min     sec     +time");
+        JLabel timerLabels = new JLabel("   hrs      min      sec     +time  ");
+        timerLabels.setOpaque(true);
+        timerLabels.setBackground(new Color(200, 200, 200));
+        timerLabels.setBorder(BorderFactory.createLineBorder(Color.black));
         singlePlayerMenu.add(singlePlayerHeader);
         singlePlayerMenu.add(timerLabels);
         singlePlayerMenu.add(timerSettings);
