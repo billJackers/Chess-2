@@ -50,7 +50,7 @@ public class StartMenu {
         startMenu.setResizable(false);
 
         // For dividing the screen into two sides: the singleplayer and multiplayer sections
-        String backgroundPath = "images/display_background.png";
+        String backgroundPath = "images/menuscreen.png";
         MenuPanel menuLayout = new MenuPanel(backgroundPath);
         menuLayout.setLayout(new GridLayout(1, 2));
 
