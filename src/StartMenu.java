@@ -140,7 +140,7 @@ public class StartMenu {
         startMenu.setVisible(true);
     }
 
-    class MenuPanel extends JPanel {
+    static class MenuPanel extends JPanel {
         private Image backgroundImage;
         public MenuPanel(String img) {
             try {

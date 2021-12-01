@@ -152,6 +152,7 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
             case RED -> resetEnPassants(Sides.RED);
         }
 
+        // Helper if statement for en passanting
         if (pieceToMove instanceof Pawn) {
             int fromPos = (from.getFile() * 10) + from.getRank();
             int toPos = (to.getFile() * 10) + to.getRank();
@@ -187,12 +188,8 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
                     else {
                         selected.clearPiece();
                         switch (pieceToMove.getSide()) {
-                            case BLUE -> {
-                                bClock.increment(increment);
-                            }
-                            case RED -> {
-                                rClock.increment(increment);
-                            }
+                            case BLUE -> bClock.increment(increment);
+                            case RED -> rClock.increment(increment);
                         }
                     }
                     swapTurns();
@@ -268,6 +265,7 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
         return rClock;
     }
 
+    // Initialize clocks
     public void setClocks(int hours, int minutes, int seconds, int increment) {
         this.bClock = new Clock(hours, minutes, seconds);
         this.rClock = new Clock(hours, minutes, seconds);
@@ -326,6 +324,8 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
 
     }
 
+
+    // Sets currentKey
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.isShiftDown()) currentKey = Key.SHIFT;

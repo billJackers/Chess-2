@@ -18,6 +18,8 @@ public class StatsDisplay extends JPanel implements ActionListener {
     private Sides turn;
     private final Font clockFont;
 
+    private boolean timed = true;
+
     private WinFrame winFrame;
 
     private Timer globalClock;
@@ -31,6 +33,8 @@ public class StatsDisplay extends JPanel implements ActionListener {
         HEADER_WIDTH = board.getWidth();
         this.setPreferredSize(new Dimension(HEADER_WIDTH, HEADER_HEIGHT)); // dimensions based on the size of the board
         this.setMaximumSize(this.getPreferredSize());
+
+        if (hours == 0 && minutes == 0 && seconds == 0) timed = false;
 
         String backgroundPath = "images/display_background.png";
         try {
@@ -51,18 +55,23 @@ public class StatsDisplay extends JPanel implements ActionListener {
 
         super.paintComponent(g);
         g.drawImage(background, 0, 0, null);  // background color of stats
+
         // while seemingly random, positions based on the width and height of the screen lets us alter the size of the board maintaining the correct ratios of text positions and sizes
         // drawing new clock states
-        g.setFont(clockFont);
-        g.setColor(new Color(56, 211, 255, 255));  // set a color before drawing text for text to be that color
-        g.drawString(board.getController().getbClock().getTime(), HEADER_WIDTH * 5 / 26, HEADER_HEIGHT / 2);
-        g.setColor(new Color(255, 29, 29, 255));
-        g.drawString(board.getController().getrClock().getTime(), HEADER_WIDTH * 18 / 26, HEADER_HEIGHT / 2);
-
-        switch (turn) {
-            case BLUE -> g.setColor(new Color(56, 211, 255, 218));
-            case RED -> g.setColor(new Color(255, 29, 29, 218));
+            g.setFont(clockFont);
+            g.setColor(new Color(56, 211, 255, 255));  // set a color before drawing text for text to be that color
+        // Clocks should only show if the game is timed
+        if (timed) {
+            g.drawString(board.getController().getbClock().getTime(), HEADER_WIDTH * 5 / 26, HEADER_HEIGHT / 2);
+            g.setColor(new Color(255, 29, 29, 255));
+            g.drawString(board.getController().getrClock().getTime(), HEADER_WIDTH * 18 / 26, HEADER_HEIGHT / 2);
         }
+
+            switch (turn) {
+                case BLUE -> g.setColor(new Color(56, 211, 255, 218));
+                case RED -> g.setColor(new Color(255, 29, 29, 218));
+            }
+
         // draws the current turn with a background color
         String formattedTurn = turn.toString().charAt(0) + turn.toString().substring(1).toLowerCase() + "'s turn";  // coverts BLUE to Blue or RED to Red
         g.fillRoundRect(HEADER_WIDTH*11/26, HEADER_HEIGHT*3/12, g.getFontMetrics().stringWidth(formattedTurn), HEADER_WIDTH/30, 10, 10);  // draws the background at relative positions
@@ -76,15 +85,17 @@ public class StatsDisplay extends JPanel implements ActionListener {
         if (board.getController().isPaused()) return;  // if the game is paused, don't do any actions
 
         turn = board.getController().getCurrentTurn();
-        if (board.getController().getbClock().outOfTime() || board.getController().getrClock().outOfTime()) {
-            globalClock.stop();
-            if (board.getController().getbClock().outOfTime()) winFrame.makeWinFrame(Sides.RED);
-            else winFrame.makeWinFrame(Sides.BLUE);
-        }
-        // determining which clock to decrement
-        switch (turn) {
-            case BLUE -> board.getController().getbClock().decrement();
-            case RED -> board.getController().getrClock().decrement();
+        if (timed) {
+            if (board.getController().getbClock().outOfTime() || board.getController().getrClock().outOfTime()) {
+                globalClock.stop();
+                if (board.getController().getbClock().outOfTime()) winFrame.makeWinFrame(Sides.RED);
+                else winFrame.makeWinFrame(Sides.BLUE);
+            }
+            // determining which clock to decrement
+            switch (turn) {
+                case BLUE -> board.getController().getbClock().decrement();
+                case RED -> board.getController().getrClock().decrement();
+            }
         }
         repaint();
     }
