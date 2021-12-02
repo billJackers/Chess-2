@@ -67,8 +67,7 @@ public class Square extends JComponent {
     }
     public void clearPiece() { this.piece = null; }
 
-    public void draw(Graphics g) {  // draws the background square and then the piece (if piece exists)
-
+    public void draw(Graphics g, boolean drawSwapped) {  // draws the background square and then the piece (if piece exists)
         switch (this.side) {  // decides the background square color
             case BLUE -> g.setColor(new Color(225, 209, 163));
             case RED -> g.setColor(new Color(196, 159, 117));

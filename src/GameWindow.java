@@ -9,7 +9,7 @@ public class GameWindow {
 
     public GameWindow(int hours, int minutes, int seconds, int increment) {
 
-        JFrame gameWindow = new JFrame("Chess 2");
+        JFrame gameWindow = new JFrame("Giga Chess");
         gameWindow.setLocationRelativeTo(null);
 
         Board board = new Board(); // our board, also our gameloop

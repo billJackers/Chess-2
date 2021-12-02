@@ -13,6 +13,7 @@ public class Board extends JPanel implements ActionListener {
     private final PlayerController controller;
 
     private final Square[] board = new Square[100];
+    private boolean drawBoardSwapped = false;
 
     private static final int DELAY = 25; // delay in ms to update board
 
@@ -98,7 +99,7 @@ public class Board extends JPanel implements ActionListener {
         g.setColor(new Color(225, 209, 163, 255));
         g.fillRect(0, 0, RANK_SIZE*SQUARE_SIZE, FILE_SIZE*SQUARE_SIZE);  // fill background
         for (Square sq : this.board) {  // then draw squares
-            sq.draw(g);
+            sq.draw(g, drawBoardSwapped);
         }
     }
 

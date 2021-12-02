@@ -66,7 +66,7 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
         selected.setState(Square.ActionStates.PLAYER_SELECTED);  // highlight square selected
         this.previouslySelected = selected;
         legalMovesOfSelectedPiece = selected.getPiece().getLegalMoves(board);
-        for (Square move : legalMovesOfSelectedPiece) {
+        for (Square move : legalMovesOfSelectedPiece) {  // highlight all the legalMoves of selected piece
             move.setState(Square.ActionStates.LEGAL_MOVE);
         }
         if (selected.getPiece() instanceof Archer) { // if piece is archer

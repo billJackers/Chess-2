@@ -43,7 +43,7 @@ public class StartMenu {
     public void initialize() {
         startMenu = new JFrame();
         startMenu.setLayout(new BorderLayout());
-        startMenu.setTitle("Chess 2");
+        startMenu.setTitle("Giga Chess");
         startMenu.setSize(375, 300);
         startMenu.setLocationRelativeTo(null);
         startMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
