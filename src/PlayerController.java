@@ -18,6 +18,9 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
 
     private Key currentKey;
 
+    private List<Piece> bPiecesCaptured;
+    private List<Piece> rPiecesCaptured;
+
     public enum Key {
         SHIFT, ALT, CONTROL, NONE
     }
@@ -38,6 +41,9 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
         winFrame = new WinFrame();
         this.currentKey = Key.NONE;
         board.addKeyListener(this);
+
+        bPiecesCaptured = new ArrayList<>();
+        rPiecesCaptured = new ArrayList<>();
     }
 
     public boolean isPaused() { return isPaused; }
@@ -87,6 +93,7 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
     public void move(Square from, Square to) {
         Piece pieceToMove = from.getPiece();
 
+        // Increment clocks when move occurs
         switch (pieceToMove.getSide()) {
             case BLUE -> bClock.increment(increment);
             case RED -> rClock.increment(increment);
@@ -98,6 +105,7 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
             if (!to.hasPiece()) enPassantMove = true;
         }
 
+        // Winframe occurs when King blows up
         if (to.hasPiece() && to.getPiece() instanceof Bomber) {
             boolean rKingBlown = false;
             boolean bKingBlown = false;
@@ -132,8 +140,22 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
 
         // Bomber explosion
         if (to.getPiece() instanceof Bomber && !(pieceToMove instanceof Assassin)) {
+            // Add piece that took bomber to captured pieces list
+            switch (pieceToMove.side) {
+                case BLUE -> bPiecesCaptured.add(pieceToMove);
+                case RED -> rPiecesCaptured.add(pieceToMove);
+            }
             explode(to);
-        } else to.setPiece(pieceToMove);
+        } else {
+            // Add piece to captured list
+            if (to.hasPiece()) {
+                switch (to.getPiece().side) {
+                    case BLUE -> bPiecesCaptured.add(to.getPiece());
+                    case RED -> rPiecesCaptured.add(to.getPiece());
+                }
+            }
+            to.setPiece(pieceToMove);
+        }
 
         if (to.getPiece() instanceof Pawn) {
             to.getPiece().setToMoved();
@@ -183,9 +205,25 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
                     }
                     swapTurns();  // swap the turns on a successful move
                 }
+
+                // Archer fire
                 if (pieceToMove instanceof Archer && pieceToMove.getTargets(board).contains(selected)) {  // COMMENT YOUR CODE <-----------------------
                     if (selected.getPiece() instanceof Bomber) explode(selected);
                     else {
+                        // King shot
+                        if (selected.getPiece() instanceof King) {
+                            switch (selected.getPiece().side) {
+                                case BLUE -> winFrame.makeWinFrame(Sides.RED);
+                                case RED -> winFrame.makeWinFrame(Sides.BLUE);
+                            }
+                        }
+
+                        // Add piece to captured list
+                        switch (selected.getPiece().side) {
+                            case BLUE -> bPiecesCaptured.add(selected.getPiece());
+                            case RED -> rPiecesCaptured.add(selected.getPiece());
+                        }
+
                         selected.clearPiece();
                         switch (pieceToMove.getSide()) {
                             case BLUE -> bClock.increment(increment);
@@ -209,7 +247,19 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
 
     public void explode(Square s) {
         List<Square> targets = s.getPiece().getTargets(board);
-        for (Square target : targets) target.clearPiece();
+        for (Square target : targets) {
+            // Add exploded pieces to captured list
+            switch (target.getPiece().side) {
+                case BLUE -> bPiecesCaptured.add(target.getPiece());
+                case RED -> rPiecesCaptured.add(target.getPiece());
+            }
+            target.clearPiece();
+        }
+        // Add bomber to captured pieces list
+        switch (s.getPiece().side) {
+            case BLUE -> bPiecesCaptured.add(s.getPiece());
+            case RED -> rPiecesCaptured.add(s.getPiece());
+        }
         s.clearPiece();
     }
 
@@ -303,6 +353,14 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
                 }
             }
         }
+    }
+
+    public List<Piece> getbPiecesCaptured() {
+        return bPiecesCaptured;
+    }
+
+    public List<Piece> getrPiecesCaptured() {
+        return rPiecesCaptured;
     }
 
     @Override

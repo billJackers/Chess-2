@@ -273,6 +273,15 @@ public abstract class Piece {
         return wasMoved;
     }
 
+    // Getter
+    public Image getImage() {
+        return image;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
     public void setToMoved() {
         this.wasMoved = true;
     }

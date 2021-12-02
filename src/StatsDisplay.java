@@ -5,8 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.List;
 
 public class StatsDisplay extends JPanel implements ActionListener {
 
@@ -67,10 +69,22 @@ public class StatsDisplay extends JPanel implements ActionListener {
             g.drawString(board.getController().getrClock().getTime(), HEADER_WIDTH * 18 / 26, HEADER_HEIGHT / 2);
         }
 
-            switch (turn) {
-                case BLUE -> g.setColor(new Color(56, 211, 255, 218));
-                case RED -> g.setColor(new Color(255, 29, 29, 218));
-            }
+        switch (turn) {
+            case BLUE -> g.setColor(new Color(56, 211, 255, 218));
+            case RED -> g.setColor(new Color(255, 29, 29, 218));
+        }
+
+        // Draw captured red pieces (ugly code, should probably clean up)
+        for (int i = 0; i < board.getController().getrPiecesCaptured().size(); i++) {
+            Image image = board.getController().getrPiecesCaptured().get(i).getImage().getScaledInstance(HEADER_HEIGHT/3, HEADER_HEIGHT/3, Image.SCALE_FAST);
+            g.drawImage(image, (HEADER_WIDTH*5/26)+(HEADER_WIDTH*i/50), HEADER_HEIGHT*3/5, null);
+        }
+
+        // Draw captured blue pieces
+        for (int i = 0; i < board.getController().getbPiecesCaptured().size(); i++) {
+            Image image = board.getController().getbPiecesCaptured().get(i).getImage().getScaledInstance(HEADER_HEIGHT/3, HEADER_HEIGHT/3, Image.SCALE_FAST);
+            g.drawImage(image, (HEADER_WIDTH*18/26)+(HEADER_WIDTH*i/50), HEADER_HEIGHT*3/5, null);
+        }
 
         // draws the current turn with a background color
         String formattedTurn = turn.toString().charAt(0) + turn.toString().substring(1).toLowerCase() + "'s turn";  // coverts BLUE to Blue or RED to Red
