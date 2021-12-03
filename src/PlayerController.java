@@ -123,7 +123,8 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
                 if (pieceToMove instanceof Archer && pieceToMove.getTargets(board).contains(selected)) {  // COMMENT YOUR CODE <-----------------------
 
                     selected.clearPiece();
-                    selected.getPiece().runOnDeath(board, pieceToMove);
+                    if (selected.hasPiece())
+                        selected.getPiece().runOnDeath(board, pieceToMove);
 
                     switch (pieceToMove.getSide()) {
                         case BLUE -> bClock.increment(increment);
