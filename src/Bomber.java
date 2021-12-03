@@ -110,11 +110,12 @@ public class Bomber extends Piece {
 
     public void explode(Board board) {
         List<Square> targets = getTargets(board);
+        parentSquare.clearPiece();  // first clear the detonated bomber
         for (Square target : targets) {
-            target.getPiece().runOnDeath(board, this);
-            target.clearPiece();  // clear the targets
+            if (target.hasPiece())
+                target.getPiece().runOnDeath(board, this);
+            target.clearPiece();  // then clear the targets
         }
-        parentSquare.clearPiece();  // and clear this piece (the bomber dies as well ;( )
     }
 
     public void runOnDeath(Board board, Piece captor) {

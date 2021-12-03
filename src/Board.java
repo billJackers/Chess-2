@@ -34,8 +34,8 @@ public class Board extends JPanel implements ActionListener {
         this.setFocusable(true);
         this.setFocusTraversalKeysEnabled(true);
 
-        initializeSquares();
-        generateBoardState("rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBRBQKBRBR");
+        initializeSquares();  // "rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBRBQKBRBR"
+        generateBoardState("X/X/X/qqqqqqqqq1/oqoqoqoqo1/QOQOQOQOQO/9r/X/X/X");
 
         // PlayerController to handle mouse input
         controller = new PlayerController(this);
