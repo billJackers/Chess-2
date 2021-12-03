@@ -99,7 +99,6 @@ public class Bomber extends Piece {
         }
         return false;
     }
-
     public boolean acceptableColumn(int column, int proposedColumn) {
         int maxColumn = column + 1;
         int minColumn = column - 1;
@@ -109,24 +108,20 @@ public class Bomber extends Piece {
         return false;
     }
 
-//    public void explode(board) {
-//        List<Square> targets = getTargets(board);
-//        for (Square target : targets) {
-//            target.getPiece().runOnDeath(this);
-//            target.clearPiece();
-//        }
-//        // Add bomber to captured pieces list
-//        switch (s.getPiece().side) {
-//            case BLUE -> bPiecesCaptured.add(s.getPiece());
-//            case RED -> rPiecesCaptured.add(s.getPiece());
-//        }
-//        s.clearPiece();
-//    }
+    public void explode(Board board) {
+        List<Square> targets = getTargets(board);
+        for (Square target : targets) {
+            target.getPiece().runOnDeath(board, this);
+            target.clearPiece();  // clear the targets
+        }
+        parentSquare.clearPiece();  // and clear this piece (the bomber dies as well ;( )
+    }
 
-    public void runOnDeath(Piece captor) {
+    public void runOnDeath(Board board, Piece captor) {
+        super.runOnDeath(board, captor);
         // Bomber explosion
         if (!(captor instanceof Assassin)) {
-            // explode();
+            explode(board);
         }
     }
 

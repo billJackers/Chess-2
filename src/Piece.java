@@ -12,14 +12,11 @@ public abstract class Piece {
     protected int size;
     protected Image image;
     protected Square parentSquare;
-    protected boolean enPassantable;
-    protected boolean wasMoved;
 
     public Piece(Sides side, int size, Square initialSquare) {
         this.side = side;
         this.size = size;
         this.parentSquare = initialSquare;
-        this.enPassantable = false;
     }
 
     protected Image getImageByFile(String file) {  // get our image based on a file name
@@ -33,17 +30,23 @@ public abstract class Piece {
         return sprite;
     }
 
+    public void draw(Graphics g, int x, int y) {
+        g.drawImage(this.image, x, y, null);
+    }  // draws image at location
+
+
     public void setParentSquare(Square newParent) {
         this.parentSquare = newParent;
     }
 
     // CALLED ON MOVES
-    public void runOnMove() {}  // function called when a piece moves
-    public void runOnDeath(Piece captor) {}  // function called when a piece dies
+    public void runOnMove(Board board, Square captured) {  // function called when a piece moves
+        captured.setPiece(this);  // move the piece
+    }
+    public void runOnDeath(Board board, Piece captor) {  // function called when a piece dies
+        board.getController().addToCaptured(this);
+    }
 
-    public void draw(Graphics g, int x, int y) {
-        g.drawImage(this.image, x, y, null);
-    }  // draws image at location
 
     public abstract List<Square> getLegalMoves(Board board);
 
@@ -142,7 +145,6 @@ public abstract class Piece {
 
         return legalMoves;
     }
-
     public List<Square> getRookLegalMoves(Board board) {
         List<Square> legalMoves = new ArrayList<>();
 
@@ -229,7 +231,6 @@ public abstract class Piece {
 
         return legalMoves;
     }
-
     public List<Square> getKingLegalMoves(Board board) {
         ArrayList<Square> legalMoves = new ArrayList<>();
 
@@ -249,18 +250,6 @@ public abstract class Piece {
         return legalMoves;
     }
 
-    public boolean isEnPassantable() {
-        return this.enPassantable;
-    }
-
-    public void setEnPassantable(boolean b) {
-        this.enPassantable = b;
-    }
-
-    public boolean getWasMoved() {
-        return wasMoved;
-    }
-
     // Getter
     public Image getImage() {
         return image;
@@ -268,9 +257,5 @@ public abstract class Piece {
 
     public void setSize(int size) {
         this.size = size;
-    }
-
-    public void setToMoved() {
-        this.wasMoved = true;
     }
 }

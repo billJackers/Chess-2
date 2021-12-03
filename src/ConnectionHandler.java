@@ -62,9 +62,11 @@ public class ConnectionHandler extends Thread {
         String line = "";
         while (!line.equals("end")) {
             if (!(playerSide == controller.getCurrentTurn())) {  // if it is not our turn then we receive data
+                System.out.println(playerSide + " is listening");
                 try {
                     line = dataInput.readLine();
                     updateOpponentMove(parseMove(line));
+                    controller.swapTurns();
 
                 } catch (IOException IOe) {
                     System.out.println(IOe);

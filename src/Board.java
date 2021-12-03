@@ -10,6 +10,8 @@ public class Board extends JPanel implements ActionListener {
     private static final int FILE_SIZE = 10; // columns
     private static final int RANK_SIZE = 10; // rows
 
+    private boolean isPaused;
+
     private final PlayerController controller;
 
     private final Square[] board = new Square[100];
@@ -43,6 +45,8 @@ public class Board extends JPanel implements ActionListener {
 
         if (connection != null)  // if we are doing multiplayer, instantiate ConnectionHandler
             connectionHandler = new ConnectionHandler(connection, controller, playerSide, this);
+
+        isPaused = false;
     }
 
     // getters
@@ -80,6 +84,11 @@ public class Board extends JPanel implements ActionListener {
         // before the graphics are redrawn.
         repaint();
     }
+
+    // pausing events
+    public boolean isPaused() { return isPaused; }
+    public void pause() { isPaused = true; }
+    public void unpause() { isPaused = false; }
 
     private void initializeSquares() {
         int squareCount = 0;
