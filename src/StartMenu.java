@@ -23,6 +23,9 @@ import javax.swing.JTextField;
 
 public class StartMenu {
 
+    private final int WIDTH= 375;
+    private final int HEIGHT = 300;
+
     private class MenuImage extends JPanel {
         private final Image bg;
         public MenuImage(Image background){
@@ -44,7 +47,7 @@ public class StartMenu {
         startMenu = new JFrame();
         startMenu.setLayout(new BorderLayout());
         startMenu.setTitle("Giga Chess");
-        startMenu.setSize(375, 300);
+        startMenu.setSize(this.WIDTH, this.HEIGHT);
         startMenu.setLocationRelativeTo(null);
         startMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         startMenu.setResizable(false);
@@ -52,7 +55,7 @@ public class StartMenu {
         // For dividing the screen into two sides: the singleplayer and multiplayer sections
         String backgroundPath = "images/menuscreen.png";
         MenuPanel menuLayout = new MenuPanel(backgroundPath);
-        menuLayout.setLayout(new GridLayout(1, 2));
+        menuLayout.setLayout(new GridLayout(2, 2));
 
         // singleplayer section
         JPanel singlePlayerMenu = new JPanel();
@@ -97,29 +100,39 @@ public class StartMenu {
         singlePlayerMenu.add(timerLabels);
         singlePlayerMenu.add(timerSettings);
         singlePlayerMenu.add(quickStartBtn);
-        quickStartBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int h = Integer.parseInt((String) hours.getSelectedItem());
-                int m = Integer.parseInt((String) minutes.getSelectedItem());
-                int s = Integer.parseInt((String) seconds.getSelectedItem());
-                int i = Integer.parseInt((String) increment.getSelectedItem());
-                new GameWindow(h, m, s, i);
+        // Weird lambda magic
+        quickStartBtn.addActionListener(e -> {
+            int h = Integer.parseInt((String) hours.getSelectedItem());
+            int m = Integer.parseInt((String) minutes.getSelectedItem());
+            int s = Integer.parseInt((String) seconds.getSelectedItem());
+            int i = Integer.parseInt((String) increment.getSelectedItem());
+            new GameWindow(h, m, s, i);
 
-            }
         });
+
+        // More options
+        JPanel moreOptionsPanel = new JPanel();
+        moreOptionsPanel.setOpaque(false);
 
         // Settings
         Button settingsBtn = new Button("Settings");
+        moreOptionsPanel.add(settingsBtn);
+        moreOptionsPanel.setOpaque(false);
 
-        singlePlayerMenu.add(settingsBtn);
-        // Creates a dialog box
-        settingsBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showSettings();
+        // Help
+        Button helpBtn = new Button("Help");
+        moreOptionsPanel.add(helpBtn);
+
+        helpBtn.addActionListener(e -> {
+            try {
+                showHelp();
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
         });
+
+        // Creates a dialog box
+        settingsBtn.addActionListener(e -> showSettings());
 
         // multiplayer section
         JPanel multiPlayerMenu = new JPanel();
@@ -128,18 +141,8 @@ public class StartMenu {
         multiPlayerMenu.setLayout(new FlowLayout(FlowLayout.CENTER));
         Button serverBtn = new Button("Host a local game");
         Button clientBtn = new Button("Join a local game");
-        serverBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new GameServer();
-            }
-        });
-        clientBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new GameClient();
-            }
-        });
+        serverBtn.addActionListener(e -> new GameServer());
+        clientBtn.addActionListener(e -> new GameClient());
         multiPlayerMenu.add(multiPlayerHeader);
         multiPlayerMenu.add(serverBtn);
         multiPlayerMenu.add(clientBtn);
@@ -147,6 +150,7 @@ public class StartMenu {
         // adding the menus together
         menuLayout.add(singlePlayerMenu);
         menuLayout.add(multiPlayerMenu);
+        menuLayout.add(moreOptionsPanel);
         menuLayout.setVisible(true);
         startMenu.add(menuLayout, BorderLayout.CENTER);
         startMenu.setVisible(true);
@@ -198,6 +202,38 @@ public class StartMenu {
         settingsPanel.add(volumePanel);
 
         JOptionPane.showMessageDialog(null, settingsPanel, "Settings", JOptionPane.QUESTION_MESSAGE);
+    }
+
+    // Help
+    public void showHelp() throws IOException {
+        JFrame helpFrame = new JFrame();
+        helpFrame.setSize(this.WIDTH*5/6, this.HEIGHT*5/6);
+        helpFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        helpFrame.setVisible(true);
+        helpFrame.setResizable(false);
+
+        // Initialize components/content
+        JPanel helpPanel = new JPanel();
+        helpPanel.setLayout(new GridLayout(2, 1));
+        JLabel helpLbl = new JLabel("Click on a piece to see how it works");
+        helpLbl.setFont(new Font("Sans Serif", Font.BOLD, 15));
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(2,2));
+
+        Button archerBtn = new Button();
+        Button bomberBtn = new Button();
+        Button assassinBtn = new Button();
+        Button rgBtn = new Button();
+
+        buttonPanel.add(archerBtn);
+        buttonPanel.add(bomberBtn);
+        buttonPanel.add(assassinBtn);
+        buttonPanel.add(rgBtn);
+
+        helpPanel.add(helpLbl);
+        helpPanel.add(buttonPanel);
+        helpFrame.add(helpPanel);
     }
 
 }
