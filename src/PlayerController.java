@@ -92,6 +92,10 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
 
     public void move(Square from, Square to) {
         Piece pieceToMove = from.getPiece();
+        Piece pieceTaken = to.getPiece();
+        pieceToMove.runOnMove();
+        if (pieceTaken != null)
+            pieceTaken.runOnDeath(pieceToMove);
 
         // Increment clocks when move occurs
         switch (pieceToMove.getSide()) {
@@ -112,12 +116,8 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
             for (Square square : to.getPiece().getTargets(board)) {
                 if (square.hasPiece() && square.getPiece() instanceof King) {
                     switch (square.getPiece().side) {
-                        case BLUE -> {
-                            bKingBlown = true;
-                        }
-                        case RED -> {
-                            rKingBlown = true;
-                        }
+                        case BLUE -> bKingBlown = true;
+                        case RED -> rKingBlown = true;
                     }
                 }
             }

@@ -67,14 +67,17 @@ public class Square extends JComponent {
     }
     public void clearPiece() { this.piece = null; }
 
-    public void draw(Graphics g, boolean drawSwapped) {  // draws the background square and then the piece (if piece exists)
+    public void draw(Graphics g) {  // draws the background square and then the piece (if piece exists)
+        int squareX = getX();
+        int squareY = getY();
+
         switch (this.side) {  // decides the background square color
             case BLUE -> g.setColor(new Color(225, 209, 163));
             case RED -> g.setColor(new Color(196, 159, 117));
         }
         int borderOffset = 2;
         int positionOffset = borderOffset/2;
-        g.fillRect(this.getX()+positionOffset, this.getY()+positionOffset, size-borderOffset, size-borderOffset);  // drawing background (side)
+        g.fillRect(squareX+positionOffset, squareY+positionOffset, size-borderOffset, size-borderOffset);  // drawing background (side)
 
         if (state != ActionStates.NONE) {  // draws ActionStates under pieces
             switch (state) {
@@ -84,11 +87,11 @@ public class Square extends JComponent {
                 case HIGHLIGHTED3 -> g.setColor(new Color(50, 200, 100));
                 case HIGHLIGHTED4 -> g.setColor(new Color(200, 100,200));
             }
-            g.fillRect(this.getX()+positionOffset, this.getY()+positionOffset, size-borderOffset, size-borderOffset);  // fills a background square
+            g.fillRect(squareX+positionOffset, squareY+positionOffset, size-borderOffset, size-borderOffset);  // fills a background square
         }
 
         if (this.piece != null) {  // if there's a piece, draw the piece over the background
-            piece.draw(g, this.getX(), this.getY());
+            piece.draw(g, squareX, squareY);
         }
 
         if (state != ActionStates.NONE) {  // draws ActionStates over pieces
@@ -98,21 +101,21 @@ public class Square extends JComponent {
                 case LEGAL_MOVE -> {
                     g.setColor(new Color(255, 205, 79));
                     if (this.hasPiece()) {
-                        g.fillRect(this.getX(), this.getY(), size, size);
+                        g.fillRect(squareX, squareY, size, size);
                         switch (this.side) {
                             case BLUE -> g.setColor(new Color(225, 209, 163));
                             case RED -> g.setColor(new Color(196, 159, 117));
                         }
-                        g.fillOval(this.getX(), this.getY(), size, size);
-                        this.getPiece().draw(g, this.getX(), this.getY());
+                        g.fillOval(squareX, squareY, size, size);
+                        this.getPiece().draw(g, squareX, squareY);
                     } else {
-                        g.fillOval(this.getX() + centerOffset, this.getY() + centerOffset, circleSize, circleSize);  // draws a circle representing a possible move
+                        g.fillOval(squareX + centerOffset, squareY + centerOffset, circleSize, circleSize);  // draws a circle representing a possible move
                     }
                 }
                 // Archer target
                 case ARCHER_SHOT -> {
                     g.setColor(new Color(255, 93, 23));
-                    g.fillOval(this.getX(), this.getY(), size, size);
+                    g.fillOval(squareX, squareY, size, size);
 
                     switch (this.side) {
                         case BLUE -> g.setColor(new Color(225, 209, 163));
@@ -120,9 +123,9 @@ public class Square extends JComponent {
                     }
                     circleSize = (size*2)/3;
                     centerOffset = size/2-circleSize/2;
-                    g.fillOval(this.getX() + centerOffset, this.getY() + centerOffset, circleSize, circleSize);
+                    g.fillOval(squareX + centerOffset, squareY + centerOffset, circleSize, circleSize);
 
-                    piece.draw(g, this.getX(), this.getY());
+                    piece.draw(g, squareX, squareY);
 
                 }
             }

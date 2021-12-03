@@ -13,7 +13,6 @@ public class Board extends JPanel implements ActionListener {
     private final PlayerController controller;
 
     private final Square[] board = new Square[100];
-    private boolean drawBoardSwapped = false;
 
     private static final int DELAY = 25; // delay in ms to update board
 
@@ -92,14 +91,25 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 
-    private void rotateSquares() {} // idea: rotatesquares method to flip board
+    public void flipBoard() {  // flips the sides (does not work though)
+        for (int i = 0; i < board.length/2; i++) {
+            Square tempSquare = board[99-i];
+            Piece tempPiece = tempSquare.getPiece();
+            board[99-i] = board[i];
+            if (board[i].getPiece() != null)
+                board[99-i].setPiece(board[i].getPiece());
+            board[i] = tempSquare;
+            if (tempPiece != null)
+                board[i].setPiece(tempPiece);
+        }
+    }
 
     public void paintComponent(Graphics g) {  // draws all the squares in the board
         super.paintComponent(g);
         g.setColor(new Color(225, 209, 163, 255));
         g.fillRect(0, 0, RANK_SIZE*SQUARE_SIZE, FILE_SIZE*SQUARE_SIZE);  // fill background
         for (Square sq : this.board) {  // then draw squares
-            sq.draw(g, drawBoardSwapped);
+            sq.draw(g);
         }
     }
 

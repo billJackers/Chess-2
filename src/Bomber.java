@@ -81,24 +81,7 @@ public class Bomber extends Piece {
         int pos = (file*10) + rank;
         int row = pos / 10;
         int column = pos % 10;
-        /*
-        // Up
-        if (pos >= 10 && b[pos-10].hasPiece()) {
-            targets.add(b[pos-10]);
-        }
-        // Down
-        if (pos < 90 && b[pos+10].hasPiece()) {
-            targets.add(b[pos+10]);
-        }
-        // Right
-        if (pos % 10 != 9 && b[pos+1].hasPiece()) {
-            targets.add(b[pos+1]);
-        }
-        // Left
-        if (pos % 10 != 0 && b[pos-1].hasPiece()) {
-            targets.add(b[pos-1]);
-        }
-         */
+
         int[] bombTargets = {-11, -10, -9,-1, 1, 9, 10, 11};
         for (int target : bombTargets) {
             if (pos + target < 100 && pos + target >= 0 && acceptableRow(row, pos / 10) && acceptableColumn(column, pos % 10) && b[pos + target].hasPiece()) {
@@ -124,6 +107,27 @@ public class Bomber extends Piece {
             return true;
         }
         return false;
+    }
+
+//    public void explode(board) {
+//        List<Square> targets = getTargets(board);
+//        for (Square target : targets) {
+//            target.getPiece().runOnDeath(this);
+//            target.clearPiece();
+//        }
+//        // Add bomber to captured pieces list
+//        switch (s.getPiece().side) {
+//            case BLUE -> bPiecesCaptured.add(s.getPiece());
+//            case RED -> rPiecesCaptured.add(s.getPiece());
+//        }
+//        s.clearPiece();
+//    }
+
+    public void runOnDeath(Piece captor) {
+        // Bomber explosion
+        if (!(captor instanceof Assassin)) {
+            // explode();
+        }
     }
 
 }

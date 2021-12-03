@@ -37,6 +37,10 @@ public abstract class Piece {
         this.parentSquare = newParent;
     }
 
+    // CALLED ON MOVES
+    public void runOnMove() {}  // function called when a piece moves
+    public void runOnDeath(Piece captor) {}  // function called when a piece dies
+
     public void draw(Graphics g, int x, int y) {
         g.drawImage(this.image, x, y, null);
     }  // draws image at location
@@ -45,7 +49,7 @@ public abstract class Piece {
 
     public abstract String getName();
 
-    // This is for the bombers and archers
+    // This is for the bombers and archers - why is it in the piece class then :face_with_raised_eyebrows:
     public abstract List<Square> getTargets(Board board);
 
     protected boolean canCapture(Square target) {
@@ -67,22 +71,6 @@ public abstract class Piece {
 
     public Sides getSide() {
         return this.side;
-    }
-
-    // checks if the square is on either side edge
-    // left edge is -1, right edge is 1, neither is 0
-    public int onEdge(Square target) {
-        if (target.getRank() == 0) return -1;
-        if (target.getRank() == 9) return 1;
-        return 0;
-    }
-
-    // checks if the square is on the top or bottom edge
-    // top edge is -1, bottom edge is 1, neither is 0
-    public int onEnd(Square target) {
-        if (target.getFile() == 0) return -1;
-        if (target.getFile() == 9) return 1;
-        return 0;
     }
 
     public List<Square> getBishopLegalMoves(Board board) {
@@ -285,32 +273,4 @@ public abstract class Piece {
     public void setToMoved() {
         this.wasMoved = true;
     }
-
-//    public List<Square> getPawnAttacks(Sides s) {
-//        if (!(this instanceof Pawn)) return new ArrayList<>();
-//
-//        List<Square> attacks = new ArrayList<>();
-//
-//        int rank = this.parentSquare.getRank();
-//        int file = this.parentSquare.getFile();
-//
-//        Square[] b = board.getBoard();
-//
-//        int pos = (file*10) + rank;
-//
-//        switch (s) {
-//            case BLUE -> {
-//                if (pos % 10 != 0) attacks.add(b[pos+9]);
-//                if (pos % 10 != 9) attacks.add(b[pos+11]);
-//            }
-//            case RED -> {
-//                if (pos % 10 != 0) attacks.add(b[pos-11]);
-//                if (pos % 10 != 9) attacks.add(b[pos-9]);
-//            }
-//        }
-//
-//        return attacks;
-//
-//    }
-    // public boolean move(Square moveTo);
 }
