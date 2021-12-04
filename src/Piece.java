@@ -45,7 +45,7 @@ public abstract class Piece {
     }
     public void runOnDeath(Board board, Piece captor) {  // function called when a piece dies
         board.getController().addToCaptured(this);
-    }
+    }  // method takes the board and the piece that killed it
 
 
     public abstract List<Square> getLegalMoves(Board board);

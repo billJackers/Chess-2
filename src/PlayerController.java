@@ -15,8 +15,8 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
 
     private Key currentKey;
 
-    private List<Piece> bluePiecesCaptured;
-    private List<Piece> redPiecesCaptured;
+    private final List<Piece> bluePiecesCaptured;
+    private final List<Piece> redPiecesCaptured;
 
     public enum Key {
         SHIFT, ALT, CONTROL, NONE
@@ -96,36 +96,46 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
         from.clearPiece(); // clear the old square of the moved piece
         if (pieceTaken != null)
             pieceTaken.runOnDeath(board, pieceToMove);  // call runOnDeath if the captured square had a piece
+    }
 
-        // Increment clocks when move occurs
-        switch (pieceToMove.getSide()) {
-            case BLUE -> bClock.increment(increment);
-            case RED -> rClock.increment(increment);
+    public void sendMovesToOpponent(Square target, boolean isArcherShot) {  // updates the opponent's board if running client/server
+        if (connectionHandler != null) {
+            String moveType = "M";
+            if (isArcherShot)
+                moveType = "A";
+            String moves = previouslySelected.getRank() + " " + previouslySelected.getFile() + " " + target.getRank() + " " + target.getFile() + " " + moveType;  // Sends the file and rank of the selected piece and the target square
+            connectionHandler.send(moves);
         }
     }
 
-    public void attemptMove(Square selected) {
+    public void attemptMove(Square target) {
         if (previouslySelected != null && previouslySelected.hasPiece()) {  // if we currently have a piece selected to move
             Piece pieceToMove = previouslySelected.getPiece();
 
             if (isCorrectPlayerMoving()) {  // if the correct player is moving
 
-                if (legalMovesOfSelectedPiece.contains(selected) && pieceToMove.canCapture(selected)) {  // if it is legal to move to the new location
-                    move(previouslySelected, selected);
-                    if (connectionHandler != null) {
-                        String moves = previouslySelected.getX() + " " + previouslySelected.getY() + " " + selected.getX() + " " + selected.getY();  // coords movedto and movedfrom
-                        connectionHandler.send(moves);
-                    }
+                if (legalMovesOfSelectedPiece.contains(target) && pieceToMove.canCapture(target)) {  // if it is legal to move to the new location
+                    move(previouslySelected, target);  // make the client side moves
+                    sendMovesToOpponent(target, false);  // update the opponent (if connection handler exists)
                     swapTurns();  // swap the turns on a successful move
+
+                    // Increment clocks when move occurs
+                    switch (pieceToMove.getSide()) {
+                        case BLUE -> bClock.increment(increment);
+                        case RED -> rClock.increment(increment);
+                    }
                 }
 
                 // Archer fire
-                if (pieceToMove instanceof Archer && pieceToMove.getTargets(board).contains(selected)) {  // COMMENT YOUR CODE <-----------------------
+                if (pieceToMove instanceof Archer && pieceToMove.getTargets(board).contains(target)) {  // COMMENT YOUR CODE <-----------------------
 
-                    selected.clearPiece();
-                    if (selected.hasPiece())
-                        selected.getPiece().runOnDeath(board, pieceToMove);
+                    // archer shot does not move archer, so we don't call move() we just clear the target
+                    Piece pieceTaken = target.getPiece();  // get the piece before we take it
+                    target.clearPiece();  // clear the piece (it is now yeeted from the square it was on)
+                    if (pieceTaken != null)
+                        pieceTaken.runOnDeath(board, pieceToMove);  // if there was a piece on the square before we cleared it then we run its death function
 
+                    // Increment clocks when move occurs
                     switch (pieceToMove.getSide()) {
                         case BLUE -> bClock.increment(increment);
                         case RED -> rClock.increment(increment);
@@ -135,8 +145,8 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
             }
             deselectCurrent();  // clear board states on after this click
         } else {  //
-            if (selected.hasPiece()) {
-                selectSquare(selected);
+            if (target.hasPiece()) {
+                selectSquare(target);
             }
         }
     }

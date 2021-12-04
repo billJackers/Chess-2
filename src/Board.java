@@ -18,11 +18,7 @@ public class Board extends JPanel implements ActionListener {
 
     private static final int DELAY = 25; // delay in ms to update board
 
-    public Board() {  // single player board
-        this(null, null);
-    }
-
-    public Board(Socket connection, Sides playerSide) {
+    public Board() {
         // window size
         this.setPreferredSize(new Dimension(SQUARE_SIZE*RANK_SIZE, SQUARE_SIZE*FILE_SIZE)); // dimensions based on the size of the grid
         this.setMaximumSize(this.getPreferredSize());
@@ -39,13 +35,6 @@ public class Board extends JPanel implements ActionListener {
 
         // PlayerController to handle mouse input
         controller = new PlayerController(this);
-
-        // ConnectionHandler to handle multiplayer sessions
-        ConnectionHandler connectionHandler;
-
-        if (connection != null)  // if we are doing multiplayer, instantiate ConnectionHandler
-            connectionHandler = new ConnectionHandler(connection, controller, playerSide, this);
-
         isPaused = false;
     }
 

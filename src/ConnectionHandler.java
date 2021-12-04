@@ -14,7 +14,7 @@ public class ConnectionHandler extends Thread {
     private final PlayerController controller;
     private final Sides playerSide;
 
-    public ConnectionHandler (Socket connection, PlayerController controller, Sides playerSide, Board board) {
+    public ConnectionHandler (Socket connection, Board board, Sides playerSide) {
         // initializing multiplayer stuff
         this.connection = connection;
         try {
@@ -26,7 +26,7 @@ public class ConnectionHandler extends Thread {
         }
         this.board = board;
         // the PlayerController and the player's side
-        this.controller = controller;
+        this.controller = board.getController();
         controller.setConnectionHandler(this);
         this.playerSide = playerSide;
         start();
