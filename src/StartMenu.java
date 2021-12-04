@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import javax.imageio.ImageIO;
@@ -20,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 public class StartMenu {
 
@@ -206,7 +208,7 @@ public class StartMenu {
 
     // Help
     public void showHelp() throws IOException {
-        JFrame helpFrame = new JFrame();
+        JFrame helpFrame = new JFrame("Help");
         helpFrame.setSize(this.WIDTH*5/6, this.HEIGHT*5/6);
         helpFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         helpFrame.setVisible(true);
@@ -214,26 +216,66 @@ public class StartMenu {
 
         // Initialize components/content
         JPanel helpPanel = new JPanel();
-        helpPanel.setLayout(new GridLayout(2, 1));
+        helpPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+
         JLabel helpLbl = new JLabel("Click on a piece to see how it works");
         helpLbl.setFont(new Font("Sans Serif", Font.BOLD, 15));
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(2,2));
+        buttonPanel.setLayout(new GridLayout(2,2, 3, 3));
 
-        Button archerBtn = new Button();
-        Button bomberBtn = new Button();
-        Button assassinBtn = new Button();
-        Button rgBtn = new Button();
+        JButton archerBtn = new JButton("Archer", new ImageIcon(Objects.requireNonNull(getClass().getResource("images/barcher.png"))));
+        JButton bomberBtn = new JButton("Bomber", new ImageIcon(Objects.requireNonNull(getClass().getResource("images/bbomber.png"))));
+        JButton assassinBtn = new JButton("Assassin", new ImageIcon(Objects.requireNonNull(getClass().getResource("images/bassassin.png"))));
+        JButton rgBtn = new JButton("Royal Guard", new ImageIcon(Objects.requireNonNull(getClass().getResource("images/broyalguard.png"))));
+        JButton[] helpButtons = {archerBtn, bomberBtn, assassinBtn, rgBtn};
 
-        buttonPanel.add(archerBtn);
-        buttonPanel.add(bomberBtn);
-        buttonPanel.add(assassinBtn);
-        buttonPanel.add(rgBtn);
+        for (JButton button : helpButtons) {
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        showPieceMovementHelp(button.getText());
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+            button.setMargin(new Insets(2, 2, 2, 2));
+            buttonPanel.add(button);
+        }
 
         helpPanel.add(helpLbl);
         helpPanel.add(buttonPanel);
         helpFrame.add(helpPanel);
+    }
+
+    // Piece movement help frame
+    public void showPieceMovementHelp(String pieceClicked) throws IOException {
+
+        JFrame pieceMovementHelpFrame = new JFrame("Help");
+        pieceMovementHelpFrame.setResizable(false);
+        pieceMovementHelpFrame.setSize(this.HEIGHT*9/8, this.WIDTH*9/8);
+
+        JPanel pieceMovementHelpPanel = new JPanel();
+        pieceMovementHelpPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+        Image movementImage = new BufferedImage(this.HEIGHT/2, this.WIDTH/2, 1);
+        JLabel movementText;
+
+        if (pieceClicked.equals("Archer")) {
+            movementImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/gigachad.png")));
+        } else if (pieceClicked.equals("Bomber")) {
+            movementImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/gigachad.png")));
+        } else if (pieceClicked.equals("Assassin")) {
+            movementImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/gigachad.png")));
+        } else {
+            movementImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/gigachad.png")));
+        }
+
+        pieceMovementHelpPanel.add(new JLabel(new ImageIcon(movementImage)));
+        pieceMovementHelpFrame.add(pieceMovementHelpPanel);
+        pieceMovementHelpFrame.setVisible(true);
     }
 
 }
