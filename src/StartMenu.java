@@ -241,7 +241,7 @@ public class StartMenu {
                     }
                 }
             });
-            button.setMargin(new Insets(2, 2, 2, 2));
+            button.setMargin(new Insets(2, 2, 0, 2));
             buttonPanel.add(button);
         }
 
@@ -258,22 +258,47 @@ public class StartMenu {
         pieceMovementHelpFrame.setSize(this.HEIGHT*9/8, this.WIDTH*9/8);
 
         JPanel pieceMovementHelpPanel = new JPanel();
-        pieceMovementHelpPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        pieceMovementHelpPanel.setLayout(new GridLayout(2, 1, 3, 5));
 
-        Image movementImage = new BufferedImage(this.HEIGHT/2, this.WIDTH/2, 1);
-        JLabel movementText;
+        Image movementImage;
+        String movementText;
 
         if (pieceClicked.equals("Archer")) {
-            movementImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/gigachad.png")));
+            movementImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/archerMoves.png")));
+            // You can use html and inline css!!!!
+            movementText = "<html><body style=\"text-align:center; margin:4px\">" +
+                    "The archer moves like a king: one square at a time in any direction. " +
+                    "It can also shoot pieces two diagonal squares away, " +
+                    "meaning it captures the piece without moving." +
+                    "</body></html>";
         } else if (pieceClicked.equals("Bomber")) {
             movementImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/gigachad.png")));
+            movementText = "<html><body style=\"text-align:center; margin:4px\">" +
+                    "The bomber can move one square at a time but only in the forward direction." +
+                    "When taken, any piece that is one square away from the bomber will be destroyed, regardless of color and including the piece that took the bomber." +
+                    "</body></html>";
         } else if (pieceClicked.equals("Assassin")) {
             movementImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/gigachad.png")));
+            movementText = "<html><body style=\"text-align:center; margin:4px\">" +
+                    "Assassins can jump two squares adjacently or one square diagonally." +
+                    "They can also capture bombers without them exploding and can take out royal guards from the front." +
+                    "</body></html>";
         } else {
             movementImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/gigachad.png")));
+            movementText = "<html><body style=\"text-align:center; margin:4px\">" +
+                    "Royal guards move like kings: one square in any direction." +
+                    "They cannot take other pieces, but they themselves cannot be taken except for from behind." +
+                    "</body></html>";
         }
 
-        pieceMovementHelpPanel.add(new JLabel(new ImageIcon(movementImage)));
+        JLabel imageLabel = new JLabel(new ImageIcon(movementImage.getScaledInstance(WIDTH/2, WIDTH/2, 0)));
+        JLabel textLabel = new JLabel(movementText);
+
+        textLabel.setSize(WIDTH/2, HEIGHT/2);
+
+        pieceMovementHelpPanel.add(imageLabel);
+        pieceMovementHelpPanel.add(textLabel);
+
         pieceMovementHelpFrame.add(pieceMovementHelpPanel);
         pieceMovementHelpFrame.setVisible(true);
     }
