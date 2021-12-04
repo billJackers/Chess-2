@@ -102,10 +102,7 @@ public class Bomber extends Piece {
     public boolean acceptableColumn(int column, int proposedColumn) {
         int maxColumn = column + 1;
         int minColumn = column - 1;
-        if (proposedColumn <= maxColumn && proposedColumn >= minColumn) {
-            return true;
-        }
-        return false;
+        return proposedColumn <= maxColumn && proposedColumn >= minColumn;
     }
 
     public void explode(Board board) {

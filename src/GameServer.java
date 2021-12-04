@@ -22,7 +22,7 @@ public class GameServer extends Thread {
     }
 
     public void run() {  // functions are run in a separate thread currently for testing purposes
-        JFrame gameWindow = new JFrame("Chess 2 (Server)");
+        JFrame gameWindow = new JFrame("Giga Chess (Server)");
         gameWindow.setLocationRelativeTo(null);
 
         //  Initial waiting text on screen
@@ -39,8 +39,10 @@ public class GameServer extends Thread {
         // Try to establish a connection with the client
         Socket connectionToClient = getServerSocket();
         // our board, also our gameloop
-        Board board = new Board(connectionToClient, Sides.BLUE);  // the Server is the BLUE side
+        Board board = new Board();
         StatsDisplay stats = new StatsDisplay(board, 0, 10, 0);  // stats displayer panel
+
+        ConnectionHandler connectionHandler = new ConnectionHandler(connectionToClient, board, Sides.BLUE);  // the Server is the BLUE side
 
         gameWindow.remove(waitingScreen);  // remove the "waiting for client" panel, as we have connected with the client
 
