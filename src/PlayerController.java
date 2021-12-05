@@ -96,6 +96,7 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
         from.clearPiece(); // clear the old square of the moved piece
         if (pieceTaken != null)
             pieceTaken.runOnDeath(board, pieceToMove);  // call runOnDeath if the captured square had a piece
+        board.repaint();
     }
 
     public void sendMovesToOpponent(Square target, boolean isArcherShot) {  // updates the opponent's board if running client/server

@@ -31,7 +31,7 @@ public class Board extends JPanel implements ActionListener {
         this.setFocusTraversalKeysEnabled(true);
 
         initializeSquares();  // "rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBRBQKBRBR"
-        generateBoardState("rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/X/X/Cppppppppp");
+        generateBoardState("rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBRBQKBRBR");
 
         // PlayerController to handle mouse input
         controller = new PlayerController(this);
@@ -107,7 +107,7 @@ public class Board extends JPanel implements ActionListener {
         g.setColor(new Color(225, 209, 163, 255));
         g.fillRect(0, 0, RANK_SIZE*SQUARE_SIZE, FILE_SIZE*SQUARE_SIZE);  // fill background
         for (Square sq : this.board) {  // then draw squares
-            sq.draw(g);
+            sq.draw(g, controller.getCurrentTurn());
         }
     }
 

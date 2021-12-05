@@ -28,6 +28,9 @@ public class StartMenu {
     private final int WIDTH= 375;
     private final int HEIGHT = 300;
 
+    // a boolean for when the help frame is open, so only one helpframe can be opened at a time
+    private boolean helpFrameOpen = false;
+
     private class MenuImage extends JPanel {
         private final Image bg;
         public MenuImage(Image background){
@@ -127,7 +130,10 @@ public class StartMenu {
 
         helpBtn.addActionListener(e -> {
             try {
-                showHelp();
+                if (!helpFrameOpen) {
+                    showHelp();
+                    helpFrameOpen = true;
+                }
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -211,6 +217,7 @@ public class StartMenu {
         JFrame helpFrame = new JFrame("Help");
         helpFrame.setSize(this.WIDTH*5/6, this.HEIGHT*5/6);
         helpFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        helpFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         helpFrame.setVisible(true);
         helpFrame.setResizable(false);
 
@@ -231,22 +238,27 @@ public class StartMenu {
         JButton[] helpButtons = {archerBtn, bomberBtn, assassinBtn, rgBtn};
 
         for (JButton button : helpButtons) {
-            button.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    try {
-                        showPieceMovementHelp(button.getText());
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
+            button.addActionListener(e -> {
+                try {
+                    showPieceMovementHelp(button.getText());
+                    helpFrame.dispose();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
             });
             button.setMargin(new Insets(2, 2, 0, 2));
             buttonPanel.add(button);
         }
 
+        Button exitButton = new Button("Exit");
+        exitButton.addActionListener(e -> {
+            helpFrame.dispose();
+            helpFrameOpen = false;
+        });
+
         helpPanel.add(helpLbl);
         helpPanel.add(buttonPanel);
+        helpPanel.add(exitButton);
         helpFrame.add(helpPanel);
     }
 
@@ -255,16 +267,16 @@ public class StartMenu {
 
         JFrame pieceMovementHelpFrame = new JFrame("Help");
         pieceMovementHelpFrame.setResizable(false);
-        pieceMovementHelpFrame.setSize(this.HEIGHT*9/8, this.WIDTH*9/8);
+        pieceMovementHelpFrame.setSize(this.HEIGHT*5/4, this.WIDTH*6/4);
 
         JPanel pieceMovementHelpPanel = new JPanel();
-        pieceMovementHelpPanel.setLayout(new GridLayout(2, 1, 3, 5));
+        pieceMovementHelpPanel.setLayout(new GridLayout(3, 1, 3, 5));
 
         Image movementImage;
         String movementText;
 
         if (pieceClicked.equals("Archer")) {
-            movementImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/archerMoves.png")));
+            movementImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/movementHelpImages/archerMoves.png")));
             // You can use html and inline css!!!!
             movementText = "<html><body style=\"text-align:center; margin:4px\">" +
                     "The archer moves like a king: one square at a time in any direction. " +
@@ -272,19 +284,19 @@ public class StartMenu {
                     "meaning it captures the piece without moving." +
                     "</body></html>";
         } else if (pieceClicked.equals("Bomber")) {
-            movementImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/gigachad.png")));
+            movementImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/movementHelpImages/bomberMoves.png")));
             movementText = "<html><body style=\"text-align:center; margin:4px\">" +
                     "The bomber can move one square at a time but only in the forward direction." +
                     "When taken, any piece that is one square away from the bomber will be destroyed, regardless of color and including the piece that took the bomber." +
                     "</body></html>";
         } else if (pieceClicked.equals("Assassin")) {
-            movementImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/gigachad.png")));
+            movementImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/movementHelpImages/assassinMoves.png")));
             movementText = "<html><body style=\"text-align:center; margin:4px\">" +
                     "Assassins can jump two squares adjacently or one square diagonally." +
                     "They can also capture bombers without them exploding and can take out royal guards from the front." +
                     "</body></html>";
         } else {
-            movementImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/gigachad.png")));
+            movementImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/movementHelpImages/rgMoves.png")));
             movementText = "<html><body style=\"text-align:center; margin:4px\">" +
                     "Royal guards move like kings: one square in any direction." +
                     "They cannot take other pieces, but they themselves cannot be taken except for from behind." +
@@ -294,13 +306,24 @@ public class StartMenu {
         JLabel imageLabel = new JLabel(new ImageIcon(movementImage.getScaledInstance(WIDTH/2, WIDTH/2, 0)));
         JLabel textLabel = new JLabel(movementText);
 
-        textLabel.setSize(WIDTH/2, HEIGHT/2);
+        Button exitButton = new Button("Exit");
+        exitButton.addActionListener(e -> {
+            pieceMovementHelpFrame.dispose();
+            try {
+                showHelp();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+        exitButton.setSize(exitButton.getMinimumSize());
 
         pieceMovementHelpPanel.add(imageLabel);
         pieceMovementHelpPanel.add(textLabel);
+        pieceMovementHelpPanel.add(exitButton);
 
         pieceMovementHelpFrame.add(pieceMovementHelpPanel);
         pieceMovementHelpFrame.setVisible(true);
+        pieceMovementHelpFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     }
 
 }
