@@ -306,7 +306,10 @@ public class StartMenu {
         JLabel imageLabel = new JLabel(new ImageIcon(movementImage.getScaledInstance(WIDTH/2, WIDTH/2, 0)));
         JLabel textLabel = new JLabel(movementText);
 
+        JPanel exit = new JPanel();
         Button exitButton = new Button("Exit");
+        exitButton.setSize(new Dimension(50, 50));
+        exit.add(exitButton);
         exitButton.addActionListener(e -> {
             pieceMovementHelpFrame.dispose();
             try {
@@ -315,11 +318,10 @@ public class StartMenu {
                 ex.printStackTrace();
             }
         });
-        exitButton.setSize(exitButton.getMinimumSize());
 
         pieceMovementHelpPanel.add(imageLabel);
         pieceMovementHelpPanel.add(textLabel);
-        pieceMovementHelpPanel.add(exitButton);
+        pieceMovementHelpPanel.add(exit);
 
         pieceMovementHelpFrame.add(pieceMovementHelpPanel);
         pieceMovementHelpFrame.setVisible(true);
