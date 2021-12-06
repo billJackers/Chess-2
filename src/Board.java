@@ -10,18 +10,16 @@ public class Board extends JPanel implements ActionListener {
     private static final int FILE_SIZE = 10; // columns
     private static final int RANK_SIZE = 10; // rows
 
+    private boolean isPaused;
+    private boolean isFlipped;
+
     private final PlayerController controller;
 
     private final Square[] board = new Square[100];
-    private boolean drawBoardSwapped = false;
 
     private static final int DELAY = 25; // delay in ms to update board
 
-    public Board() {  // single player board
-        this(null, null);
-    }
-
-    public Board(Socket connection, Sides playerSide) {
+    public Board(String variant, boolean highlightsOn) {
         // window size
         this.setPreferredSize(new Dimension(SQUARE_SIZE*RANK_SIZE, SQUARE_SIZE*FILE_SIZE)); // dimensions based on the size of the grid
         this.setMaximumSize(this.getPreferredSize());
@@ -33,17 +31,13 @@ public class Board extends JPanel implements ActionListener {
         this.setFocusable(true);
         this.setFocusTraversalKeysEnabled(true);
 
-        initializeSquares();
+        initializeSquares();  // "rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBRBQKBRBR"
         generateBoardState("rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBRBQKBRBR");
 
         // PlayerController to handle mouse input
-        controller = new PlayerController(this);
-
-        // ConnectionHandler to handle multiplayer sessions
-        ConnectionHandler connectionHandler;
-
-        if (connection != null)  // if we are doing multiplayer, instantiate ConnectionHandler
-            connectionHandler = new ConnectionHandler(connection, controller, playerSide, this);
+        controller = new PlayerController(this, variant, highlightsOn);
+        isPaused = false;
+        flipBoard();
     }
 
     // getters
@@ -82,6 +76,11 @@ public class Board extends JPanel implements ActionListener {
         repaint();
     }
 
+    // pausing events
+    public boolean isPaused() { return isPaused; }
+    public void pause() { isPaused = true; }
+    public void unpause() { isPaused = false; }
+
     private void initializeSquares() {
         int squareCount = 0;
         for (int file = 0; file < FILE_SIZE; file++) {
@@ -92,14 +91,26 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 
-    private void rotateSquares() {} // idea: rotatesquares method to flip board
+    public void flipBoard() {  // flips the sides (does not work though)
+        isFlipped = !isFlipped;  // this is based programming fight me
+        for (int i = 0; i < board.length/2; i++) {
+            Square tempSquare = board[99-i];
+            Piece tempPiece = tempSquare.getPiece();
+            board[99-i] = board[i];
+            if (board[i].getPiece() != null)
+                board[99-i].setPiece(board[i].getPiece());
+            board[i] = tempSquare;
+            if (tempPiece != null)
+                board[i].setPiece(tempPiece);
+        }
+    }
 
     public void paintComponent(Graphics g) {  // draws all the squares in the board
         super.paintComponent(g);
         g.setColor(new Color(225, 209, 163, 255));
         g.fillRect(0, 0, RANK_SIZE*SQUARE_SIZE, FILE_SIZE*SQUARE_SIZE);  // fill background
         for (Square sq : this.board) {  // then draw squares
-            sq.draw(g, drawBoardSwapped);
+            sq.draw(g, controller.getCurrentTurn());
         }
     }
 
@@ -152,10 +163,13 @@ public class Board extends JPanel implements ActionListener {
         }
 
     }
+    public Square getSquare(int rank, int file) {
+        int boardPos = file * FILE_SIZE + rank;  // calculate the position instead of looping through in for loop
+        return board[boardPos];
+    }
     public Square getSquareClicked(int mouseX, int mouseY) {
         int rank = mouseX / SQUARE_SIZE;  // integer division leaves us with the correct rank and file
         int file = mouseY / SQUARE_SIZE;
-        int boardPos = file * FILE_SIZE + rank;  // calculate the position instead of looping through in for loop
-        return board[boardPos];
+        return getSquare(rank, file);
     }
 }

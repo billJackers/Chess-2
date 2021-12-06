@@ -22,9 +22,9 @@ public class StatsDisplay extends JPanel implements ActionListener {
 
     private boolean timed = true;
 
-    private WinFrame winFrame;
+    private final WinFrame winFrame;
 
-    private Timer globalClock;
+    private final Timer globalClock;
 
     public StatsDisplay(Board board, int hours, int minutes, int seconds) {
         this.board = board;
@@ -60,8 +60,8 @@ public class StatsDisplay extends JPanel implements ActionListener {
 
         // while seemingly random, positions based on the width and height of the screen lets us alter the size of the board maintaining the correct ratios of text positions and sizes
         // drawing new clock states
-            g.setFont(clockFont);
-            g.setColor(new Color(56, 211, 255, 255));  // set a color before drawing text for text to be that color
+        g.setFont(clockFont);
+        g.setColor(new Color(56, 211, 255, 255));  // set a color before drawing text for text to be that color
         // Clocks should only show if the game is timed
         if (timed) {
             g.drawString(board.getController().getbClock().getTime(), HEADER_WIDTH * 5 / 26, HEADER_HEIGHT / 2);
@@ -75,14 +75,14 @@ public class StatsDisplay extends JPanel implements ActionListener {
         }
 
         // Draw captured red pieces (ugly code, should probably clean up)
-        for (int i = 0; i < board.getController().getrPiecesCaptured().size(); i++) {
-            Image image = board.getController().getrPiecesCaptured().get(i).getImage().getScaledInstance(HEADER_HEIGHT/3, HEADER_HEIGHT/3, Image.SCALE_FAST);
+        for (int i = 0; i < board.getController().getRedPiecesCaptured().size(); i++) {
+            Image image = board.getController().getRedPiecesCaptured().get(i).getImage().getScaledInstance(HEADER_HEIGHT/3, HEADER_HEIGHT/3, Image.SCALE_FAST);
             g.drawImage(image, (HEADER_WIDTH*5/26)+(HEADER_WIDTH*i/50), HEADER_HEIGHT*3/5, null);
         }
 
         // Draw captured blue pieces
-        for (int i = 0; i < board.getController().getbPiecesCaptured().size(); i++) {
-            Image image = board.getController().getbPiecesCaptured().get(i).getImage().getScaledInstance(HEADER_HEIGHT/3, HEADER_HEIGHT/3, Image.SCALE_FAST);
+        for (int i = 0; i < board.getController().getBluePiecesCaptured().size(); i++) {
+            Image image = board.getController().getBluePiecesCaptured().get(i).getImage().getScaledInstance(HEADER_HEIGHT/3, HEADER_HEIGHT/3, Image.SCALE_FAST);
             g.drawImage(image, (HEADER_WIDTH*18/26)+(HEADER_WIDTH*i/50), HEADER_HEIGHT*3/5, null);
         }
 
@@ -96,7 +96,7 @@ public class StatsDisplay extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (board.getController().isPaused()) return;  // if the game is paused, don't do any actions
+        //if (board.isPaused()) return;  // if the game is paused, don't do any actions
 
         turn = board.getController().getCurrentTurn();
         if (timed) {

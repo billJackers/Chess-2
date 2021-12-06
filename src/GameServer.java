@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -22,7 +24,7 @@ public class GameServer extends Thread {
     }
 
     public void run() {  // functions are run in a separate thread currently for testing purposes
-        JFrame gameWindow = new JFrame("Chess 2 (Server)");
+        JFrame gameWindow = new JFrame("Giga Chess (Server)");
         gameWindow.setLocationRelativeTo(null);
 
         //  Initial waiting text on screen
@@ -36,19 +38,18 @@ public class GameServer extends Thread {
         gameWindow.setVisible(true);
         gameWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // Try to establish a connection with the client
-        Socket connectionToClient = getServerSocket();
-        // our board, also our gameloop
-        Board board = new Board(connectionToClient, Sides.BLUE);  // the Server is the BLUE side
+        Socket connectionToClient = getServerSocket();  // Try to establish a connection with the client
+
+        Board board = new Board("Chess 2", true);  // our board, also our gameloop
+        board.getController().setClocks(0, 10, 0, 5);  // setting the clocks statically
         StatsDisplay stats = new StatsDisplay(board, 0, 10, 0);  // stats displayer panel
 
-        gameWindow.remove(waitingScreen);  // remove the "waiting for client" panel, as we have connected with the client
+        ConnectionHandler connectionHandler = new ConnectionHandler(connectionToClient, board, Sides.BLUE);  // the Server is the BLUE side
 
+        gameWindow.remove(waitingScreen);  // remove the "waiting for client" panel, as we have connected with the client
         gameWindow.add(stats, BorderLayout.NORTH); // creates the stats JPanel to display the games statistics above the board panel
         gameWindow.add(board, BorderLayout.SOUTH); // creates the board JPanel to draw on. This also initializes the game loop
-
         gameWindow.setSize(board.getPreferredSize()); // Set the size of the window based on the size of the board
-
         gameWindow.pack(); // pack() should be called after setResizable() to avoid issues on some platforms
     }
 
@@ -58,7 +59,8 @@ public class GameServer extends Thread {
 
         // starts server and waits for a connection
         try {
-            server = new ServerSocket(PORT);
+            server = new ServerSocket();
+            server.bind(new InetSocketAddress(InetAddress.getByName("localhost"), PORT));
             System.out.println("Server started");
             System.out.println("Waiting for a client ...");
             socket = server.accept();  // waits until client accepts
@@ -67,7 +69,7 @@ public class GameServer extends Thread {
         }
         catch(IOException i)
         {
-            System.out.println(i);
+            System.out.println(i.getMessage());
         }
         return null;
     }
