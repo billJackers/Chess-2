@@ -171,11 +171,13 @@ public class StartMenu {
     // Separate method made for showing settings
     public static void showSettings() {
         JPanel settingsPanel = new JPanel();
-        settingsPanel.setLayout(new GridLayout(4, 1, 0, 3));
+        settingsPanel.setLayout(new GridLayout(5, 1, 0, 3));
 
         JComboBox<String> highlights = new JComboBox<>();
         JComboBox<String> deciseconds = new JComboBox<>();
+        JComboBox<String> skins = new JComboBox<>();
         JComboBox<String> soundEffects = new JComboBox<>();
+
 
         JPanel volumePanel = new JPanel();
         JSlider volumeSlider = new JSlider(0, 100, 0);
@@ -184,16 +186,19 @@ public class StartMenu {
 
         String[] highlightSettings = {"Show highlights", "Don't show highlights"};
         String[] decisecondSettings = {"Show deciseconds after clock goes below 20s", "Always show deciseconds", "Don't show at all"};
+        String[] skinSettings = {"Original Jank Skin"};
         String[] soundEffectsSettings = {"Sound effects ON", "Sound effects OFF"};
 
         // Add strings to JComboBoxes
         for (String str : highlightSettings) highlights.addItem(str);
         for (String str : decisecondSettings) deciseconds.addItem(str);
         for (String str : soundEffectsSettings) soundEffects.addItem(str);
+        for (String str : skinSettings) skins.addItem(str);
 
         // Add components to settings panel
         settingsPanel.add(highlights);
         settingsPanel.add(deciseconds);
+        settingsPanel.add(skins);
         settingsPanel.add(soundEffects);
         settingsPanel.add(volumePanel);
 
