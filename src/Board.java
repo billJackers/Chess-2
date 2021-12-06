@@ -93,7 +93,7 @@ public class Board extends JPanel implements ActionListener {
 
     public void flipBoard() {  // flips the sides (does not work though)
         isFlipped = !isFlipped;  // this is based programming fight me
-        for (int i = 0; i < board.length/2; i++) {
+        /*for (int i = 0; i < board.length/2; i++) {
             Square tempSquare = board[99-i];
             Piece tempPiece = tempSquare.getPiece();
             board[99-i] = board[i];
@@ -102,15 +102,16 @@ public class Board extends JPanel implements ActionListener {
             board[i] = tempSquare;
             if (tempPiece != null)
                 board[i].setPiece(tempPiece);
-        }
+        }*/
     }
 
     public void paintComponent(Graphics g) {  // draws all the squares in the board
         super.paintComponent(g);
         g.setColor(new Color(225, 209, 163, 255));
         g.fillRect(0, 0, RANK_SIZE*SQUARE_SIZE, FILE_SIZE*SQUARE_SIZE);  // fill background
+
         for (Square sq : this.board) {  // then draw squares
-            sq.draw(g, controller.getCurrentTurn());
+            sq.draw(g);
         }
     }
 

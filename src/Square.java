@@ -67,7 +67,7 @@ public class Square extends JComponent {
     }
     public void clearPiece() { this.piece = null; }
 
-    public void draw(Graphics g, Sides turn) {  // draws the background square and then the piece (if piece exists)
+    public void draw(Graphics g) {  // draws the background square and then the piece (if piece exists)
         int squareX = getX();
         int squareY = getY();
 
