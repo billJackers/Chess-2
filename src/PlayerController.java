@@ -37,18 +37,16 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
         bluePiecesCaptured = new ArrayList<>();
         redPiecesCaptured = new ArrayList<>();
     }
-
     public void setConnectionHandler(ConnectionHandler connectionHandler) {
         this.connectionHandler = connectionHandler;
-    }
-
-    public Sides getCurrentTurn() {
-        return currentTurn;
     }
 
     public void swapTurns() {
         if (currentTurn == Sides.BLUE) currentTurn = Sides.RED;
         else currentTurn = Sides.BLUE;
+    }
+    public Sides getCurrentTurn() {
+        return currentTurn;
     }
 
     public void selectSquare(Square selected) {  // conditions: square must contain a piece
@@ -80,6 +78,9 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
         this.previouslySelected = null;  // cut the references
         this.legalMovesOfSelectedPiece = null;
     }
+    public void unhighlightBoard() {
+        for (Square s : board.getBoard()) s.setState(Square.ActionStates.NONE);
+    }
 
     public void addToCaptured(Piece piece) {
         switch (piece.getSide()) {
@@ -87,26 +88,11 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
             case RED -> redPiecesCaptured.add(piece);
         }
     }
-
-    public void move(Square from, Square to) {
-        Piece pieceToMove = from.getPiece();
-        Piece pieceTaken = to.getPiece();
-
-        pieceToMove.runOnMove(board, to);  // call runOnMove() (calls oldSquare.setPiece(newPiece), moving the piece)
-        from.clearPiece(); // clear the old square of the moved piece
-        if (pieceTaken != null)
-            pieceTaken.runOnDeath(board, pieceToMove);  // call runOnDeath if the captured square had a piece
-        board.repaint();
+    public List<Piece> getBluePiecesCaptured() {
+        return bluePiecesCaptured;
     }
-
-    public void sendMovesToOpponent(Square target, boolean isArcherShot) {  // updates the opponent's board if running client/server
-        if (connectionHandler != null) {
-            String moveType = "M";
-            if (isArcherShot)
-                moveType = "A";
-            String moves = previouslySelected.getRank() + " " + previouslySelected.getFile() + " " + target.getRank() + " " + target.getFile() + " " + moveType;  // Sends the file and rank of the selected piece and the target square
-            connectionHandler.send(moves);
-        }
+    public List<Piece> getRedPiecesCaptured() {
+        return redPiecesCaptured;
     }
 
     public void attemptMove(Square target) {
@@ -118,30 +104,12 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
                 if (legalMovesOfSelectedPiece.contains(target) && pieceToMove.canCapture(target)) {  // if it is legal to move to the new location
                     move(previouslySelected, target);  // make the client side moves
                     sendMovesToOpponent(target, false);  // update the opponent (if connection handler exists)
-                    swapTurns();  // swap the turns on a successful move
-
-                    // Increment clocks when move occurs
-                    switch (pieceToMove.getSide()) {
-                        case BLUE -> bClock.increment(increment);
-                        case RED -> rClock.increment(increment);
-                    }
                 }
 
                 // Archer fire
                 if (pieceToMove instanceof Archer && pieceToMove.getTargets(board).contains(target)) {  // COMMENT YOUR CODE <-----------------------
-
-                    // archer shot does not move archer, so we don't call move() we just clear the target
-                    Piece pieceTaken = target.getPiece();  // get the piece before we take it
-                    target.clearPiece();  // clear the piece (it is now yeeted from the square it was on)
-                    if (pieceTaken != null)
-                        pieceTaken.runOnDeath(board, pieceToMove);  // if there was a piece on the square before we cleared it then we run its death function
-
-                    // Increment clocks when move occurs
-                    switch (pieceToMove.getSide()) {
-                        case BLUE -> bClock.increment(increment);
-                        case RED -> rClock.increment(increment);
-                    }
-                    swapTurns();
+                    shoot(previouslySelected, target);  // make the client side moves
+                    sendMovesToOpponent(target, true);  // update the opponent (if connection handler exists)
                 }
             }
             deselectCurrent();  // clear board states on after this click
@@ -151,17 +119,52 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
             }
         }
     }
+    public void move(Square from, Square to) {
+        Piece pieceToMove = from.getPiece();
+        Piece pieceTaken = to.getPiece();
+
+        pieceToMove.runOnMove(board, to);  // call runOnMove() (calls oldSquare.setPiece(newPiece), moving the piece)
+        from.clearPiece(); // clear the old square of the moved piece
+        if (pieceTaken != null)
+            pieceTaken.runOnDeath(board, pieceToMove);  // call runOnDeath if the captured square had a piece
+
+        // Increment clocks when move occurs
+        switch (currentTurn) {
+            case BLUE -> bClock.increment(increment);
+            case RED -> rClock.increment(increment);
+        }
+        swapTurns();
+
+        board.repaint();
+    }
+    public void shoot(Square from, Square to) {
+        // archer shot does not move archer, so we don't call move() we just clear the target
+        Piece pieceTaken = to.getPiece();  // get the piece before we take it
+        to.clearPiece();  // clear the piece (it is now yeeted from the square it was on)
+        if (pieceTaken != null)
+            pieceTaken.runOnDeath(board, from.getPiece());  // if there was a piece on the square before we cleared it then we run its death function
+
+        // Increment clocks when move occurs
+        switch (currentTurn) {
+            case BLUE -> bClock.increment(increment);
+            case RED -> rClock.increment(increment);
+        }
+        swapTurns();
+    }
+
+    public void sendMovesToOpponent(Square target, boolean isArcherShot) {  // updates the opponent's board if running client/server
+        if (connectionHandler != null) {
+            String moveType = "m";
+            if (isArcherShot)
+                moveType = "a";
+            String moves = previouslySelected.getRank() + " " + previouslySelected.getFile() + " " + target.getRank() + " " + target.getFile() + " " + moveType;  // Sends the file and rank of the selected piece and the target square
+            connectionHandler.send(moves);
+            board.pause();  // pause the board since turn has been made, the board will unpause when the opponent makes a move
+        }
+    }
 
     public boolean isCorrectPlayerMoving() {  // checks whether it is the correct player's turn
         return (currentTurn == Sides.BLUE && previouslySelected.getPiece().getSide() == Sides.BLUE) || (currentTurn == Sides.RED && previouslySelected.getPiece().getSide() == Sides.RED);
-    }
-
-    public Clock getbClock() {
-        return bClock;
-    }
-
-    public Clock getrClock() {
-        return rClock;
     }
 
     // Initialize clocks
@@ -170,14 +173,17 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
         this.rClock = new Clock(hours, minutes, seconds);
         this.increment = increment;
     }
-
-    public void unhighlightBoard() {
-        for (Square s : board.getBoard()) s.setState(Square.ActionStates.NONE);
+    public Clock getbClock() {
+        return bClock;
+    }
+    public Clock getrClock() {
+        return rClock;
     }
 
+
+    // input-catching interface methods
     @Override
     public void mouseClicked(MouseEvent e) {
-
     }
 
     @Override
@@ -204,26 +210,16 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
         }
     }
 
-    public List<Piece> getBluePiecesCaptured() {
-        return bluePiecesCaptured;
-    }
-
-    public List<Piece> getRedPiecesCaptured() {
-        return redPiecesCaptured;
-    }
-
     @Override
     public void mouseReleased(MouseEvent e) {
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-
     }
 
     @Override

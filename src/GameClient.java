@@ -30,8 +30,9 @@ public class GameClient {
             failed.repaint();
 
         } else {  // client connected to server
-            // our board, also our gameloop
-            Board board = new Board();
+            Board board = new Board();  // our board, also our gameloop
+            board.pause();  // begin as paused since it is the server's turn first
+            board.getController().setClocks(0, 10, 0, 5);  // setting the clocks statically
             StatsDisplay stats = new StatsDisplay(board, 0, 10, 0);  // stats displayer panel
 
             ConnectionHandler connectionHandler = new ConnectionHandler(connectionToServer, board, Sides.RED);  // the client is the RED side

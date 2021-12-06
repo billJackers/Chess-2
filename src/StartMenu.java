@@ -275,32 +275,37 @@ public class StartMenu {
         Image movementImage;
         String movementText;
 
-        if (pieceClicked.equals("Archer")) {
-            movementImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/movementHelpImages/archerMoves.png")));
-            // You can use html and inline css!!!!
-            movementText = "<html><body style=\"text-align:center; margin:4px\">" +
-                    "The archer moves like a king: one square at a time in any direction. " +
-                    "It can also shoot pieces two diagonal squares away, " +
-                    "meaning it captures the piece without moving." +
-                    "</body></html>";
-        } else if (pieceClicked.equals("Bomber")) {
-            movementImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/movementHelpImages/bomberMoves.png")));
-            movementText = "<html><body style=\"text-align:center; margin:4px\">" +
-                    "The bomber can move one square at a time but only in the forward direction." +
-                    "When taken, any piece that is one square away from the bomber will be destroyed, regardless of color and including the piece that took the bomber." +
-                    "</body></html>";
-        } else if (pieceClicked.equals("Assassin")) {
-            movementImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/movementHelpImages/assassinMoves.png")));
-            movementText = "<html><body style=\"text-align:center; margin:4px\">" +
-                    "Assassins can jump two squares adjacently or one square diagonally." +
-                    "They can also capture bombers without them exploding and can take out royal guards from the front." +
-                    "</body></html>";
-        } else {
-            movementImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/movementHelpImages/rgMoves.png")));
-            movementText = "<html><body style=\"text-align:center; margin:4px\">" +
-                    "Royal guards move like kings: one square in any direction." +
-                    "They cannot take other pieces, but they themselves cannot be taken except for from behind." +
-                    "</body></html>";
+        switch (pieceClicked) {
+            case "Archer" -> {
+                movementImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/movementHelpImages/archerMoves.png")));
+                // You can use html and inline css!!!!
+                movementText = "<html><body style=\"text-align:center; margin:4px\">" +
+                        "The archer moves like a king: one square at a time in any direction. " +
+                        "It can also shoot pieces two diagonal squares away, " +
+                        "meaning it captures the piece without moving." +
+                        "</body></html>";
+            }
+            case "Bomber" -> {
+                movementImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/movementHelpImages/bomberMoves.png")));
+                movementText = "<html><body style=\"text-align:center; margin:4px\">" +
+                        "The bomber can move one square at a time but only in the forward direction." +
+                        "When taken, any piece that is one square away from the bomber will be destroyed, regardless of color and including the piece that took the bomber." +
+                        "</body></html>";
+            }
+            case "Assassin" -> {
+                movementImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/movementHelpImages/assassinMoves.png")));
+                movementText = "<html><body style=\"text-align:center; margin:4px\">" +
+                        "Assassins can jump two squares adjacently or one square diagonally." +
+                        "They can also capture bombers without them exploding and can take out royal guards from the front." +
+                        "</body></html>";
+            }
+            default -> {
+                movementImage = ImageIO.read(Objects.requireNonNull(getClass().getResource("images/movementHelpImages/rgMoves.png")));
+                movementText = "<html><body style=\"text-align:center; margin:4px\">" +
+                        "Royal guards move like kings: one square in any direction." +
+                        "They cannot take other pieces, but they themselves cannot be taken except for from behind." +
+                        "</body></html>";
+            }
         }
 
         JLabel imageLabel = new JLabel(new ImageIcon(movementImage.getScaledInstance(WIDTH/2, WIDTH/2, 0)));

@@ -36,21 +36,18 @@ public class GameServer extends Thread {
         gameWindow.setVisible(true);
         gameWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // Try to establish a connection with the client
-        Socket connectionToClient = getServerSocket();
-        // our board, also our gameloop
-        Board board = new Board();
+        Socket connectionToClient = getServerSocket();  // Try to establish a connection with the client
+
+        Board board = new Board();  // our board, also our gameloop
+        board.getController().setClocks(0, 10, 0, 5);  // setting the clocks statically
         StatsDisplay stats = new StatsDisplay(board, 0, 10, 0);  // stats displayer panel
 
         ConnectionHandler connectionHandler = new ConnectionHandler(connectionToClient, board, Sides.BLUE);  // the Server is the BLUE side
 
         gameWindow.remove(waitingScreen);  // remove the "waiting for client" panel, as we have connected with the client
-
         gameWindow.add(stats, BorderLayout.NORTH); // creates the stats JPanel to display the games statistics above the board panel
         gameWindow.add(board, BorderLayout.SOUTH); // creates the board JPanel to draw on. This also initializes the game loop
-
         gameWindow.setSize(board.getPreferredSize()); // Set the size of the window based on the size of the board
-
         gameWindow.pack(); // pack() should be called after setResizable() to avoid issues on some platforms
     }
 

@@ -160,10 +160,13 @@ public class Board extends JPanel implements ActionListener {
         }
 
     }
+    public Square getSquare(int rank, int file) {
+        int boardPos = file * FILE_SIZE + rank;  // calculate the position instead of looping through in for loop
+        return board[boardPos];
+    }
     public Square getSquareClicked(int mouseX, int mouseY) {
         int rank = mouseX / SQUARE_SIZE;  // integer division leaves us with the correct rank and file
         int file = mouseY / SQUARE_SIZE;
-        int boardPos = file * FILE_SIZE + rank;  // calculate the position instead of looping through in for loop
-        return board[boardPos];
+        return getSquare(rank, file);
     }
 }

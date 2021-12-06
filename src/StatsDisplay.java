@@ -60,8 +60,8 @@ public class StatsDisplay extends JPanel implements ActionListener {
 
         // while seemingly random, positions based on the width and height of the screen lets us alter the size of the board maintaining the correct ratios of text positions and sizes
         // drawing new clock states
-            g.setFont(clockFont);
-            g.setColor(new Color(56, 211, 255, 255));  // set a color before drawing text for text to be that color
+        g.setFont(clockFont);
+        g.setColor(new Color(56, 211, 255, 255));  // set a color before drawing text for text to be that color
         // Clocks should only show if the game is timed
         if (timed) {
             g.drawString(board.getController().getbClock().getTime(), HEADER_WIDTH * 5 / 26, HEADER_HEIGHT / 2);
@@ -96,7 +96,7 @@ public class StatsDisplay extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (board.isPaused()) return;  // if the game is paused, don't do any actions
+        //if (board.isPaused()) return;  // if the game is paused, don't do any actions
 
         turn = board.getController().getCurrentTurn();
         if (timed) {
