@@ -52,13 +52,14 @@ public class GameClient {
         Socket socket;
         // starts server and waits for a connection
         try {
+            System.out.println("tryuing to connect");
             socket = new Socket(LOCAL_ADDR, PORT);
             System.out.println("Connected");
             return socket;
         }
         catch(IOException i)
         {
-            System.out.println(i);
+            System.out.println(i.getMessage());
         }
         return null;
     }

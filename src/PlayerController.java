@@ -191,7 +191,9 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
 
         if (board.isPaused()) return;  // if the game is paused, disregard mouse events
 
+
         Square squareSelected = board.getSquareClicked(e.getX(), e.getY());
+
         if (SwingUtilities.isLeftMouseButton(e)) {
             unhighlightBoard();
             attemptMove(squareSelected);

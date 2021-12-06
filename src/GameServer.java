@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -57,7 +59,8 @@ public class GameServer extends Thread {
 
         // starts server and waits for a connection
         try {
-            server = new ServerSocket(PORT);
+            server = new ServerSocket();
+            server.bind(new InetSocketAddress(InetAddress.getByName("localhost"), PORT));
             System.out.println("Server started");
             System.out.println("Waiting for a client ...");
             socket = server.accept();  // waits until client accepts
@@ -66,7 +69,7 @@ public class GameServer extends Thread {
         }
         catch(IOException i)
         {
-            System.out.println(i);
+            System.out.println(i.getMessage());
         }
         return null;
     }

@@ -11,6 +11,7 @@ public class Board extends JPanel implements ActionListener {
     private static final int RANK_SIZE = 10; // rows
 
     private boolean isPaused;
+    private boolean isFlipped;
 
     private final PlayerController controller;
 
@@ -36,6 +37,7 @@ public class Board extends JPanel implements ActionListener {
         // PlayerController to handle mouse input
         controller = new PlayerController(this);
         isPaused = false;
+        flipBoard();
     }
 
     // getters
@@ -90,6 +92,7 @@ public class Board extends JPanel implements ActionListener {
     }
 
     public void flipBoard() {  // flips the sides (does not work though)
+        isFlipped = !isFlipped;  // this is based programming fight me
         for (int i = 0; i < board.length/2; i++) {
             Square tempSquare = board[99-i];
             Piece tempPiece = tempSquare.getPiece();
