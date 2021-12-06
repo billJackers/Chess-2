@@ -72,6 +72,35 @@ public abstract class Piece {
         return false;
     }
 
+    public void explode(Board board) {
+        List<Square> targets = getTargets(board);
+        parentSquare.clearPiece();  // first clear the detonated bomber
+        for (Square target : targets) {
+            if (target.hasPiece())
+                target.getPiece().runOnDeath(board, this);
+            target.clearPiece();  // then clear the targets
+        }
+    }
+
+    // Method for atomic mode
+    public void nuke(Board board) {
+
+        int rank = this.parentSquare.getRank();
+        int file = this.parentSquare.getFile();
+
+        Square[] b = board.getBoard();
+
+        int pos = (file*10) + rank;
+
+        int[] bombTargets = {-11, -10, -9,-1, 1, 9, 10, 11, 0};
+        for (int target : bombTargets) {
+            if (pos + target < 100 && pos + target >= 0 && b[pos + target].hasPiece()) {
+                b[pos+target].clearPiece();
+            }
+        }
+
+    }
+
     public Sides getSide() {
         return this.side;
     }

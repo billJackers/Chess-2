@@ -19,7 +19,7 @@ public class Board extends JPanel implements ActionListener {
 
     private static final int DELAY = 25; // delay in ms to update board
 
-    public Board() {
+    public Board(String variant, boolean highlightsOn) {
         // window size
         this.setPreferredSize(new Dimension(SQUARE_SIZE*RANK_SIZE, SQUARE_SIZE*FILE_SIZE)); // dimensions based on the size of the grid
         this.setMaximumSize(this.getPreferredSize());
@@ -35,7 +35,7 @@ public class Board extends JPanel implements ActionListener {
         generateBoardState("rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBRBQKBRBR");
 
         // PlayerController to handle mouse input
-        controller = new PlayerController(this);
+        controller = new PlayerController(this, variant, highlightsOn);
         isPaused = false;
         flipBoard();
     }

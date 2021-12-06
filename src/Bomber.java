@@ -105,21 +105,11 @@ public class Bomber extends Piece {
         return proposedColumn <= maxColumn && proposedColumn >= minColumn;
     }
 
-    public void explode(Board board) {
-        List<Square> targets = getTargets(board);
-        parentSquare.clearPiece();  // first clear the detonated bomber
-        for (Square target : targets) {
-            if (target.hasPiece())
-                target.getPiece().runOnDeath(board, this);
-            target.clearPiece();  // then clear the targets
-        }
-    }
-
     public void runOnDeath(Board board, Piece captor) {
         super.runOnDeath(board, captor);
         // Bomber explosion
         if (!(captor instanceof Assassin)) {
-            explode(board);
+            super.explode(board);
         }
     }
 
