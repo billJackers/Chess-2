@@ -72,15 +72,7 @@ public abstract class Piece {
         return false;
     }
 
-    public void explode(Board board) {
-        List<Square> targets = getTargets(board);
-        parentSquare.clearPiece();  // first clear the detonated bomber
-        for (Square target : targets) {
-            if (target.hasPiece())
-                target.getPiece().runOnDeath(board, this);
-            target.clearPiece();  // then clear the targets
-        }
-    }
+
 
     // Method for atomic mode
     public void nuke(Board board) {

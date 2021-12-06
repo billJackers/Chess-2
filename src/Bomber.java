@@ -109,7 +109,17 @@ public class Bomber extends Piece {
         super.runOnDeath(board, captor);
         // Bomber explosion
         if (!(captor instanceof Assassin)) {
-            super.explode(board);
+            explode(board);
+        }
+    }
+
+    public void explode(Board board) {
+        List<Square> targets = getTargets(board);
+        parentSquare.clearPiece();  // first clear the detonated bomber
+        for (Square target : targets) {
+            if (target.hasPiece())
+                target.getPiece().runOnDeath(board, this);
+            target.clearPiece();  // then clear the targets
         }
     }
 

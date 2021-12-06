@@ -120,7 +120,7 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
 
                 // Archer fire
                 if (pieceToMove instanceof Archer && pieceToMove.getTargets(board).contains(target)) {  // COMMENT YOUR CODE <-----------------------
-                    if (target.getPiece() instanceof Bomber) target.getPiece().explode(board);
+                    //if (target.getPiece() instanceof Bomber) target.getPiece().explode(board);
                     shoot(previouslySelected, target);  // make the client side moves
                     sendMovesToOpponent(target, true);  // update the opponent (if connection handler exists)
                 }
