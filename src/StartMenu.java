@@ -25,8 +25,13 @@ import javax.swing.border.EmptyBorder;
 
 public class StartMenu {
 
-    private final int WIDTH= 375;
+    private final int WIDTH = 375;
     private final int HEIGHT = 300;
+
+    // Settings variables
+    private String variant;
+    private boolean highlightsOn;
+
 
     // a boolean for when the help frame is open, so only one helpframe can be opened at a time
     private boolean helpFrameOpen = false;
@@ -61,6 +66,10 @@ public class StartMenu {
         String backgroundPath = "images/menuscreen.png";
         MenuPanel menuLayout = new MenuPanel(backgroundPath);
         menuLayout.setLayout(new GridLayout(2, 2));
+
+        // Initialize default settings
+        this.variant = "Chess 2";
+        this.highlightsOn = true;
 
         // singleplayer section
         JPanel singlePlayerMenu = new JPanel();
@@ -111,7 +120,7 @@ public class StartMenu {
             int m = Integer.parseInt((String) minutes.getSelectedItem());
             int s = Integer.parseInt((String) seconds.getSelectedItem());
             int i = Integer.parseInt((String) increment.getSelectedItem());
-            new GameWindow(h, m, s, i);
+            new GameWindow(h, m, s, i, variant, highlightsOn);
 
         });
 
@@ -185,6 +194,7 @@ public class StartMenu {
         JPanel settingsPanel = new JPanel();
         settingsPanel.setLayout(new GridLayout(4, 1, 0, 3));
 
+        JComboBox<String> variants = new JComboBox<>();
         JComboBox<String> highlights = new JComboBox<>();
         JComboBox<String> deciseconds = new JComboBox<>();
         JComboBox<String> soundEffects = new JComboBox<>();
@@ -194,16 +204,19 @@ public class StartMenu {
         volumePanel.add(new JLabel("Volume"));
         volumePanel.add(volumeSlider);
 
+        String[] variantSettings = {"Chess 2", "Atomic Chess 2", "Chess 2 from custom position"};
         String[] highlightSettings = {"Show highlights", "Don't show highlights"};
         String[] decisecondSettings = {"Show deciseconds after clock goes below 20s", "Always show deciseconds", "Don't show at all"};
         String[] soundEffectsSettings = {"Sound effects ON", "Sound effects OFF"};
 
         // Add strings to JComboBoxes
+        for (String str : variantSettings) variants.addItem(str);
         for (String str : highlightSettings) highlights.addItem(str);
         for (String str : decisecondSettings) deciseconds.addItem(str);
         for (String str : soundEffectsSettings) soundEffects.addItem(str);
 
         // Add components to settings panel
+        settingsPanel.add(variants);
         settingsPanel.add(highlights);
         settingsPanel.add(deciseconds);
         settingsPanel.add(soundEffects);
@@ -218,6 +231,7 @@ public class StartMenu {
         helpFrame.setSize(this.WIDTH*5/6, this.HEIGHT*5/6);
         helpFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         helpFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        helpFrame.setLocationRelativeTo(startMenu);
         helpFrame.setVisible(true);
         helpFrame.setResizable(false);
 
@@ -267,7 +281,8 @@ public class StartMenu {
 
         JFrame pieceMovementHelpFrame = new JFrame("Help");
         pieceMovementHelpFrame.setResizable(false);
-        pieceMovementHelpFrame.setSize(this.HEIGHT*5/4, this.WIDTH*6/4);
+        pieceMovementHelpFrame.setLocationRelativeTo(startMenu);
+        pieceMovementHelpFrame.setSize(this.HEIGHT, this.WIDTH);
 
         JPanel pieceMovementHelpPanel = new JPanel();
         pieceMovementHelpPanel.setLayout(new GridLayout(3, 1, 3, 5));
