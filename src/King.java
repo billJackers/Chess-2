@@ -19,9 +19,10 @@ public class King extends Piece {
     public String getName() { return "King"; }
 
     public void runOnDeath(Board board, Piece captor) {  // THE KING IS DEAD LMAO
+        super.runOnDeath(board, captor);
         WinFrame winFrame = new WinFrame();
         winFrame.makeWinFrame(Sides.invertSide(side));
-        board.pause();
+        board.pause();  // pause the game on king's death
     }
 
     public List<Square> getLegalMoves(Board board) {
