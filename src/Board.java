@@ -107,7 +107,7 @@ public class Board extends JPanel implements ActionListener {
         for (Square sq : this.board) {  // then draw squares
             int squareX = sq.getX();
             int squareY = sq.getY();
-            if (isFlipped) {
+            if (isFlipped) {  // if the board is flipped, we draw the squares in the opposite spots
                 squareX = SQUARE_SIZE*RANK_SIZE - squareX - SQUARE_SIZE;
                 squareY = SQUARE_SIZE*FILE_SIZE - squareY - SQUARE_SIZE;
             }
@@ -171,7 +171,7 @@ public class Board extends JPanel implements ActionListener {
     public Square getSquareClicked(int mouseX, int mouseY) {
         int rank = mouseX / SQUARE_SIZE;  // integer division leaves us with the correct rank and file
         int file = mouseY / SQUARE_SIZE;
-        if (isFlipped) {
+        if (isFlipped) {  // if the board is flipped then get the inverse square
             rank = 9 - rank;
             file = 9 - file;
         }
