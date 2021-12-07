@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -123,5 +124,20 @@ public class Bomber extends Piece {
             target.clearPiece();  // then clear the targets
         }
     }
+
+    private class AnimationThread extends SwingWorker<Void, Void> {
+        @Override
+        protected Void doInBackground() throws Exception {
+            return null;
+        }
+    }
+
+//    public void doAttackAnimation(){
+//        new Thread(()-> {
+//            setIcon("Your Attack Animation");
+//            sleep(durationOfAnimation);
+//            setIcon("default Animation");
+//        }).start();
+//    }
 
 }
