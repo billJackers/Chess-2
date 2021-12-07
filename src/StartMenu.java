@@ -25,12 +25,10 @@ import javax.swing.border.EmptyBorder;
 
 public class StartMenu {
 
+    private static Settings settings;
+
     private final int WIDTH = 375;
     private final int HEIGHT = 300;
-
-    // Settings variables
-    private String variant;
-    private boolean highlightsOn;
 
 
     // a boolean for when the help frame is open, so only one helpframe can be opened at a time
@@ -68,8 +66,7 @@ public class StartMenu {
         menuLayout.setLayout(new GridLayout(2, 2));
 
         // Initialize default settings
-        this.variant = "Chess 2";
-        this.highlightsOn = true;
+        settings = new Settings("Gigachess", true, "Original");
 
         // singleplayer section
         JPanel singlePlayerMenu = new JPanel();
@@ -120,7 +117,7 @@ public class StartMenu {
             int m = Integer.parseInt((String) minutes.getSelectedItem());
             int s = Integer.parseInt((String) seconds.getSelectedItem());
             int i = Integer.parseInt((String) increment.getSelectedItem());
-            new GameWindow(h, m, s, i, variant, highlightsOn);
+            new GameWindow(h, m, s, i, settings);
 
         });
 
@@ -206,7 +203,7 @@ public class StartMenu {
         volumePanel.add(new JLabel("Volume"));
         volumePanel.add(volumeSlider);
 
-        String[] variantSettings = {"Chess 2", "Atomic Chess 2", "Chess 2 from custom position"};
+        String[] variantSettings = {"Gigachess", "Atomic Gigachess", "Chess 2 from custom position"};
         String[] highlightSettings = {"Show highlights", "Don't show highlights"};
         String[] decisecondSettings = {"Show deciseconds after clock goes below 20s", "Always show deciseconds", "Don't show at all"};
         String[] skinSettings = {"Original Jank Skin"};
@@ -228,6 +225,12 @@ public class StartMenu {
         settingsPanel.add(volumePanel);
 
         JOptionPane.showMessageDialog(null, settingsPanel, "Settings", JOptionPane.QUESTION_MESSAGE);
+
+        String selected = (String) variants.getSelectedItem();
+        switch (Objects.requireNonNull(selected)) {
+            case "Gigachess" -> settings.changeSettings("Gigachess");
+        }
+
     }
 
     // Help
