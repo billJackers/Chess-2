@@ -93,16 +93,6 @@ public class Board extends JPanel implements ActionListener {
 
     public void flipBoard() {  // flips the sides (does not work though)
         isFlipped = !isFlipped;  // this is based programming fight me
-        /*for (int i = 0; i < board.length/2; i++) {
-            Square tempSquare = board[99-i];
-            Piece tempPiece = tempSquare.getPiece();
-            board[99-i] = board[i];
-            if (board[i].getPiece() != null)
-                board[99-i].setPiece(board[i].getPiece());
-            board[i] = tempSquare;
-            if (tempPiece != null)
-                board[i].setPiece(tempPiece);
-        }*/
     }
 
     public void paintComponent(Graphics g) {  // draws all the squares in the board
@@ -111,7 +101,13 @@ public class Board extends JPanel implements ActionListener {
         g.fillRect(0, 0, RANK_SIZE*SQUARE_SIZE, FILE_SIZE*SQUARE_SIZE);  // fill background
 
         for (Square sq : this.board) {  // then draw squares
-            sq.draw(g);
+            int squareX = sq.getX();
+            int squareY = sq.getY();
+            if (isFlipped) {
+                squareX = SQUARE_SIZE*RANK_SIZE - squareX - SQUARE_SIZE;
+                squareY = SQUARE_SIZE*FILE_SIZE - squareY - SQUARE_SIZE;
+            }
+            sq.draw(g, squareX, squareY);
         }
     }
 
@@ -171,6 +167,10 @@ public class Board extends JPanel implements ActionListener {
     public Square getSquareClicked(int mouseX, int mouseY) {
         int rank = mouseX / SQUARE_SIZE;  // integer division leaves us with the correct rank and file
         int file = mouseY / SQUARE_SIZE;
+        if (isFlipped) {
+            rank = 9 - rank;
+            file = 9 - file;
+        }
         return getSquare(rank, file);
     }
 }

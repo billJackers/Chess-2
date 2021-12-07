@@ -27,8 +27,8 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
     private int increment;
 
     // Settings
-    private String variant;
-    private boolean highlightsOn;
+    private final String variant;
+    private final boolean highlightsOn;
 
     public PlayerController(Board board, String variant, boolean highlightsOn) {
         previouslySelected = null;
