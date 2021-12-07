@@ -231,6 +231,7 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
                 }
             }
         }
+        board.repaint();
     }
 
     @Override

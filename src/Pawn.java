@@ -55,6 +55,7 @@ public class Pawn extends Piece {
             case 0 -> doPromotionEvent(board, Sides.RED);   // Red has made it to blue side
             case 9 -> doPromotionEvent(board, Sides.BLUE);  // Blue has made it to red side
         }
+        board.repaint();
     }
 
     public void resetEnPassants(Board board) {

@@ -30,7 +30,7 @@ public class GameClient {
             failed.repaint();
 
         } else {  // client connected to server
-            Board board = new Board(new Settings("Gigachess", true, "Original"));  // our board, also our gameloop
+            Board board = new Board(new Settings("Gigachess", true, "Original"));
             board.flipBoard();
             board.pause();  // begin as paused since it is the server's turn first
             board.getController().setClocks(0, 10, 0, 5);  // setting the clocks statically

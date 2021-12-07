@@ -42,9 +42,11 @@ public abstract class Piece {
     // CALLED ON MOVES
     public void runOnMove(Board board, Square captured) {  // function called when a piece moves
         captured.setPiece(this);  // move the piece
+        board.repaint();
     }
     public void runOnDeath(Board board, Piece captor) {  // function called when a piece dies
         board.getController().addToCaptured(this);
+        board.repaint();
     }  // method takes the board and the piece that killed it
 
 

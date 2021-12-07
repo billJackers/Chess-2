@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.Socket;
 import javax.swing.*;
 
-public class Board extends JPanel implements ActionListener {
+public class Board extends JPanel  {
 
     private static final int SQUARE_SIZE = 60; // length of a square tile
     private static final int FILE_SIZE = 10; // columns
@@ -17,18 +17,12 @@ public class Board extends JPanel implements ActionListener {
 
     private final Square[] board = new Square[100];
 
-    private static final int DELAY = 25; // delay in ms to update board
-
     private Settings settings;
 
     public Board(Settings settings) {
         // window size
         this.setPreferredSize(new Dimension(SQUARE_SIZE*RANK_SIZE, SQUARE_SIZE*FILE_SIZE)); // dimensions based on the size of the grid
         this.setMaximumSize(this.getPreferredSize());
-
-        // the Game Loop
-        Timer timer = new Timer(DELAY, this);
-        timer.start();
 
         this.setFocusable(true);
         this.setFocusTraversalKeysEnabled(true);
@@ -70,14 +64,6 @@ public class Board extends JPanel implements ActionListener {
 
     public PlayerController getController() {
         return controller;
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // this method is called by the timer every DELAY ms.
-        // use this space to update the state of your game or animation
-        // before the graphics are redrawn.
-        repaint();
     }
 
     // pausing events

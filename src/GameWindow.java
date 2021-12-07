@@ -12,7 +12,7 @@ public class GameWindow {
         JFrame gameWindow = new JFrame("Giga Chess");
         gameWindow.setLocationRelativeTo(null);
 
-        Board board = new Board(settings); // our board, also our gameloop
+        Board board = new Board(settings);
 
         board.getController().setClocks(hours, minutes, seconds, increment);
 

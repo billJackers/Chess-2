@@ -111,6 +111,7 @@ public class Bomber extends Piece {
         if (!(captor instanceof Assassin)) {
             explode(board);
         }
+        board.repaint();
     }
 
     public void explode(Board board) {
