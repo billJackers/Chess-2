@@ -19,7 +19,9 @@ public class Board extends JPanel implements ActionListener {
 
     private static final int DELAY = 25; // delay in ms to update board
 
-    public Board(String variant, boolean highlightsOn) {
+    private Settings settings;
+
+    public Board(Settings settings) {
         // window size
         this.setPreferredSize(new Dimension(SQUARE_SIZE*RANK_SIZE, SQUARE_SIZE*FILE_SIZE)); // dimensions based on the size of the grid
         this.setMaximumSize(this.getPreferredSize());
@@ -31,11 +33,13 @@ public class Board extends JPanel implements ActionListener {
         this.setFocusable(true);
         this.setFocusTraversalKeysEnabled(true);
 
+        this.settings = settings;
+
         initializeSquares();  // "rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBRBQKBRBR"
         generateBoardState("rbrbqkbrbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBRBQKBRBR");
 
         // PlayerController to handle mouse input
-        controller = new PlayerController(this, variant, highlightsOn);
+        controller = new PlayerController(this, settings);
         isPaused = false;
         flipBoard();
     }

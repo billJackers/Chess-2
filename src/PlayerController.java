@@ -27,10 +27,9 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
     private int increment;
 
     // Settings
-    private String variant;
-    private boolean highlightsOn;
+    private Settings settings;
 
-    public PlayerController(Board board, String variant, boolean highlightsOn) {
+    public PlayerController(Board board, Settings settings) {
         previouslySelected = null;
         currentTurn = Sides.BLUE;
         this.board = board;
@@ -38,9 +37,7 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
         this.currentKey = Key.NONE;
         board.addKeyListener(this);
 
-        // Initialize settings
-        this.variant = variant;
-        this.highlightsOn = highlightsOn;
+        this.settings = settings;
 
         bluePiecesCaptured = new ArrayList<>();
         redPiecesCaptured = new ArrayList<>();
@@ -63,7 +60,7 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
 
         legalMovesOfSelectedPiece = selected.getPiece().getLegalMoves(board);
 
-        if (highlightsOn) {
+        if (settings.getHighlightsOn()) {
             for (Square move : legalMovesOfSelectedPiece) {  // highlight all the legalMoves of selected piece
                 move.setState(Square.ActionStates.LEGAL_MOVE);
             }
@@ -138,7 +135,7 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
         Piece pieceTaken = to.getPiece();
 
         // Atomic mode
-        if (variant.equals("Atomic")) {
+        if (settings.getVariant().equals("Atomic")) {
             if (to.getPiece() != null) {
                 from.clearPiece();
                 pieceTaken.nuke(board);
