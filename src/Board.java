@@ -23,19 +23,17 @@ public class Board extends JPanel  {
         // window size
         this.setPreferredSize(new Dimension(SQUARE_SIZE*RANK_SIZE, SQUARE_SIZE*FILE_SIZE)); // dimensions based on the size of the grid
         this.setMaximumSize(this.getPreferredSize());
-
         this.setFocusable(true);
         this.setFocusTraversalKeysEnabled(true);
 
-        this.settings = settings;
-
+        //  initially creating the board
         initializeSquares();  // "rbbrqkrbbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBBRQKRBBR"
         generateBoardState("rbbrqkrbbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBBRQKRBBR");
 
-        // PlayerController to handle mouse input
-        controller = new PlayerController(this, settings);
+        this.settings = settings;
+        controller = new PlayerController(this, settings);  // PlayerController to handle mouse input
         isPaused = false;
-        flipBoard();
+        flipBoard();  // flip the board so Blue is on the bottom (default is red)
     }
 
     // getters
