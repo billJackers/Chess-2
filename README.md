@@ -1,4 +1,4 @@
-# Chess 2
+# Gigachess
 
 Our modifications and additions of the game of Chess, following the same concepts and rules of Chess, but with new pieces, movements, and a bigger board.
 
