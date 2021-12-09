@@ -3,8 +3,6 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 public class PlayerController implements MouseListener, KeyListener {  // handles player inputs
 
     private Square previouslySelected;
@@ -30,6 +28,9 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
     // Settings
     private final Settings settings;
 
+    // For 3 check mode
+    private int blueChecks;
+    private int redChecks;
 
     public PlayerController(Board board, Settings settings) {
         previouslySelected = null;
@@ -41,6 +42,9 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
 
         // Initialize settings
         this.settings = settings;
+
+        blueChecks = 0;
+        redChecks = 0;
 
         bluePiecesCaptured = new ArrayList<>();
         redPiecesCaptured = new ArrayList<>();
@@ -147,6 +151,26 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
 
         // Atomic mode
         if (settings.getVariant().equals("Atomic Gigachess") && pieceCaptured) pieceToMove.nuke(board);
+
+        // Three check mode
+        if (settings.getVariant().equals("Three Check Gigachess")) {
+            WinFrame winFrame = new WinFrame();
+            switch (this.currentTurn) {
+                case BLUE -> {
+                    for (Square square : pieceToMove.getLegalMoves(board)) {
+                        if (square.hasPiece() && square.getPiece() instanceof King) blueChecks++;
+                        System.out.println(blueChecks);
+                    }
+                    if (blueChecks == 3) winFrame.makeWinFrame(Sides.BLUE);
+                }
+                case RED -> {
+                    for (Square square : pieceToMove.getLegalMoves(board)) {
+                        if (square.hasPiece() && square.getPiece() instanceof King) redChecks++;
+                    }
+                    if (redChecks == 3) winFrame.makeWinFrame(Sides.RED);
+                }
+            }
+        }
 
         // Increment clocks when move occurs
         switch (currentTurn) {

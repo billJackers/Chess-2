@@ -74,8 +74,6 @@ public abstract class Piece {
         return false;
     }
 
-
-
     // Method for atomic mode
     public void nuke(Board board) {
 

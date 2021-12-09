@@ -203,7 +203,7 @@ public class StartMenu {
         volumePanel.add(new JLabel("Volume"));
         volumePanel.add(volumeSlider);
 
-        String[] variantSettings = {"Gigachess", "Atomic Gigachess"};
+        String[] variantSettings = {"Gigachess", "Atomic Gigachess", "Three Check Gigachess"};
         String[] highlightSettings = {"Show piece movement highlights", "Don't show piece movement highlights"};
         String[] decisecondSettings = {"Show deciseconds after clock goes below 20s", "Always show deciseconds", "Don't show at all"};
         String[] skinSettings = {"Original Jank Skin"};
@@ -230,6 +230,7 @@ public class StartMenu {
         switch (Objects.requireNonNull(variantSelected)) {
             case "Gigachess" -> settings.changeSettings("Gigachess");
             case "Atomic Gigachess" -> settings.changeSettings("Atomic Gigachess");
+            case "Three Check Gigachess" -> settings.changeSettings("Three Check Gigachess");
         }
 
         String highlightSettingSelected = (String) highlights.getSelectedItem();
