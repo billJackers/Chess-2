@@ -81,7 +81,6 @@ public abstract class Piece {
 
         int rank = this.parentSquare.getRank();
         int file = this.parentSquare.getFile();
-
         Square[] b = board.getBoard();
 
         int pos = (file*10) + rank;
@@ -89,6 +88,10 @@ public abstract class Piece {
         int[] bombTargets = {-11, -10, -9,-1, 1, 9, 10, 11, 0};
         for (int target : bombTargets) {
             if (pos + target < 100 && pos + target >= 0 && b[pos + target].hasPiece()) {
+                // Bombers still get chain exploded
+                if (b[pos+target].hasPiece() && b[pos+target].getPiece() instanceof Bomber)
+                    ((Bomber) b[pos+target].getPiece()).explode(board);
+
                 b[pos+target].clearPiece();
             }
         }

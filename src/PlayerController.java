@@ -2,7 +2,8 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
+
 
 public class PlayerController implements MouseListener, KeyListener {  // handles player inputs
 
@@ -137,19 +138,15 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
     public void move(Square from, Square to) {
         Piece pieceToMove = from.getPiece();
         Piece pieceTaken = to.getPiece();
+        boolean pieceCaptured = to.hasPiece();
+
+        pieceToMove.runOnMove(board, to);  // call runOnMove() (calls oldSquare.setPiece(newPiece), moving the piece)
+        from.clearPiece(); // clear the old square of the moved piece
+        if (pieceTaken != null)
+            pieceTaken.runOnDeath(board, pieceToMove);  // call runOnDeath if the captured square had a piece
 
         // Atomic mode
-        if (settings.getVariant().equals("Atomic")) {
-            if (to.getPiece() != null) {
-                from.clearPiece();
-                pieceTaken.nuke(board);
-            }
-        } else {
-            pieceToMove.runOnMove(board, to);  // call runOnMove() (calls oldSquare.setPiece(newPiece), moving the piece)
-            from.clearPiece(); // clear the old square of the moved piece
-            if (pieceTaken != null)
-                pieceTaken.runOnDeath(board, pieceToMove);  // call runOnDeath if the captured square had a piece
-        }
+        if (settings.getVariant().equals("Atomic Gigachess") && pieceCaptured) pieceToMove.nuke(board);
 
         // Increment clocks when move occurs
         switch (currentTurn) {
