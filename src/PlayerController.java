@@ -149,6 +149,8 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
         if (pieceTaken != null)
             pieceTaken.runOnDeath(board, pieceToMove);  // call runOnDeath if the captured square had a piece
 
+        // -------------------- GAME MODES ------------------------------
+
         // Atomic mode
         if (settings.getVariant().equals("Atomic Gigachess") && pieceCaptured) pieceToMove.nuke(board);
 
@@ -171,6 +173,9 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
                 }
             }
         }
+
+        // ------------------ END OF GAME MODES -------------------------
+        // What other game modes should we add?
 
         // Increment clocks when move occurs
         switch (currentTurn) {
