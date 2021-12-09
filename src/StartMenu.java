@@ -66,7 +66,7 @@ public class StartMenu {
         menuLayout.setLayout(new GridLayout(2, 2));
 
         // Initialize default settings
-        settings = new Settings("Gigachess", true, "Original");
+        this.settings = new Settings("Gigachess", true, "Original");
 
         // singleplayer section
         JPanel singlePlayerMenu = new JPanel();
@@ -203,8 +203,8 @@ public class StartMenu {
         volumePanel.add(new JLabel("Volume"));
         volumePanel.add(volumeSlider);
 
-        String[] variantSettings = {"Gigachess", "Atomic Gigachess", "Chess 2 from custom position"};
-        String[] highlightSettings = {"Show highlights", "Don't show highlights"};
+        String[] variantSettings = {"Gigachess", "Atomic Gigachess"};
+        String[] highlightSettings = {"Show piece movement highlights", "Don't show piece movement highlights"};
         String[] decisecondSettings = {"Show deciseconds after clock goes below 20s", "Always show deciseconds", "Don't show at all"};
         String[] skinSettings = {"Original Jank Skin"};
         String[] soundEffectsSettings = {"Sound effects ON", "Sound effects OFF"};
@@ -226,9 +226,16 @@ public class StartMenu {
 
         JOptionPane.showMessageDialog(null, settingsPanel, "Settings", JOptionPane.QUESTION_MESSAGE);
 
-        String selected = (String) variants.getSelectedItem();
-        switch (Objects.requireNonNull(selected)) {
+        String variantSelected = (String) variants.getSelectedItem();
+        switch (Objects.requireNonNull(variantSelected)) {
             case "Gigachess" -> settings.changeSettings("Gigachess");
+            case "Atomic Gigachess" -> settings.changeSettings("Atomic Gigachess");
+        }
+
+        String highlightSettingSelected = (String) highlights.getSelectedItem();
+        switch (Objects.requireNonNull(highlightSettingSelected)) {
+            case "Show piece movement highlights" -> settings.changeSettings(true);
+            case "Don't show piece movement highlights" -> settings.changeSettings(false);
         }
 
     }

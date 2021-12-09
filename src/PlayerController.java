@@ -62,13 +62,15 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
 
         legalMovesOfSelectedPiece = selected.getPiece().getLegalMoves(board);
 
+        // Only do this if highlights are on
         if (settings.getHighlightsOn()) {
             for (Square move : legalMovesOfSelectedPiece) {  // highlight all the legalMoves of selected piece
                 move.setState(Square.ActionStates.LEGAL_MOVE);
             }
         }
 
-        if (selected.getPiece() instanceof Archer) { // if piece is archer
+        // Only do this if highlights are on
+        if (selected.getPiece() instanceof Archer && settings.getHighlightsOn()) { // if piece is archer
             targetsOfSelectedArcher = selected.getPiece().getTargets(board);
             for (Square shot : targetsOfSelectedArcher) { // highlight all targets
                 shot.setState(Square.ActionStates.ARCHER_SHOT);

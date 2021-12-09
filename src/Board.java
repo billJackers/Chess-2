@@ -25,12 +25,13 @@ public class Board extends JPanel  {
         this.setMaximumSize(this.getPreferredSize());
         this.setFocusable(true);
         this.setFocusTraversalKeysEnabled(true);
+        this.settings = settings;
 
         //  initially creating the board
         initializeSquares();  // "rbbrqkrbbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBBRQKRBBR"
         generateBoardState("rbbrqkrbbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBBRQKRBBR");
 
-        this.settings = settings;
+
         controller = new PlayerController(this, settings);  // PlayerController to handle mouse input
         isPaused = false;
         flipBoard();  // flip the board so Blue is on the bottom (default is red)
