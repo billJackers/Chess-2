@@ -74,6 +74,7 @@ public class StartMenu {
         JLabel singlePlayerHeader = new JLabel("Singleplayer");
         singlePlayerMenu.setLayout(new FlowLayout(FlowLayout.CENTER));
         Button quickStartBtn = new Button("Quick start");
+        Button playComputerBtn = new Button("Play the computer");
         // Clocks
         final String[] minSecInts = new String[60];
         for (int i = 0; i < 60; i++) {
@@ -111,6 +112,7 @@ public class StartMenu {
         singlePlayerMenu.add(timerLabels);
         singlePlayerMenu.add(timerSettings);
         singlePlayerMenu.add(quickStartBtn);
+        singlePlayerMenu.add(playComputerBtn);
         // Weird lambda magic
         quickStartBtn.addActionListener(e -> {
             int h = Integer.parseInt((String) hours.getSelectedItem());
@@ -118,7 +120,14 @@ public class StartMenu {
             int s = Integer.parseInt((String) seconds.getSelectedItem());
             int i = Integer.parseInt((String) increment.getSelectedItem());
             new GameWindow(h, m, s, i, settings);
+        });
 
+        playComputerBtn.addActionListener(e -> {
+            int h = Integer.parseInt((String) hours.getSelectedItem());
+            int m = Integer.parseInt((String) minutes.getSelectedItem());
+            int s = Integer.parseInt((String) seconds.getSelectedItem());
+            int i = Integer.parseInt((String) increment.getSelectedItem());
+            new GameWindow(h, m, s, i, settings);
         });
 
         // More options
