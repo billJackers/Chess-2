@@ -43,6 +43,11 @@ public abstract class Piece {
     public void runOnMove(Board board, Square captured) {  // function called when a piece moves
         captured.setPiece(this);  // move the piece
         board.repaint();
+
+        //move sound effect
+        Sound moveSound = new Sound("src/sounds/button.wav");
+        moveSound.play();
+
     }
     public void runOnDeath(Board board, Piece captor) {  // function called when a piece dies
         board.getController().addToCaptured(this);
