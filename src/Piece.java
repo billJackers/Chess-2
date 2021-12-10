@@ -58,6 +58,8 @@ public abstract class Piece {
 
     public abstract String getName();
 
+    public abstract String getFENValue();
+
     // This is for the bombers and archers - why is it in the piece class then :face_with_raised_eyebrows:
     public abstract List<Square> getTargets(Board board);
 

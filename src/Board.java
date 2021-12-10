@@ -1,7 +1,4 @@
 import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.net.Socket;
 import javax.swing.*;
 
 public class Board extends JPanel  {
@@ -19,7 +16,7 @@ public class Board extends JPanel  {
 
     private Settings settings;
 
-    public Board(Settings settings) {
+    public Board(Settings settings, String FEN) {
         // window size
         this.setPreferredSize(new Dimension(SQUARE_SIZE*RANK_SIZE, SQUARE_SIZE*FILE_SIZE)); // dimensions based on the size of the grid
         this.setMaximumSize(this.getPreferredSize());
@@ -29,7 +26,7 @@ public class Board extends JPanel  {
 
         //  initially creating the board
         initializeSquares();  // "rbbrqkrbbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBBRQKRBBR"
-        generateBoardState("rbbrqkrbbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBBRQKRBBR");
+        generateBoardState(FEN);
 
 
         controller = new PlayerController(this, settings);  // PlayerController to handle mouse input
@@ -161,5 +158,25 @@ public class Board extends JPanel  {
             file = 9 - file;
         }
         return getSquare(rank, file);
+    }
+
+    public String getFEN() {
+        String FEN = "";
+        // Traverse the array by row
+        for (int row = 0; row < 10; row++) {
+            for (int col = 0; col < 10; col++) {
+                Square curSquare = board[(row*10) + col];
+                if (curSquare.hasPiece()) {
+                    switch (curSquare.getPiece().side) {
+                        case BLUE -> FEN += curSquare.getPiece().getFENValue();
+                        case RED -> FEN += curSquare.getPiece().getFENValue().toUpperCase();
+                    }
+                } else {
+                    FEN += "0";
+                }
+            }
+            if (row != 9) FEN += "/"; // Don't add a '/' for the last row
+        }
+        return FEN;
     }
 }

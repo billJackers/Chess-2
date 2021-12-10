@@ -16,6 +16,11 @@ public class Rook extends Piece {
 
     public String getName() { return "Rook"; }
 
+    @Override
+    public String getFENValue() {
+        return "r";
+    }
+
     public List<Square> getLegalMoves(Board board) {
         return getRookLegalMoves(board);
     }

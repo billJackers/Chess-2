@@ -22,6 +22,11 @@ public class Archer extends Piece {
     public String getName() { return "Archer"; }
 
     @Override
+    public String getFENValue() {
+        return "c";
+    }
+
+    @Override
     public List<Square> getTargets(Board board) {
         List<Square> targets = new ArrayList<>();
 

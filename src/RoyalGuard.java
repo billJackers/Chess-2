@@ -17,6 +17,11 @@ public class RoyalGuard extends Piece {
 
     public String getName() { return "Royal Guard"; }
 
+    @Override
+    public String getFENValue() {
+        return "g";
+    }
+
     public List<Square> getLegalMoves(Board board) {
         ArrayList<Square> legalMoves = new ArrayList<>(this.getKingLegalMoves(board));
         legalMoves.removeIf(Square::hasPiece);

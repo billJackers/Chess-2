@@ -1,6 +1,3 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 public class King extends Piece {
@@ -18,6 +15,11 @@ public class King extends Piece {
 
     public String getName() { return "King"; }
 
+    @Override
+    public String getFENValue() {
+        return "k";
+    }
+
     public void runOnDeath(Board board, Piece captor) {  // THE KING IS DEAD LMAO
         WinFrame winFrame = new WinFrame();
         winFrame.makeWinFrame(Sides.invertSide(side));
@@ -33,4 +35,5 @@ public class King extends Piece {
     public List<Square> getTargets(Board board) {
         return null;
     }
+
 }

@@ -183,6 +183,7 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
             case RED -> rClock.increment(increment);
         }
         swapTurns();
+        System.out.println(board.getFEN());
 
         board.repaint();
     }

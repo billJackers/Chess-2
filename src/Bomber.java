@@ -24,6 +24,11 @@ public class Bomber extends Piece {
 
     public String getName() { return "Bomber"; }
 
+    @Override
+    public String getFENValue() {
+        return "o";
+    }
+
     public List<Square> getLegalMoves(Board board) {
         ArrayList<Square> legalMoves = new ArrayList<>();
 

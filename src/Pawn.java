@@ -22,6 +22,11 @@ public class Pawn extends Piece {
 
     public String getName() { return "Pawn"; }
 
+    @Override
+    public String getFENValue() {
+        return "p";
+    }
+
     public void setToMoved() {
         this.wasMoved = true;
     }

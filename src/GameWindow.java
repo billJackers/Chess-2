@@ -12,7 +12,9 @@ public class GameWindow {
         JFrame gameWindow = new JFrame("Giga Chess");
         gameWindow.setLocationRelativeTo(null);
 
-        Board board = new Board(settings);  // creates the board JPanel to draw on
+        String FEN = "rbbrqkrbbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBBRQKRBBR";
+
+        Board board = new Board(settings, FEN);  // creates the board JPanel to draw on
         board.getController().setClocks(hours, minutes, seconds, increment);  // setting our clocks
         StatsDisplay stats = new StatsDisplay(board, hours, minutes, seconds);  // stats displayer JPanel
         ComputerOpponent computerOpponent = new ComputerOpponent(board);  // creating the AI opponent

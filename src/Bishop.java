@@ -17,6 +17,11 @@ public class Bishop extends Piece {
     public String getName() { return "Bishop"; }
 
     @Override
+    public String getFENValue() {
+        return "b";
+    }
+
+    @Override
     public List<Square> getLegalMoves(Board board) {
         return getBishopLegalMoves(board);
     }

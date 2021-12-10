@@ -16,6 +16,11 @@ public class Assassin extends Piece {
 
     public String getName() { return "Assassin"; }
 
+    @Override
+    public String getFENValue() {
+        return "s";
+    }
+
     public List<Square> getLegalMoves(Board board) {
 
         ArrayList<Square> legalMoves = new ArrayList<>();

@@ -15,6 +15,11 @@ public class Queen extends Piece {
         }
     }
 
+    @Override
+    public String getFENValue() {
+        return "q";
+    }
+
     public String getName() { return "Queen"; }
 
     public List<Square> getLegalMoves(Board board) {
