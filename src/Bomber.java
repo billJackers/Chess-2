@@ -1,7 +1,13 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class Bomber extends Piece {
 
@@ -123,11 +129,32 @@ public class Bomber extends Piece {
                 target.getPiece().runOnDeath(board, this);
             target.clearPiece();  // then clear the targets
         }
+        AnimationThread explosionAnimation = new AnimationThread(board);
+        explosionAnimation.execute();
     }
 
-    private class AnimationThread extends SwingWorker<Void, Void> {
+    private static class AnimationThread extends SwingWorker<Void, Void> {
+        private static Image explosionGif;
+        private final Graphics graphics;
+
+        static {
+            try {
+                File file = new File("src/images/pogexplosion.gif");
+                FileInputStream fs = new FileInputStream(file);
+                explosionGif = ImageIO.read(fs);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public AnimationThread (Board board) {
+            graphics = board.getGraphics();
+        }
+
         @Override
         protected Void doInBackground() throws Exception {
+            graphics.drawImage(explosionGif, 10, 10, null);
+            Thread.sleep(1000);
             return null;
         }
     }

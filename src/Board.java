@@ -29,7 +29,7 @@ public class Board extends JPanel  {
 
         //  initially creating the board
         initializeSquares();  // "rbbrqkrbbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBBRQKRBBR"
-        generateBoardState("rbbrqkrbbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBBRQKRBBR");
+        generateBoardState("rbbrqkrbbr/socnggncos/pppppppppp/X/X/X/X/oPPPPPPPPP/SOCNGGNCOS/RBBRQKRBBR");
 
 
         controller = new PlayerController(this, settings);  // PlayerController to handle mouse input
