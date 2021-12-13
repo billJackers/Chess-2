@@ -7,8 +7,8 @@ public class Knight extends Piece {
     private static final String IMAGES_KNIGHT_BLUE = "images/bknight.png";
     private static final String IMAGES_KNIGHT_RED = "images/rknight.png";
 
-    public Knight(Sides side, int size, Square initSquare) {
-        super(side, size, initSquare);
+    public Knight(Sides side, int size, Square initSquare, Settings settings) {
+        super(side, size, initSquare, settings);
         switch (side) {
             case BLUE -> this.image = getImageByFile(IMAGES_KNIGHT_BLUE);
             case RED -> this.image = getImageByFile(IMAGES_KNIGHT_RED);

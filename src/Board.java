@@ -125,16 +125,16 @@ public class Board extends JPanel  {
             }
 
             switch (curr) {
-                case 'k' -> board[pos].setPiece(new King(side, SQUARE_SIZE, board[pos]));
-                case 'q' -> board[pos].setPiece(new Queen(side, SQUARE_SIZE, board[pos]));
-                case 'n' -> board[pos].setPiece(new Knight(side, SQUARE_SIZE, board[pos]));
-                case 'r' -> board[pos].setPiece(new Rook(side, SQUARE_SIZE, board[pos]));
-                case 'b' -> board[pos].setPiece(new Bishop(side, SQUARE_SIZE, board[pos]));
-                case 'p' -> board[pos].setPiece(new Pawn(side, SQUARE_SIZE, board[pos]));
-                case 'c' -> board[pos].setPiece(new Archer(side, SQUARE_SIZE, board[pos]));
-                case 's' -> board[pos].setPiece(new Assassin(side, SQUARE_SIZE, board[pos]));
-                case 'o' -> board[pos].setPiece(new Bomber(side, SQUARE_SIZE, board[pos]));
-                case 'g' -> board[pos].setPiece(new RoyalGuard(side, SQUARE_SIZE, board[pos]));
+                case 'k' -> board[pos].setPiece(new King(side, SQUARE_SIZE, board[pos], settings));
+                case 'q' -> board[pos].setPiece(new Queen(side, SQUARE_SIZE, board[pos], settings));
+                case 'n' -> board[pos].setPiece(new Knight(side, SQUARE_SIZE, board[pos], settings));
+                case 'r' -> board[pos].setPiece(new Rook(side, SQUARE_SIZE, board[pos], settings));
+                case 'b' -> board[pos].setPiece(new Bishop(side, SQUARE_SIZE, board[pos], settings));
+                case 'p' -> board[pos].setPiece(new Pawn(side, SQUARE_SIZE, board[pos], settings));
+                case 'c' -> board[pos].setPiece(new Archer(side, SQUARE_SIZE, board[pos], settings));
+                case 's' -> board[pos].setPiece(new Assassin(side, SQUARE_SIZE, board[pos], settings));
+                case 'o' -> board[pos].setPiece(new Bomber(side, SQUARE_SIZE, board[pos], settings));
+                case 'g' -> board[pos].setPiece(new RoyalGuard(side, SQUARE_SIZE, board[pos], settings));
                 case 'x' -> pos += 10; // a 1 character way to write "10"
             }
             if (Character.isDigit(curr)) {  // if the character is a digit, then we skip that amount in the board[pos]

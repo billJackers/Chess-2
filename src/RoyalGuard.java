@@ -7,8 +7,8 @@ public class RoyalGuard extends Piece {
     private static final String IMAGES_ROYAL_GUARD_BLUE = "images/broyalguard.png";
     private static final String IMAGES_ROYAL_GUARD_RED = "images/rroyalguard.png";
 
-    public RoyalGuard(Sides side, int size, Square initSquare) {
-        super(side, size, initSquare);
+    public RoyalGuard(Sides side, int size, Square initSquare, Settings settings) {
+        super(side, size, initSquare, settings);
         switch (side) {
             case BLUE -> this.image = getImageByFile(IMAGES_ROYAL_GUARD_BLUE);
             case RED -> this.image = getImageByFile(IMAGES_ROYAL_GUARD_RED);

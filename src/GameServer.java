@@ -42,7 +42,7 @@ public class GameServer extends Thread {
 
         String FEN = "rbbrqkrbbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBBRQKRBBR";
 
-        Board board = new Board(new Settings("Gigachess", true, "Original"), "rbbrqkrbbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBBRQKRBBR");
+        Board board = new Board(new Settings("Gigachess", true, "Original", false), "rbbrqkrbbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBBRQKRBBR");
         board.getController().setClocks(0, 10, 0, 5);  // setting the clocks statically
         StatsDisplay stats = new StatsDisplay(board, 0, 10, 0);  // stats displayer panel
 

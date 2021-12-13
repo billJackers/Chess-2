@@ -13,10 +13,13 @@ public abstract class Piece {
     protected Image image;
     protected Square parentSquare;
 
-    public Piece(Sides side, int size, Square initialSquare) {
+    protected Settings settings;
+
+    public Piece(Sides side, int size, Square initialSquare, Settings settings) {
         this.side = side;
         this.size = size;
         this.parentSquare = initialSquare;
+        this.settings = settings;
     }
 
     protected Image getImageByFile(String file) {  // get our image based on a file name
@@ -44,9 +47,11 @@ public abstract class Piece {
         captured.setPiece(this);  // move the piece
         board.repaint();
 
-        //move sound effect
-        Sound moveSound = new Sound("src/sounds/button.wav");
-        moveSound.play();
+        // move sound effect, but only play if not muted
+        if (!settings.getMuted()) {
+            Sound moveSound = new Sound("src/sounds/button.wav");
+            moveSound.play();
+        }
     }
     public void runOnDeath(Board board, Piece captor) {  // function called when a piece dies
         board.getController().addToCaptured(this);

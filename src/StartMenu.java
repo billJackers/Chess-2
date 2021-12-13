@@ -66,7 +66,7 @@ public class StartMenu {
         menuLayout.setLayout(new GridLayout(2, 2));
 
         // Initialize default settings
-        this.settings = new Settings("Gigachess", true, "Original");
+        this.settings = new Settings("Gigachess", true, "Original", false);
 
         // singleplayer section
         JPanel singlePlayerMenu = new JPanel();
@@ -246,6 +246,12 @@ public class StartMenu {
         switch (Objects.requireNonNull(highlightSettingSelected)) {
             case "Show piece movement highlights" -> settings.changeSettings(true);
             case "Don't show piece movement highlights" -> settings.changeSettings(false);
+        }
+
+        String soundFXSettingSelected = (String) soundEffects.getSelectedItem();
+        switch (Objects.requireNonNull(soundFXSettingSelected)) {
+            case "Sound effects ON" -> settings.changeMuted(false);
+            case "Sound effects OFF" -> settings.changeMuted(true);
         }
 
     }

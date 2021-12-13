@@ -5,8 +5,8 @@ public class King extends Piece {
     private static final String IMAGES_KING_BLUE = "images/bking.png";
     private static final String IMAGES_KING_RED = "images/rking.png";
 
-    public King(Sides side, int size, Square initSquare) {
-        super(side, size, initSquare);
+    public King(Sides side, int size, Square initSquare, Settings settings) {
+        super(side, size, initSquare, settings);
         switch (side) {
             case BLUE -> this.image = getImageByFile(IMAGES_KING_BLUE);
             case RED -> this.image = getImageByFile(IMAGES_KING_RED);

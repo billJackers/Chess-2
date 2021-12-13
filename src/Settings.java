@@ -3,11 +3,13 @@ public class Settings {
     private String variant;
     private boolean highlightsOn;
     private String skin;
+    private boolean muted;
 
-    public Settings(String variant, boolean highlightsOn, String skin) {
+    public Settings(String variant, boolean highlightsOn, String skin, boolean muted) {
         this.variant = variant;
         this.highlightsOn = highlightsOn;
         this.skin = skin;
+        this.muted = muted;
     }
 
     public void changeSettings(String variant, boolean highlightsOn, String skin) {
@@ -26,6 +28,14 @@ public class Settings {
 
     public void changeSkin(String skin) {
         this.skin = skin;
+    }
+
+    public void changeMuted(boolean muted) {
+        this.muted = muted;
+    }
+
+    public boolean getMuted() {
+        return this.muted;
     }
 
     public String getVariant() {

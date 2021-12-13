@@ -6,8 +6,8 @@ public class Assassin extends Piece {
     private static final String IMAGES_ASSASSIN_BLUE = "images/bassassin.png";
     private static final String IMAGES_ASSASSIN_RED = "images/rassassin.png";
 
-    public Assassin(Sides side, int size, Square initSquare) {
-        super(side, size, initSquare);
+    public Assassin(Sides side, int size, Square initSquare, Settings settings) {
+        super(side, size, initSquare, settings);
         switch (side) {
             case BLUE -> this.image = getImageByFile(IMAGES_ASSASSIN_BLUE);
             case RED -> this.image = getImageByFile(IMAGES_ASSASSIN_RED);

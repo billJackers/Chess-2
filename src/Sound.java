@@ -3,7 +3,6 @@ import java.sql.SQLOutput;
 import javax.sound.sampled.*;
 public class Sound {
 
-    private File soundPath;
     private Clip clip;
     private boolean valid = true;
     private AudioInputStream audioInput;
@@ -27,6 +26,9 @@ public class Sound {
     public void play() {
         if (valid) {
             try {
+                // FloatControl for volume, doesn't work
+                // FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                // gainControl.setValue(volume);
                 this.clip.open(audioInput);
                 this.clip.start();
             } catch (Exception e) {

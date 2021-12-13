@@ -11,8 +11,8 @@ public class Pawn extends Piece {
     private boolean wasMoved;
     private boolean enPassantable;
 
-    public Pawn(Sides side, int size, Square initSquare) {
-        super(side, size, initSquare);
+    public Pawn(Sides side, int size, Square initSquare, Settings settings) {
+        super(side, size, initSquare, settings);
         wasMoved = false;
         switch (side) {
             case BLUE -> this.image = getImageByFile(IMAGES_PAWN_BLUE);
@@ -96,13 +96,13 @@ public class Pawn extends Piece {
         JOptionPane.showMessageDialog(null, popupMenu, "Promote piece", JOptionPane.QUESTION_MESSAGE);
         String selected = (String) popupMenu.getSelectedItem();
         switch (Objects.requireNonNull(selected)) {
-            case "Queen" -> parentSquare.setPiece(new Queen(side, board.getSquareSize(), parentSquare));
-            case "Rook" -> parentSquare.setPiece(new Rook(side, board.getSquareSize(), parentSquare));
-            case "Bishop" -> parentSquare.setPiece(new Bishop(side, board.getSquareSize(), parentSquare));
-            case "Knight" -> parentSquare.setPiece(new Knight(side, board.getSquareSize(), parentSquare));
-            case "Royal Guard" -> parentSquare.setPiece(new RoyalGuard(side, board.getSquareSize(), parentSquare));
-            case "Archer" -> parentSquare.setPiece(new Archer(side, board.getSquareSize(), parentSquare));
-            case "Assassin" -> parentSquare.setPiece(new Assassin(side, board.getSquareSize(), parentSquare));
+            case "Queen" -> parentSquare.setPiece(new Queen(side, board.getSquareSize(), parentSquare, settings));
+            case "Rook" -> parentSquare.setPiece(new Rook(side, board.getSquareSize(), parentSquare, settings));
+            case "Bishop" -> parentSquare.setPiece(new Bishop(side, board.getSquareSize(), parentSquare, settings));
+            case "Knight" -> parentSquare.setPiece(new Knight(side, board.getSquareSize(), parentSquare, settings));
+            case "Royal Guard" -> parentSquare.setPiece(new RoyalGuard(side, board.getSquareSize(), parentSquare, settings));
+            case "Archer" -> parentSquare.setPiece(new Archer(side, board.getSquareSize(), parentSquare, settings));
+            case "Assassin" -> parentSquare.setPiece(new Assassin(side, board.getSquareSize(), parentSquare, settings));
         }
         board.unpause();
     }
