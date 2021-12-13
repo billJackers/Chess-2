@@ -96,13 +96,15 @@ public class Bomber extends Piece {
 
         int[] bombTargets = {-11, -10, -9,-1, 1, 9, 10, 11};
         for (int target : bombTargets) {
-            if (pos + target < 100 && pos + target >= 0 && acceptableRow(row, pos / 10) && acceptableColumn(column, pos % 10) && b[pos + target].hasPiece()) {
+            if (pos + target < 100 && pos + target >= 0 && b[pos + target].hasPiece() && Math.abs((pos % 10) - ((pos + target) % 10)) <= 1) {
                 targets.add(b[pos + target]);
             }
         }
         return targets;
     }
 
+    // I don't think this code is necessary
+    /*
     public boolean acceptableRow(int row, int proposedRow) {
         int maxRow = row + 1;
         int minRow = row - 1;
@@ -116,6 +118,7 @@ public class Bomber extends Piece {
         int minColumn = column - 1;
         return proposedColumn <= maxColumn && proposedColumn >= minColumn;
     }
+     */
 
     public void runOnDeath(Board board, Piece captor) {
         super.runOnDeath(board, captor);

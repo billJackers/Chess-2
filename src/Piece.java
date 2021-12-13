@@ -44,6 +44,13 @@ public abstract class Piece {
 
     // CALLED ON MOVES
     public void runOnMove(Board board, Square captured) {  // function called when a piece moves
+
+        // Explosion sound when playing atomic mode or bomber taken
+        if (!settings.getMuted() && captured.hasPiece() && (captured.getPiece() instanceof Bomber || settings.getVariant().equals("Atomic Gigachess"))) {
+            Sound bombSound = new Sound("src/sounds/bomb_x.wav");
+            bombSound.play();
+        }
+
         captured.setPiece(this);  // move the piece
         board.repaint();
 
@@ -96,7 +103,7 @@ public abstract class Piece {
 
         int[] bombTargets = {-11, -10, -9,-1, 1, 9, 10, 11, 0};
         for (int target : bombTargets) {
-            if (pos + target < 100 && pos + target >= 0 && b[pos + target].hasPiece()) {
+            if (pos + target < 100 && pos + target >= 0 && b[pos + target].hasPiece() && Math.abs((pos % 10) - ((pos + target) % 10)) <= 1) {
                 // Bombers still get chain exploded
                 if (b[pos+target].hasPiece() && b[pos+target].getPiece() instanceof Bomber)
                     ((Bomber) b[pos+target].getPiece()).explode(board);
