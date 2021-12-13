@@ -9,7 +9,7 @@ public class Sound {
 
     public Sound(String soundLocation) {
         try {
-            soundPath = new File(soundLocation);
+            File soundPath = new File(soundLocation);
             if (soundPath.exists()) {
                 audioInput = AudioSystem.getAudioInputStream(soundPath);
                 clip = AudioSystem.getClip();
