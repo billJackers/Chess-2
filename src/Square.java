@@ -1,5 +1,4 @@
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 
 import javax.swing.*;
 
@@ -13,7 +12,8 @@ public class Square extends JComponent {
         HIGHLIGHTED1,
         HIGHLIGHTED2,
         HIGHLIGHTED3,
-        HIGHLIGHTED4
+        HIGHLIGHTED4,
+        EXPLODED
     }
 
     private Piece piece;
@@ -125,6 +125,11 @@ public class Square extends JComponent {
 
                     piece.draw(g, squareX, squareY);
 
+                }
+                // Explosion
+                case EXPLODED -> {
+                    Image explosionIcon = new ImageIcon("images/pogexplosion.gif").getImage();
+                    g.drawImage(explosionIcon, squareX, squareY, this);
                 }
             }
         }
