@@ -177,6 +177,26 @@ public class Board extends JPanel  {
             }
             if (row != 9) FEN += "/"; // Don't add a '/' for the last row
         }
-        return FEN;
+        return simplifiedFEN(FEN);
     }
+
+    // Helper method
+    public String simplifiedFEN(String FEN) {
+        String newFEN = "";
+        int count = 0;
+
+        for (int i = 0; i < FEN.length(); i++) {
+            if (FEN.charAt(i) != '0') {
+                if (count == 10) newFEN += "X";
+                else if (count != 0) newFEN += count;
+                count = 0;
+                newFEN += FEN.substring(i, i+1);
+            } else {
+                count++;
+            }
+        }
+
+        return newFEN;
+    }
+
 }

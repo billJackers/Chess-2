@@ -7,7 +7,7 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
 
     private Square previouslySelected;
     private Sides currentTurn;
-    private final Board board;
+    private Board board;
     private List<Square> legalMovesOfSelectedPiece;
     private List<Square> targetsOfSelectedArcher;
     private ConnectionHandler connectionHandler = null;
@@ -32,6 +32,9 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
     private int blueChecks;
     private int redChecks;
 
+    // All FENS so far
+    List<String> allFENS;
+
     public PlayerController(Board board, Settings settings) {
         previouslySelected = null;
         currentTurn = Sides.BLUE;
@@ -42,6 +45,9 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
 
         // Initialize settings
         this.settings = settings;
+
+        this.allFENS = new ArrayList<>();
+        allFENS.add(board.getFEN());
 
         blueChecks = 0;
         redChecks = 0;
@@ -183,7 +189,8 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
             case RED -> rClock.increment(increment);
         }
         swapTurns();
-        System.out.println(board.getFEN());
+        allFENS.add(board.getFEN());
+        System.out.println(allFENS.get(allFENS.size()-1));
 
         board.repaint();
     }
@@ -215,6 +222,21 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
 
     public boolean isCorrectPlayerMoving() {  // checks whether it is the correct player's turn
         return (currentTurn == Sides.BLUE && previouslySelected.getPiece().getSide() == Sides.BLUE) || (currentTurn == Sides.RED && previouslySelected.getPiece().getSide() == Sides.RED);
+    }
+
+    public void undoMove() {
+
+        // Don't undo if there aren't any moves yet
+        if (allFENS.size() == 1) return;
+
+        allFENS.remove(allFENS.size()-1);
+
+        // Clear past board
+        for (Square square : board.getBoard()) if (square.hasPiece()) square.clearPiece();
+        // Generate new board state
+        board.generateBoardState(allFENS.get(allFENS.size()-1));
+        board.repaint();
+        swapTurns();
     }
 
     // Initialize clocks
@@ -279,7 +301,6 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
     public void keyTyped(KeyEvent e) {
 
     }
-
 
     // Sets currentKey
     @Override

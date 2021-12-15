@@ -35,6 +35,14 @@ public class StatsDisplay extends JPanel implements ActionListener {
         HEADER_WIDTH = board.getWidth();
         this.setPreferredSize(new Dimension(HEADER_WIDTH, HEADER_HEIGHT)); // dimensions based on the size of the board
         this.setMaximumSize(this.getPreferredSize());
+        this.setLayout(new FlowLayout(0));
+
+        // Undo turn button
+        JButton undoBtn = new JButton("Undo");
+        undoBtn.addActionListener(e -> {
+            this.board.getController().undoMove();
+        });
+        this.add(undoBtn);
 
         if (hours == 0 && minutes == 0 && seconds == 0) timed = false;
 
