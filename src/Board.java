@@ -180,7 +180,7 @@ public class Board extends JPanel  {
         return simplifiedFEN(FEN);
     }
 
-    // Helper method
+    // Helper method for getFEN
     public String simplifiedFEN(String FEN) {
         String newFEN = "";
         int count = 0;

@@ -225,7 +225,6 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
     }
 
     public void undoMove() {
-
         // Don't undo if there aren't any moves yet
         if (allFENS.size() == 1) return;
 

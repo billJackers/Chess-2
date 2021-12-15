@@ -37,7 +37,7 @@ public class StatsDisplay extends JPanel implements ActionListener {
         this.setMaximumSize(this.getPreferredSize());
         this.setLayout(new FlowLayout(0));
 
-        // Undo turn button
+        // Undo move button
         JButton undoBtn = new JButton("Undo");
         undoBtn.addActionListener(e -> {
             this.board.getController().undoMove();
