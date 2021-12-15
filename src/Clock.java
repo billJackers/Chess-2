@@ -5,6 +5,8 @@ public class Clock {
     private int secs;
     private int decisecs;
 
+    private int dsMode;
+
     public Clock(int h, int m, int s) {
         this.hours = h;
         this.mins = m;
@@ -50,11 +52,16 @@ public class Clock {
         String fDeciseconds = String.format("%2d", this.decisecs);
         String fTime = fHrs + ":" + fMins + ":" + fSecs;
 
-        if (this.hours == 0 && this.mins == 0 && secs <= 20) {
+        if (this.hours == 0 && this.mins == 0 && secs <= 20 && this.dsMode == 1) {
             fTime += "." + fDeciseconds;
         }
+        if (this.dsMode == 2) fTime += "." + fDeciseconds;
 
         return fTime;
     }
 
+    // 0 is no deciseconds, 1 is show once time is below 20, and 2 is always show
+    public void setDsMode(int dsMode) {
+        this.dsMode = dsMode;
+    }
 }

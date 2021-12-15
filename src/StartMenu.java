@@ -66,7 +66,8 @@ public class StartMenu {
         menuLayout.setLayout(new GridLayout(2, 2));
 
         // Initialize default settings
-        this.settings = new Settings("Gigachess", true, "Original", false);
+        settings = new Settings("Gigachess", true, "Original", false);
+        settings.changeDsMode(1);
 
         // singleplayer section
         JPanel singlePlayerMenu = new JPanel();
@@ -214,7 +215,7 @@ public class StartMenu {
 
         String[] variantSettings = {"Gigachess", "Atomic Gigachess", "Three Check Gigachess"};
         String[] highlightSettings = {"Show piece movement highlights", "Don't show piece movement highlights"};
-        String[] decisecondSettings = {"Show deciseconds after clock goes below 20s", "Always show deciseconds", "Don't show at all"};
+        String[] decisecondSettings = {"Show deciseconds after clock goes below 20s", "Always show deciseconds", "Never show deciseconds"};
         String[] skinSettings = {"Original Jank Skin"};
         String[] soundEffectsSettings = {"Sound effects ON", "Sound effects OFF"};
 
@@ -252,6 +253,13 @@ public class StartMenu {
         switch (Objects.requireNonNull(soundFXSettingSelected)) {
             case "Sound effects ON" -> settings.changeMuted(false);
             case "Sound effects OFF" -> settings.changeMuted(true);
+        }
+
+        String decisecondSettingSelected = (String) deciseconds.getSelectedItem();
+        switch (Objects.requireNonNull(decisecondSettingSelected)) {
+            case "Show deciseconds after clock goes below 20s" -> settings.changeDsMode(1);
+            case "Always show deciseconds" -> settings.changeDsMode(2);
+            case "Never show deciseconds" -> settings.changeDsMode(0);
         }
 
     }

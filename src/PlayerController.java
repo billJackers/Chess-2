@@ -241,7 +241,9 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
     // Initialize clocks
     public void setClocks(int hours, int minutes, int seconds, int increment) {
         this.bClock = new Clock(hours, minutes, seconds);
+        bClock.setDsMode(settings.getDsMode());
         this.rClock = new Clock(hours, minutes, seconds);
+        rClock.setDsMode(settings.getDsMode());
         this.increment = increment;
     }
     public Clock getbClock() {

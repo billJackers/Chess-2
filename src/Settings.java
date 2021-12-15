@@ -4,6 +4,7 @@ public class Settings {
     private boolean highlightsOn;
     private String skin;
     private boolean muted;
+    private int dsMode;
 
     public Settings(String variant, boolean highlightsOn, String skin, boolean muted) {
         this.variant = variant;
@@ -34,6 +35,10 @@ public class Settings {
         this.muted = muted;
     }
 
+    public void changeDsMode(int mode) {
+        this.dsMode = mode;
+    }
+
     public boolean getMuted() {
         return this.muted;
     }
@@ -48,6 +53,10 @@ public class Settings {
 
     public String getSkin() {
         return this.skin;
+    }
+
+    public int getDsMode() {
+        return this.dsMode;
     }
 
 }
