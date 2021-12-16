@@ -45,6 +45,10 @@ public class Settings {
         this.dsMode = mode;
     }
 
+    public void changeTimerConfig(int[] timerConfig) {
+        this.timerConfig = timerConfig;
+    }
+
     public boolean getMuted() {
         return this.muted;
     }
@@ -65,4 +69,7 @@ public class Settings {
         return this.dsMode;
     }
 
+    public int[] getTimerConfig() {
+        return this.timerConfig;
+    }
 }

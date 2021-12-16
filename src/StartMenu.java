@@ -60,6 +60,10 @@ public class StartMenu {
         startMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         startMenu.setResizable(false);
 
+        // Initialize default settings
+        settings = new Settings("Gigachess", true, "Original", false, true, new int[] {0, 10, 0, 0});
+        settings.changeDsMode(1);
+
         // For dividing the screen into two sides: the singleplayer and multiplayer sections
         String backgroundPath = "images/menuscreen.png";
         MenuPanel menuLayout = new MenuPanel(backgroundPath);
@@ -117,9 +121,7 @@ public class StartMenu {
             int s = Integer.parseInt((String) seconds.getSelectedItem());
             int i = Integer.parseInt((String) increment.getSelectedItem());
 
-            // Initialize default settings
-            settings = new Settings("Gigachess", true, "Original", false, true, new int[] {h, m, s, i});
-            settings.changeDsMode(1);
+            settings.changeTimerConfig(new int[] {h, m, s, i});
 
             new GameWindow(settings);
         });
@@ -130,9 +132,7 @@ public class StartMenu {
             int s = Integer.parseInt((String) seconds.getSelectedItem());
             int i = Integer.parseInt((String) increment.getSelectedItem());
 
-            // Initialize default settings
-            settings = new Settings("Gigachess", true, "Original", false, true, new int[] {h, m, s, i});
-            settings.changeDsMode(1);
+            settings.changeTimerConfig(new int[] {h, m, s, i});
 
             new ComputerOpponent(settings);
         });
@@ -231,6 +231,17 @@ public class StartMenu {
         for (String str : decisecondSettings) deciseconds.addItem(str);
         for (String str : soundEffectsSettings) soundEffects.addItem(str);
         for (String str : skinSettings) skins.addItem(str);
+
+        // Set the JComboBoxes to current settings
+        variants.setSelectedItem(settings.getVariant());
+        if (settings.getHighlightsOn()) highlights.setSelectedItem(highlightSettings[0]);
+        else highlights.setSelectedItem(highlightSettings[2]);
+        if (settings.getDsMode() == 0) deciseconds.setSelectedItem(decisecondSettings[2]);
+        else if (settings.getDsMode() == 1) deciseconds.setSelectedItem(decisecondSettings[0]);
+        else deciseconds.setSelectedItem(decisecondSettings[1]);
+        skins.setSelectedItem(skinSettings[0]);
+        if (settings.getMuted()) soundEffects.setSelectedItem(soundEffectsSettings[1]);
+        else soundEffects.setSelectedItem(soundEffectsSettings[0]);
 
         // Add components to settings panel
         settingsPanel.add(variants);
