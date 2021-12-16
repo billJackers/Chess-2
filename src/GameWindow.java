@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class GameWindow {
 
-    public GameWindow(int hours, int minutes, int seconds, int increment, Settings settings) {
+    public GameWindow(Settings settings) {
 
         JFrame gameWindow = new JFrame("Giga Chess");
         gameWindow.setLocationRelativeTo(null);
@@ -15,9 +15,7 @@ public class GameWindow {
         String FEN = "rbbrqkrbbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBBRQKRBBR";
 
         Board board = new Board(settings, FEN);  // creates the board JPanel to draw on
-        board.getController().setClocks(hours, minutes, seconds, increment);  // setting our clocks
-        StatsDisplay stats = new StatsDisplay(board, settings, hours, minutes, seconds);  // stats displayer JPanel
-        ComputerOpponent computerOpponent = new ComputerOpponent(board);  // creating the AI opponent
+        StatsDisplay stats = new StatsDisplay(board, settings);  // stats displayer JPanel
 
         // adding JPanels to JFrame
         gameWindow.add(stats, BorderLayout.NORTH);

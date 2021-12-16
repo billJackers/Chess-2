@@ -65,10 +65,6 @@ public class StartMenu {
         MenuPanel menuLayout = new MenuPanel(backgroundPath);
         menuLayout.setLayout(new GridLayout(2, 2));
 
-        // Initialize default settings
-        settings = new Settings("Gigachess", true, "Original", false, true);
-        settings.changeDsMode(1);
-
         // singleplayer section
         JPanel singlePlayerMenu = new JPanel();
         singlePlayerMenu.setOpaque(false);
@@ -120,7 +116,12 @@ public class StartMenu {
             int m = Integer.parseInt((String) minutes.getSelectedItem());
             int s = Integer.parseInt((String) seconds.getSelectedItem());
             int i = Integer.parseInt((String) increment.getSelectedItem());
-            new GameWindow(h, m, s, i, settings);
+
+            // Initialize default settings
+            settings = new Settings("Gigachess", true, "Original", false, true, new int[] {h, m, s, i});
+            settings.changeDsMode(1);
+
+            new GameWindow(settings);
         });
 
         playComputerBtn.addActionListener(e -> {
@@ -128,7 +129,12 @@ public class StartMenu {
             int m = Integer.parseInt((String) minutes.getSelectedItem());
             int s = Integer.parseInt((String) seconds.getSelectedItem());
             int i = Integer.parseInt((String) increment.getSelectedItem());
-            new GameWindow(h, m, s, i, settings);
+
+            // Initialize default settings
+            settings = new Settings("Gigachess", true, "Original", false, true, new int[] {h, m, s, i});
+            settings.changeDsMode(1);
+
+            new GameWindow(settings);
         });
 
         // More options

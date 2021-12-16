@@ -1,13 +1,12 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Objects;
+import java.util.*;
 import java.util.List;
 
 public class StatsDisplay extends JPanel implements ActionListener {
@@ -26,7 +25,7 @@ public class StatsDisplay extends JPanel implements ActionListener {
 
     private final Timer globalClock;
 
-    public StatsDisplay(Board board, Settings settings, int hours, int minutes, int seconds) {
+    public StatsDisplay(Board board, Settings settings) {
         this.board = board;
         this.winFrame = new WinFrame();
 
@@ -46,7 +45,10 @@ public class StatsDisplay extends JPanel implements ActionListener {
             this.add(undoBtn);
         }
 
-        if (hours == 0 && minutes == 0 && seconds == 0) timed = false;
+        timed = false;
+        for (int i = 0; i < 3; i++)
+            if (settings.getTimer()[i] != 0)
+                timed = true;
 
         String backgroundPath = "images/display_background.png";
         try {

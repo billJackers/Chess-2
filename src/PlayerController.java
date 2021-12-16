@@ -45,6 +45,7 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
 
         // Initialize settings
         this.settings = settings;
+        setClocks();
 
         this.allFENS = new ArrayList<>();
         allFENS.add(board.getFEN());
@@ -239,12 +240,13 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
     }
 
     // Initialize clocks
-    public void setClocks(int hours, int minutes, int seconds, int increment) {
-        this.bClock = new Clock(hours, minutes, seconds);
+    public void setClocks() {
+        int[] timerValues = settings.getTimer();
+        this.bClock = new Clock(timerValues[0], timerValues[1], timerValues[2]);
         bClock.setDsMode(settings.getDsMode());
-        this.rClock = new Clock(hours, minutes, seconds);
+        this.rClock = new Clock(timerValues[0], timerValues[1], timerValues[2]);
         rClock.setDsMode(settings.getDsMode());
-        this.increment = increment;
+        this.increment = timerValues[3];
     }
     public Clock getbClock() {
         return bClock;
