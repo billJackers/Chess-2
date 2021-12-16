@@ -61,10 +61,10 @@ public class ComputerOpponent {
 
     public void runRandomMove() {
         ArrayList<Move> allPossibleMoves = new ArrayList<>();
-        for (Square from : board.getBoard()) {
-            if (from.hasPiece() && from.getPiece().getSide() == Sides.RED) {
-                for (Square to : from.getPiece().getLegalMoves(board)) {
-                    allPossibleMoves.add(new Move(from, to));
+        for (Square from : board.getBoard()) {  // iterate through the board
+            if (from.hasPiece() && from.getPiece().getSide() == Sides.RED) {  // get the square of every playable piece
+                for (Square to : from.getPiece().getLegalMoves(board)) {  // get the legalMoves of the playable piece
+                    allPossibleMoves.add(new Move(from, to));  // add each legalMove to allPossibleMoves
                 }
             }
         }
