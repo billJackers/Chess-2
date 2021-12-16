@@ -22,8 +22,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 public class StartMenu {
 
@@ -215,6 +213,7 @@ public class StartMenu {
         JComboBox<String> skins = new JComboBox<>();
         JComboBox<String> soundEffects = new JComboBox<>();
 
+
         JPanel volumePanel = new JPanel();
         JSlider volumeSlider = new JSlider(0, 100, 0);
         volumePanel.add(new JLabel("Volume"));
@@ -233,17 +232,6 @@ public class StartMenu {
         for (String str : soundEffectsSettings) soundEffects.addItem(str);
         for (String str : skinSettings) skins.addItem(str);
 
-        // Initialize JComboBox selected items
-        variants.setSelectedItem(settings.getVariant());
-        if (settings.getHighlightsOn()) highlights.setSelectedItem("Show piece movement highlights");
-        else highlights.setSelectedItem("Don't show piece movement highlights");
-        if (settings.getDsMode() == 0) deciseconds.setSelectedItem("Never show deciseconds");
-        else if (settings.getDsMode() == 1) deciseconds.setSelectedItem("Show deciseconds after clock goes below 20s");
-        else deciseconds.setSelectedItem("Always show deciseconds");
-        skins.setSelectedItem(settings.getSkin());
-        if (settings.getMuted()) soundEffects.setSelectedItem("Sound effects OFF");
-        else soundEffects.setSelectedItem("Sound effects ON");
-
         // Add components to settings panel
         settingsPanel.add(variants);
         settingsPanel.add(highlights);
@@ -256,15 +244,15 @@ public class StartMenu {
 
         String variantSelected = (String) variants.getSelectedItem();
         switch (Objects.requireNonNull(variantSelected)) {
-            case "Gigachess" -> settings.changeSettings("Gigachess");
-            case "Atomic Gigachess" -> settings.changeSettings("Atomic Gigachess");
-            case "Three Check Gigachess" -> settings.changeSettings("Three Check Gigachess");
+            case "Gigachess" -> settings.changeVariant("Gigachess");
+            case "Atomic Gigachess" -> settings.changeVariant("Atomic Gigachess");
+            case "Three Check Gigachess" -> settings.changeVariant("Three Check Gigachess");
         }
 
         String highlightSettingSelected = (String) highlights.getSelectedItem();
         switch (Objects.requireNonNull(highlightSettingSelected)) {
-            case "Show piece movement highlights" -> settings.changeSettings(true);
-            case "Don't show piece movement highlights" -> settings.changeSettings(false);
+            case "Show piece movement highlights" -> settings.changeHighlightSettings(true);
+            case "Don't show piece movement highlights" -> settings.changeHighlightSettings(false);
         }
 
         String soundFXSettingSelected = (String) soundEffects.getSelectedItem();

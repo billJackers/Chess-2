@@ -17,12 +17,6 @@ public class Settings {
         this.timerConfig = timerConfig;
     }
 
-    public void changeSettings(String variant, boolean highlightsOn, String skin) {
-        this.variant = variant;
-        this.highlightsOn = highlightsOn;
-        this.skin = skin;
-    }
-
     public int[] getTimer() {
         return timerConfig;
     }
@@ -31,11 +25,11 @@ public class Settings {
         return moveRollback;
     }
 
-    public void changeSettings(String variant) {
+    public void changeVariant(String variant) {
         this.variant = variant;
     }
 
-    public void changeSettings(boolean highlightsOn) {
+    public void changeHighlightSettings(boolean highlightsOn) {
         this.highlightsOn = highlightsOn;
     }
 
