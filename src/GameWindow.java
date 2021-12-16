@@ -16,7 +16,7 @@ public class GameWindow {
 
         Board board = new Board(settings, FEN);  // creates the board JPanel to draw on
         board.getController().setClocks(hours, minutes, seconds, increment);  // setting our clocks
-        StatsDisplay stats = new StatsDisplay(board, hours, minutes, seconds);  // stats displayer JPanel
+        StatsDisplay stats = new StatsDisplay(board, settings, hours, minutes, seconds);  // stats displayer JPanel
         ComputerOpponent computerOpponent = new ComputerOpponent(board);  // creating the AI opponent
 
         // adding JPanels to JFrame

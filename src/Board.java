@@ -161,23 +161,23 @@ public class Board extends JPanel  {
     }
 
     public String getFEN() {
-        String FEN = "";
+        StringBuilder FEN = new StringBuilder();
         // Traverse the array by row
         for (int row = 0; row < 10; row++) {
             for (int col = 0; col < 10; col++) {
                 Square curSquare = board[(row*10) + col];
                 if (curSquare.hasPiece()) {
                     switch (curSquare.getPiece().side) {
-                        case BLUE -> FEN += curSquare.getPiece().getFENValue();
-                        case RED -> FEN += curSquare.getPiece().getFENValue().toUpperCase();
+                        case BLUE -> FEN.append(curSquare.getPiece().getFENValue());
+                        case RED -> FEN.append(curSquare.getPiece().getFENValue().toUpperCase());
                     }
                 } else {
-                    FEN += "0";
+                    FEN.append("0");
                 }
             }
-            if (row != 9) FEN += "/"; // Don't add a '/' for the last row
+            if (row != 9) FEN.append("/"); // Don't add a '/' for the last row
         }
-        return simplifiedFEN(FEN);
+        return simplifiedFEN(FEN.toString());
     }
 
     // Helper method for getFEN

@@ -5,18 +5,24 @@ public class Settings {
     private String skin;
     private boolean muted;
     private int dsMode;
+    private boolean moveRollback;
 
-    public Settings(String variant, boolean highlightsOn, String skin, boolean muted) {
+    public Settings(String variant, boolean highlightsOn, String skin, boolean muted, boolean enableRollback) {
         this.variant = variant;
         this.highlightsOn = highlightsOn;
         this.skin = skin;
         this.muted = muted;
+        this.moveRollback = enableRollback;
     }
 
     public void changeSettings(String variant, boolean highlightsOn, String skin) {
         this.variant = variant;
         this.highlightsOn = highlightsOn;
         this.skin = skin;
+    }
+
+    public boolean canRollback() {
+        return moveRollback;
     }
 
     public void changeSettings(String variant) {

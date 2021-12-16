@@ -42,9 +42,10 @@ public class GameServer extends Thread {
 
         String FEN = "rbbrqkrbbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBBRQKRBBR";
 
-        Board board = new Board(new Settings("Gigachess", true, "Original", false), "rbbrqkrbbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBBRQKRBBR");
+        Settings settings = new Settings("Gigachess", true, "Original", false, false);
+        Board board = new Board(settings, "rbbrqkrbbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBBRQKRBBR");
         board.getController().setClocks(0, 10, 0, 5);  // setting the clocks statically
-        StatsDisplay stats = new StatsDisplay(board, 0, 10, 0);  // stats displayer panel
+        StatsDisplay stats = new StatsDisplay(board, settings, 0, 10, 0);  // stats displayer panel
 
         ConnectionHandler connectionHandler = new ConnectionHandler(connectionToClient, board, Sides.BLUE);  // the Server is the BLUE side
 

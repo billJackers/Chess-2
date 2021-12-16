@@ -1,5 +1,6 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.tools.Tool;
 import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
@@ -91,8 +92,6 @@ public class Bomber extends Piece {
         Square[] b = board.getBoard();
 
         int pos = (file*10) + rank;
-        int row = pos / 10;
-        int column = pos % 10;
 
         int[] bombTargets = {-11, -10, -9,-1, 1, 9, 10, 11};
         for (int target : bombTargets) {
@@ -102,23 +101,6 @@ public class Bomber extends Piece {
         }
         return targets;
     }
-
-    // I don't think this code is necessary
-    /*
-    public boolean acceptableRow(int row, int proposedRow) {
-        int maxRow = row + 1;
-        int minRow = row - 1;
-        if (proposedRow <= maxRow && proposedRow >= minRow) {
-            return true;
-        }
-        return false;
-    }
-    public boolean acceptableColumn(int column, int proposedColumn) {
-        int maxColumn = column + 1;
-        int minColumn = column - 1;
-        return proposedColumn <= maxColumn && proposedColumn >= minColumn;
-    }
-     */
 
     public void runOnDeath(Board board, Piece captor) {
         super.runOnDeath(board, captor);
@@ -137,32 +119,35 @@ public class Bomber extends Piece {
                 target.getPiece().runOnDeath(board, this);
             target.clearPiece();  // then clear the targets
         }
-        AnimationThread explosionAnimation = new AnimationThread(board);
-        explosionAnimation.execute();
     }
 
     private static class AnimationThread extends SwingWorker<Void, Void> {
-        private static Image explosionGif;
-        private final Graphics graphics;
+        private static final Image explosionGif;
+        private final Board board;
 
         static {
-            try {
-                File file = new File("src/images/pogexplosion.gif");
-                FileInputStream fs = new FileInputStream(file);
-                explosionGif = ImageIO.read(fs);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+//                File file = new File("src/images/pogexplosion.gif");
+//                FileInputStream fs = new FileInputStream(file);
+            //explosionGif = new ImageIcon("src/images/pogexplosion.gif").getImage();
+            explosionGif = Toolkit.getDefaultToolkit().getImage("src/images/pogexplosion.gif");
+
         }
 
         public AnimationThread (Board board) {
-            graphics = board.getGraphics();
+            this.board = board;
         }
 
         @Override
         protected Void doInBackground() throws Exception {
-            graphics.drawImage(explosionGif, 10, 10, null);
-            Thread.sleep(1000);
+            Graphics g = board.getGraphics();
+            for (int i = 0; i < 20; i++){
+                //board.repaint();
+                System.out.println("Drawn Image " + i);
+                g.drawImage(explosionGif, 10, 10, null);
+                Thread.sleep(100);
+            }
+
             return null;
         }
     }

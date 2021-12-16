@@ -66,7 +66,7 @@ public class StartMenu {
         menuLayout.setLayout(new GridLayout(2, 2));
 
         // Initialize default settings
-        settings = new Settings("Gigachess", true, "Original", false);
+        settings = new Settings("Gigachess", true, "Original", false, true);
         settings.changeDsMode(1);
 
         // singleplayer section

@@ -129,7 +129,7 @@ public class Square extends JComponent {
                 // Explosion
                 case EXPLODED -> {
                     Image explosionIcon = new ImageIcon("images/pogexplosion.gif").getImage();
-                    g.drawImage(explosionIcon, squareX, squareY, this);
+                    g.drawImage(explosionIcon, squareX, squareY, null);
                 }
             }
         }

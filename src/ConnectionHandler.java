@@ -1,7 +1,6 @@
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 public class ConnectionHandler extends Thread {
 
@@ -84,7 +83,12 @@ public class ConnectionHandler extends Thread {
             System.out.println(playerSide + " is sending");
         while (!line.equals("end")) {
 
-            System.out.println(playerSide + " is sending");  // connections only work if this line is run??  (perhaps weird stuff happening with java threads?)
+            // System.out.println(playerSide + " is sending");  // connections only work if this line is run??  (perhaps weird stuff happening with java threads?)
+            try {  // sleep needed
+                sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
             if (!(playerSide == controller.getCurrentTurn())) {  // if it is not our turn then we receive data
                 System.out.println(playerSide + " is listening");

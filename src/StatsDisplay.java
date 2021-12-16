@@ -26,7 +26,7 @@ public class StatsDisplay extends JPanel implements ActionListener {
 
     private final Timer globalClock;
 
-    public StatsDisplay(Board board, int hours, int minutes, int seconds) {
+    public StatsDisplay(Board board, Settings settings, int hours, int minutes, int seconds) {
         this.board = board;
         this.winFrame = new WinFrame();
 
@@ -38,11 +38,13 @@ public class StatsDisplay extends JPanel implements ActionListener {
         this.setLayout(new FlowLayout(0));
 
         // Undo move button
-        JButton undoBtn = new JButton("Undo");
-        undoBtn.addActionListener(e -> {
-            this.board.getController().undoMove();
-        });
-        this.add(undoBtn);
+        if (settings.canRollback()) {
+            JButton undoBtn = new JButton("Undo");
+            undoBtn.addActionListener(e -> {
+                this.board.getController().undoMove();
+            });
+            this.add(undoBtn);
+        }
 
         if (hours == 0 && minutes == 0 && seconds == 0) timed = false;
 

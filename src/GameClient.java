@@ -30,12 +30,13 @@ public class GameClient {
             failed.repaint();
 
         } else {  // client connected to server
+            Settings settings = new Settings("Gigachess", true, "Original", false, false);
             String FEN = "rbbrqkrbbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBBRQKRBBR";
-            Board board = new Board(new Settings("Gigachess", true, "Original", false), FEN);
+            Board board = new Board(settings, FEN);
             board.flipBoard();
             board.pause();  // begin as paused since it is the server's turn first
             board.getController().setClocks(0, 10, 0, 5);  // setting the clocks statically
-            StatsDisplay stats = new StatsDisplay(board, 0, 10, 0);  // stats displayer panel
+            StatsDisplay stats = new StatsDisplay(board, settings, 0, 10, 0);  // stats displayer panel
 
             ConnectionHandler connectionHandler = new ConnectionHandler(connectionToServer, board, Sides.RED);  // the client is the RED side
 
