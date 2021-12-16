@@ -24,14 +24,24 @@ public class ComputerOpponent {
 
         private Square from;
         private Square to;
+        private Type type;
 
-        public Move (Square from, Square to) {
+        private enum Type {
+            PIECE_MOVE,
+            ARCHER_SHOT
+        }
+
+        public Move (Square from, Square to, Type moveType) {
             this.from = from;
             this.to = to;
+            this.type = moveType;
         }
 
         public void play() {
-            moveListener.move(from, to);
+            switch (type){
+                case PIECE_MOVE -> moveListener.move(from, to);
+                case ARCHER_SHOT -> moveListener.shoot(from, to);
+            }
         }
     }
 
@@ -66,13 +76,19 @@ public class ComputerOpponent {
 
     public void runRandomMove() {
         ArrayList<Move> allPossibleMoves = new ArrayList<>();
-        ArrayList<Square> allArcherShots = new ArrayList<>();
         for (Square from : board.getBoard()) {  // iterate through the board
             if (from.hasPiece() && from.getPiece().getSide() == Sides.RED) {  // get the square of every playable piece
 
                 for (Square to : from.getPiece().getLegalMoves(board)) {  // get the legalMoves of the playable piece
-                    allPossibleMoves.add(new Move(from, to));  // add each legalMove to allPossibleMoves
+                    allPossibleMoves.add(new Move(from, to, Move.Type.PIECE_MOVE));  // add each legalMove to allPossibleMoves
                 }
+
+                if (from.getPiece() instanceof Archer) {  // if the piece is an archer, we also need to get the shots
+                    for (Square shots : from.getPiece().getTargets(board)) {  // get the legalMoves of the playable piece
+                        allPossibleMoves.add(new Move(from, shots, Move.Type.ARCHER_SHOT));  // add each Archer shot to allPossibleMoves
+                    }
+                }
+
             }
         }
 
