@@ -134,7 +134,7 @@ public class StartMenu {
             settings = new Settings("Gigachess", true, "Original", false, true, new int[] {h, m, s, i});
             settings.changeDsMode(1);
 
-            new GameWindow(settings);
+            new ComputerOpponent(settings);
         });
 
         // More options

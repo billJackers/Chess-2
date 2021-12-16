@@ -14,7 +14,8 @@ public class GameWindow {
 
         String FEN = "rbbrqkrbbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBBRQKRBBR";
 
-        Board board = new Board(settings, FEN);  // creates the board JPanel to draw on
+        PlayerController controller = new PlayerController(settings);  // PlayerController to handle mouse input
+        Board board = new Board(settings, controller, FEN);  // creates the board JPanel to draw on
         StatsDisplay stats = new StatsDisplay(board, settings);  // stats displayer JPanel
 
         // adding JPanels to JFrame

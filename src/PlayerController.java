@@ -35,20 +35,13 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
     // All FENS so far
     List<String> allFENS;
 
-    public PlayerController(Board board, Settings settings) {
+    public PlayerController(Settings settings) {
         previouslySelected = null;
         currentTurn = Sides.BLUE;
-        this.board = board;
-        board.addMouseListener(this); // OOP black magic
-        this.currentKey = Key.NONE;
-        board.addKeyListener(this);
 
         // Initialize settings
         this.settings = settings;
         setClocks();
-
-        this.allFENS = new ArrayList<>();
-        allFENS.add(board.getFEN());
 
         blueChecks = 0;
         redChecks = 0;
@@ -56,6 +49,16 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
         bluePiecesCaptured = new ArrayList<>();
         redPiecesCaptured = new ArrayList<>();
     }
+
+    public void setBoard(Board board) {  // must set the board
+        this.board = board;
+        board.addMouseListener(this); // OOP black magic
+        this.currentKey = Key.NONE;
+        board.addKeyListener(this);
+        this.allFENS = new ArrayList<>();
+        allFENS.add(board.getFEN());
+    }
+
     public void setConnectionHandler(ConnectionHandler connectionHandler) {
         this.connectionHandler = connectionHandler;
     }
@@ -127,21 +130,19 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
 
                 if (legalMovesOfSelectedPiece.contains(target) && pieceToMove.canCapture(target)) {  // if it is legal to move to the new location
                     move(previouslySelected, target);  // make the client side moves
-
                     sendMovesToOpponent(target, false);  // update the opponent (if connection handler exists)
                 }
 
                 // Archer fire
-                if (pieceToMove instanceof Archer && pieceToMove.getTargets(board).contains(target)) {  // COMMENT YOUR CODE <-----------------------
-                    //if (target.getPiece() instanceof Bomber) target.getPiece().explode(board);
+                if (pieceToMove instanceof Archer && pieceToMove.getTargets(board).contains(target)) {  // COMMENT YOUR CODE <----------------------- yo mama
                     shoot(previouslySelected, target);  // make the client side moves
                     sendMovesToOpponent(target, true);  // update the opponent (if connection handler exists)
                 }
 
             }
             deselectCurrent();  // clear board states on after this click
-        } else {  //
-            if (target.hasPiece()) {
+        } else {  // this is when a player selects a piece before they move it
+            if (target.hasPiece() && target.getPiece().getSide() == currentTurn) {  // if the square selected has a piece and the correct color side is selecting
                 selectSquare(target);
             }
         }
@@ -265,7 +266,6 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
     public void mousePressed(MouseEvent e) {
 
         if (board.isPaused()) return;  // if the game is paused, disregard mouse events
-
 
         Square squareSelected = board.getSquareClicked(e.getX(), e.getY());
 

@@ -16,7 +16,7 @@ public class Board extends JPanel  {
 
     private Settings settings;
 
-    public Board(Settings settings, String FEN) {
+    public Board(Settings settings, PlayerController controller, String FEN) {
         // window size
         this.setPreferredSize(new Dimension(SQUARE_SIZE*RANK_SIZE, SQUARE_SIZE*FILE_SIZE)); // dimensions based on the size of the grid
         this.setMaximumSize(this.getPreferredSize());
@@ -28,8 +28,10 @@ public class Board extends JPanel  {
         initializeSquares();  // "rbbrqkrbbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBBRQKRBBR"
         generateBoardState(FEN);
 
+        // init controller
+        this.controller = controller;
+        controller.setBoard(this);
 
-        controller = new PlayerController(this, settings);  // PlayerController to handle mouse input
         isPaused = false;
         flipBoard();  // flip the board so Blue is on the bottom (default is red)
     }
