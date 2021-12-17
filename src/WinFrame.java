@@ -12,6 +12,7 @@ public class WinFrame {
         JLabel winnerLabel = new JLabel(winner + " has won!!! Well played.");
         winnerLabel.setHorizontalAlignment(SwingConstants.CENTER);
         winnerLabel.setVerticalAlignment(SwingConstants.CENTER);
+        winFrame.setLocationRelativeTo(null);
         winFrame.add(winnerLabel);
         winFrame.setVisible(true);
         winFrame.setSize(300, 300);
