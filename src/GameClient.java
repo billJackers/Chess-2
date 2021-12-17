@@ -30,7 +30,7 @@ public class GameClient {
             failed.repaint();
 
         } else {  // client connected to server
-            Settings settings = new Settings("Gigachess", true, "Original", false, false, new int[] {0, 10, 0, 5});
+            Settings settings = new Settings(Settings.PlayerSide.PLAYER_RED,"Gigachess", true, "Original", false, false, new int[] {0, 10, 0, 5});
             String FEN = "rbbrqkrbbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBBRQKRBBR";
             PlayerController controller = new PlayerController(settings);  // PlayerController to handle mouse input
             Board board = new Board(settings, controller, FEN);  // creates the board JPanel to draw on

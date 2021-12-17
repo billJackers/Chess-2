@@ -1,10 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ComputerOpponent {
 
-    private class MoveListener extends PlayerController {
+    class MoveListener extends PlayerController {
         public MoveListener(Settings settings) {
             super(settings);
         }
@@ -22,19 +23,21 @@ public class ComputerOpponent {
 
     private class Move {  // move class is used to pair "from" and "to" squares
 
-        private Square from;
-        private Square to;
-        private Type type;
+        private final Square from;
+        private final Square to;
+        private final Type type;
+        private final int score;
 
         private enum Type {
             PIECE_MOVE,
             ARCHER_SHOT
         }
 
-        public Move (Square from, Square to, Type moveType) {
+        public Move (Square from, Square to, Type moveType, int score) {
             this.from = from;
             this.to = to;
             this.type = moveType;
+            this.score = score;
         }
 
         public void play() {
@@ -43,10 +46,14 @@ public class ComputerOpponent {
                 case ARCHER_SHOT -> moveListener.shoot(from, to);
             }
         }
+
+        public int getScore() {
+            return score;
+        }
     }
 
-    private MoveListener moveListener;
-    private Board board;
+    private final MoveListener moveListener;
+    private final Board board;
 
     public ComputerOpponent(Settings settings) {
         JFrame gameWindow = new JFrame("Giga Chess");
@@ -71,7 +78,53 @@ public class ComputerOpponent {
 
     public void runComputerMove() {
         if (moveListener.getCurrentTurn() != Sides.RED) return;  // it is the player's move so don't do anything
-        runRandomMove();
+        runEvaluatedMove();
+    }
+
+    private static final HashMap<String, Integer> pieceValues = new HashMap<>();
+    static {  // why cant there be a better way to initialize lists/hashmaps java you prick
+        pieceValues.put("King", Integer.MAX_VALUE);  // if the king is taken the game is over, the king worth a lot ;l
+        pieceValues.put("Queen", 100);
+        pieceValues.put("Rook", 50);
+        pieceValues.put("Archer", 50);
+        pieceValues.put("Bishop", 30);
+        pieceValues.put("Knight", 30);
+        pieceValues.put("Assassin", 20);
+        pieceValues.put("Pawn", 10);
+        pieceValues.put("Royal Guard", 5);
+        pieceValues.put("Bomber", 5);
+    }
+
+    private int evaluate(Square from, Square to) {
+        int score = 0;
+        if (to.hasPiece()) {
+            Piece enemy = to.getPiece();
+            score += pieceValues.get(enemy.getName());
+        }
+        return score;
+    }
+
+    public void runEvaluatedMove() {
+        Move bestMove = new Move(null, null, null, Integer.MIN_VALUE);
+        for (Square from : board.getBoard()) {  // iterate through the board
+            if (from.hasPiece() && from.getPiece().getSide() == Sides.RED) {  // get the square of every playable piece
+                for (Square to : from.getPiece().getLegalMoves(board)) {  // get the legalMoves of the playable piece
+                    int moveEval = evaluate(from, to);
+                    if (moveEval > bestMove.getScore())
+                        bestMove = new Move(from, to, Move.Type.PIECE_MOVE, moveEval);
+                }
+
+                if (from.getPiece() instanceof Archer) {  // if the piece is an archer, we also need to get the shots
+                    for (Square shots : from.getPiece().getTargets(board)) {  // get the legalMoves of the playable piece
+                        int moveEval = evaluate(from, shots);
+                        if (moveEval > bestMove.getScore())
+                            bestMove = new Move(from, shots, Move.Type.ARCHER_SHOT, moveEval);
+                    }
+                }
+
+            }
+        }
+        bestMove.play();
     }
 
     public void runRandomMove() {
@@ -80,18 +133,17 @@ public class ComputerOpponent {
             if (from.hasPiece() && from.getPiece().getSide() == Sides.RED) {  // get the square of every playable piece
 
                 for (Square to : from.getPiece().getLegalMoves(board)) {  // get the legalMoves of the playable piece
-                    allPossibleMoves.add(new Move(from, to, Move.Type.PIECE_MOVE));  // add each legalMove to allPossibleMoves
+                    allPossibleMoves.add(new Move(from, to, Move.Type.PIECE_MOVE, 0));  // add each legalMove to allPossibleMoves
                 }
 
                 if (from.getPiece() instanceof Archer) {  // if the piece is an archer, we also need to get the shots
                     for (Square shots : from.getPiece().getTargets(board)) {  // get the legalMoves of the playable piece
-                        allPossibleMoves.add(new Move(from, shots, Move.Type.ARCHER_SHOT));  // add each Archer shot to allPossibleMoves
+                        allPossibleMoves.add(new Move(from, shots, Move.Type.ARCHER_SHOT, 0));  // add each Archer shot to allPossibleMoves
                     }
                 }
 
             }
         }
-
         Move randMove = allPossibleMoves.get((int) ((Math.random() * (allPossibleMoves.size()-1))));
         randMove.play();
     }

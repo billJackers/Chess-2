@@ -14,7 +14,7 @@ public class Board extends JPanel  {
 
     private final Square[] board = new Square[100];
 
-    private Settings settings;
+    private final Settings settings;
 
     public Board(Settings settings, PlayerController controller, String FEN) {
         // window size

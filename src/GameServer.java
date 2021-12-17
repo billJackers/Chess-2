@@ -42,7 +42,7 @@ public class GameServer extends Thread {
 
         String FEN = "rbbrqkrbbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBBRQKRBBR";
 
-        Settings settings = new Settings("Gigachess", true, "Original", false, false, new int[] {0, 10, 0, 5});
+        Settings settings = new Settings(Settings.PlayerSide.PLAYER_BLUE, "Gigachess", true, "Original", false, false, new int[] {0, 10, 0, 5});
         PlayerController controller = new PlayerController(settings);
         Board board = new Board(settings, controller, "rbbrqkrbbr/socnggncos/pppppppppp/X/X/X/X/PPPPPPPPPP/SOCNGGNCOS/RBBRQKRBBR");
         StatsDisplay stats = new StatsDisplay(board, settings);  // stats displayer panel

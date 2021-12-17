@@ -79,6 +79,10 @@ public class Pawn extends Piece {
     }
 
     public void doPromotionEvent(Board board, Sides side) {
+        if (board.getController() instanceof ComputerOpponent.MoveListener && board.getController().getCurrentTurn() == Sides.RED) {  // i hate this but it handles computer's promotions
+            parentSquare.setPiece(new Queen(side, board.getSquareSize(), parentSquare, settings));
+            return;
+        }
         board.pause();  // pause the game while doing promotions
         JComboBox<String> popupMenu = new JComboBox<>();
         String[] pieces = {

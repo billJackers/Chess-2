@@ -1,5 +1,12 @@
 public class Settings {
 
+    enum PlayerSide {
+        BOTH,
+        PLAYER_BLUE,
+        PLAYER_RED
+    }
+
+    private PlayerSide side;
     private String variant;
     private boolean highlightsOn;
     private String skin;
@@ -8,7 +15,8 @@ public class Settings {
     private boolean moveRollback;
     private int[] timerConfig;
 
-    public Settings(String variant, boolean highlightsOn, String skin, boolean muted, boolean enableRollback, int[] timerConfig) {
+    public Settings(PlayerSide playerSide, String variant, boolean highlightsOn, String skin, boolean muted, boolean enableRollback, int[] timerConfig) {
+        this.side = playerSide;
         this.variant = variant;
         this.highlightsOn = highlightsOn;
         this.skin = skin;
@@ -19,6 +27,10 @@ public class Settings {
 
     public int[] getTimer() {
         return timerConfig;
+    }
+
+    public PlayerSide getSide() {
+        return side;
     }
 
     public boolean canRollback() {

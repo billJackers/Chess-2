@@ -61,7 +61,7 @@ public class StartMenu {
         startMenu.setResizable(false);
 
         // Initialize default settings
-        settings = new Settings("Gigachess", true, "Original", false, true, new int[] {0, 10, 0, 0});
+        settings = new Settings(Settings.PlayerSide.BOTH,"Gigachess", true, "Original", false, true, new int[] {0, 10, 0, 0});
         settings.changeDsMode(1);
 
         // For dividing the screen into two sides: the singleplayer and multiplayer sections
@@ -133,8 +133,8 @@ public class StartMenu {
             int i = Integer.parseInt((String) increment.getSelectedItem());
 
             settings.changeTimerConfig(new int[] {h, m, s, i});
-
-            new ComputerOpponent(settings);
+            // we probably need to rework this at some point
+            new ComputerOpponent(new Settings(Settings.PlayerSide.PLAYER_BLUE, settings.getVariant(), settings.getHighlightsOn(), settings.getSkin(), settings.getMuted(), settings.canRollback(), settings.getTimerConfig()));
         });
 
         // More options
