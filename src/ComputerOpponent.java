@@ -83,7 +83,7 @@ public class ComputerOpponent {
 
     private static final HashMap<String, Integer> pieceValues = new HashMap<>();
     static {  // why cant there be a better way to initialize lists/hashmaps java you prick
-        pieceValues.put("King", Integer.MAX_VALUE);  // if the king is taken the game is over, the king worth a lot ;l
+        pieceValues.put("King", 9001);  // its over 9000
         pieceValues.put("Queen", 100);
         pieceValues.put("Rook", 50);
         pieceValues.put("Archer", 50);
@@ -105,26 +105,40 @@ public class ComputerOpponent {
     }
 
     public void runEvaluatedMove() {
-        Move bestMove = new Move(null, null, null, Integer.MIN_VALUE);
+        ArrayList<Move> bestMoves = new ArrayList<>();  // arraylist of the highest scoring moves
+        bestMoves.add(new Move(null, null, null, Integer.MIN_VALUE));
+
         for (Square from : board.getBoard()) {  // iterate through the board
             if (from.hasPiece() && from.getPiece().getSide() == Sides.RED) {  // get the square of every playable piece
                 for (Square to : from.getPiece().getLegalMoves(board)) {  // get the legalMoves of the playable piece
+
                     int moveEval = evaluate(from, to);
-                    if (moveEval > bestMove.getScore())
-                        bestMove = new Move(from, to, Move.Type.PIECE_MOVE, moveEval);
+                    if (moveEval > bestMoves.get(0).getScore()) {
+                        bestMoves.clear();
+                        bestMoves.add(new Move(from, to, Move.Type.PIECE_MOVE, moveEval));
+                    }
+                    else if (moveEval == bestMoves.get(0).getScore()) {
+                        bestMoves.add(new Move(from, to, Move.Type.PIECE_MOVE, moveEval));
+                    }
                 }
 
                 if (from.getPiece() instanceof Archer) {  // if the piece is an archer, we also need to get the shots
                     for (Square shots : from.getPiece().getTargets(board)) {  // get the legalMoves of the playable piece
                         int moveEval = evaluate(from, shots);
-                        if (moveEval > bestMove.getScore())
-                            bestMove = new Move(from, shots, Move.Type.ARCHER_SHOT, moveEval);
+                        if (moveEval > bestMoves.get(0).getScore()) {
+                            bestMoves.clear();
+                            bestMoves.add(new Move(from, shots, Move.Type.ARCHER_SHOT, moveEval));
+                        }
+                        else if (moveEval == bestMoves.get(0).getScore()) {
+                            bestMoves.add(new Move(from, shots, Move.Type.ARCHER_SHOT, moveEval));
+                        }
                     }
                 }
 
             }
         }
-        bestMove.play();
+        Move randBestMove = bestMoves.get((int) ((Math.random() * (bestMoves.size()-1))));
+        randBestMove.play();
     }
 
     public void runRandomMove() {
