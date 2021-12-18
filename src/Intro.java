@@ -58,31 +58,28 @@ public class Intro implements ActionListener {
         textPanel.add(titleLbl);
 
         // GIGA CHESS pops up after 2 seconds, while "BROUGHT TO YOU BY" pops up in 4 seconds, and "THE NERDS" pops up in 6 seconds
-        ActionListener taskPerformer = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                titleLbl.setText("<html><body>GIGA CHESS</body></html>");
-            }
+        ActionListener taskPerformer = e -> {
+            titleLbl.setText("<html><body>GIGA CHESS</body></html>");
+            Sound boom = new Sound("src/sounds/vine-boom.wav");
+            boom.play();
         };
         Timer textTimer = new Timer(2000, taskPerformer);
         textTimer.setRepeats(false);
         textTimer.start();
 
-        taskPerformer = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                titleLbl.setText("<html><body>GIGA CHESS<br>BROUGHT TO YOU BY:</body></html>");
-            }
+        taskPerformer = e -> {
+            titleLbl.setText("<html><body>GIGA CHESS<br>BROUGHT TO YOU BY:</body></html>");
+            Sound boom = new Sound("src/sounds/vine-boom.wav");
+            boom.play();
         };
         textTimer = new Timer(4000, taskPerformer);
         textTimer.setRepeats(false);
         textTimer.start();
 
-        taskPerformer = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                titleLbl.setText("<html><body>GIGA CHESS<br>BROUGHT TO YOU BY:<br>THE NERDS</body></html>");
-            }
+        taskPerformer = e -> {
+            titleLbl.setText("<html><body>GIGA CHESS<br>BROUGHT TO YOU BY:<br>THE NERDS</body></html>");
+            Sound boom = new Sound("src/sounds/vine-boom.wav");
+            boom.play();
         };
         textTimer = new Timer(6000, taskPerformer);
         textTimer.setRepeats(false);

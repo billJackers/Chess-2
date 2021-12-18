@@ -1,5 +1,6 @@
 import java.io.*;
 import java.sql.SQLOutput;
+import java.util.Objects;
 import javax.sound.sampled.*;
 public class Sound {
 
@@ -11,8 +12,10 @@ public class Sound {
         try {
             File soundPath = new File(soundLocation);
             if (soundPath.exists()) {
-                audioInput = AudioSystem.getAudioInputStream(soundPath);
-                clip = AudioSystem.getClip();
+                audioInput = AudioSystem.getAudioInputStream(new File(soundLocation).getAbsoluteFile());
+                AudioFormat format = audioInput.getFormat();
+                DataLine.Info info = new DataLine.Info(Clip.class, format);
+                clip = (Clip) AudioSystem.getLine(info);
             } else {
                 System.out.println("Can't find audio file at: " + soundLocation);
                 valid = false;
