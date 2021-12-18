@@ -112,7 +112,7 @@ public class Intro implements ActionListener {
         secondsElapsed++;
         System.out.println(secondsElapsed);
         // Intro closes after 10 seconds
-        if (secondsElapsed == 10) {
+        if (secondsElapsed == 12) {
             timer.stop();
             introFrame.dispose();
             new StartMenu();
