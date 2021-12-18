@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 public class Intro implements ActionListener {
 
@@ -57,6 +58,10 @@ public class Intro implements ActionListener {
         titleLbl.setFont(new Font("Sans Serif", Font.BOLD, 40));
         textPanel.add(titleLbl);
 
+        // Gif
+        JLabel gifLabel = new JLabel("");
+        textPanel.add(gifLabel);
+
         // GIGA CHESS pops up after 2 seconds, while "BROUGHT TO YOU BY" pops up in 4 seconds, and "THE NERDS" pops up in 6 seconds
         ActionListener taskPerformer = e -> {
             titleLbl.setText("<html><body>GIGA CHESS</body></html>");
@@ -82,6 +87,16 @@ public class Intro implements ActionListener {
             boom.play();
         };
         textTimer = new Timer(6000, taskPerformer);
+        textTimer.setRepeats(false);
+        textTimer.start();
+
+        taskPerformer = e -> {
+            Icon imgIcon = new ImageIcon(Objects.requireNonNull(this.getClass().getResource("images/rock.gif")));
+            gifLabel.setIcon(imgIcon);
+            Sound boom = new Sound("src/sounds/vine-boom.wav");
+            boom.play();
+        };
+        textTimer = new Timer(8000, taskPerformer);
         textTimer.setRepeats(false);
         textTimer.start();
 
