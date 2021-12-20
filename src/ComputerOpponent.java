@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ComputerOpponent {
 
@@ -54,6 +55,7 @@ public class ComputerOpponent {
 
     private final MoveListener moveListener;
     private final Board board;
+    private static int globalDepth = 4;
 
     public ComputerOpponent(Settings settings) {
         JFrame gameWindow = new JFrame("Giga Chess");
@@ -142,6 +144,40 @@ public class ComputerOpponent {
     }
 
     public void runRandomMove() {
+        Move randMove = getAllPossibleMoves().get((int) ((Math.random() * (getAllPossibleMoves().size()-1))));
+        randMove.play();
+    }
+
+    // -1 is blue, 1 is red
+    // https://www.youtube.com/watch?v=UZLnDvdeNo8
+    public Map<Move, Integer> alphaBeta(int depth, int beta, int alpha, Move move, int player) {
+
+        ArrayList<Move> moves = getAllPossibleMoves();
+        if (depth == 0 || moves.size() == 0) return Map.of(move, evaluate(move.from, move.to)*(player*2-1));
+        player = 1-player;
+        for (int i = 0; i < moves.size(); i++) {
+            move.play();
+            moveListener.swapTurns();
+            Map returnMap = alphaBeta(depth-1, beta, alpha, move, player);
+            int value = (int) returnMap.get(move);
+            moveListener.swapTurns();
+            moveListener.undoMove();
+            if (player == 0) {
+                if (value <= beta) {
+                    beta = value;
+                    if (depth == globalDepth) {
+
+                    }
+                }
+            } else {
+
+            }
+        }
+
+        return null;
+    }
+
+    public ArrayList<Move> getAllPossibleMoves() {
         ArrayList<Move> allPossibleMoves = new ArrayList<>();
         for (Square from : board.getBoard()) {  // iterate through the board
             if (from.hasPiece() && from.getPiece().getSide() == Sides.RED) {  // get the square of every playable piece
@@ -158,7 +194,7 @@ public class ComputerOpponent {
 
             }
         }
-        Move randMove = allPossibleMoves.get((int) ((Math.random() * (allPossibleMoves.size()-1))));
-        randMove.play();
+        return allPossibleMoves;
     }
+
 }
