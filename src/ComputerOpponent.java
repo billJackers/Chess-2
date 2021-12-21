@@ -150,21 +150,21 @@ public class ComputerOpponent {
 
     // -1 is blue, 1 is red
     // https://www.youtube.com/watch?v=UZLnDvdeNo8
-    public Map<Move, Integer> alphaBeta(int depth, int beta, int alpha, Move move, int player) {
+    public Move alphaBeta(int depth, int beta, int alpha, Move move, int player) {
 
         ArrayList<Move> moves = getAllPossibleMoves();
-        if (depth == 0 || moves.size() == 0) return Map.of(move, evaluate(move.from, move.to)*(player*2-1));
+        if (depth == 0 || moves.size() == 0) return move;
         player = 1-player;
         for (int i = 0; i < moves.size(); i++) {
             move.play();
             moveListener.swapTurns();
-            Map returnMap = alphaBeta(depth-1, beta, alpha, move, player);
-            int value = (int) returnMap.get(move);
+            Move returnMove = alphaBeta(depth-1, beta, alpha, move, player);
+            int evalScore = move.getScore();
             moveListener.swapTurns();
             moveListener.undoMove();
             if (player == 0) {
-                if (value <= beta) {
-                    beta = value;
+                if (evalScore <= beta) {
+                    beta = evalScore;
                     if (depth == globalDepth) {
 
                     }
