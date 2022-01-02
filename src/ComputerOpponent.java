@@ -3,6 +3,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class ComputerOpponent {
 
@@ -27,7 +28,7 @@ public class ComputerOpponent {
         private final Square from;
         private final Square to;
         private final Type type;
-        private final int score;
+        private int score;
 
         private enum Type {
             PIECE_MOVE,
@@ -49,7 +50,13 @@ public class ComputerOpponent {
         }
 
         public int getScore() {
-            return score;
+            System.out.print("Enter score: ");
+            Scanner scanner = new Scanner(System.in);
+            return scanner.nextInt();
+        }
+
+        public void setScore(int score) {
+            this.score = score;
         }
     }
 
@@ -98,6 +105,7 @@ public class ComputerOpponent {
     }
 
     private int evaluate(Square from, Square to) {
+
         int score = 0;
         if (to.hasPiece()) {
             Piece enemy = to.getPiece();
@@ -107,6 +115,7 @@ public class ComputerOpponent {
     }
 
     public void runEvaluatedMove() {
+        /*
         ArrayList<Move> bestMoves = new ArrayList<>();  // arraylist of the highest scoring moves
         bestMoves.add(new Move(null, null, null, Integer.MIN_VALUE));
 
@@ -141,6 +150,9 @@ public class ComputerOpponent {
         }
         Move randBestMove = bestMoves.get((int) ((Math.random() * (bestMoves.size()-1))));
         randBestMove.play();
+
+         */
+
     }
 
     public void runRandomMove() {
@@ -150,10 +162,21 @@ public class ComputerOpponent {
 
     // -1 is blue, 1 is red
     // https://www.youtube.com/watch?v=UZLnDvdeNo8
+    // Doesn't work btw
     public Move alphaBeta(int depth, int beta, int alpha, Move move, int player) {
 
-        ArrayList<Move> moves = getAllPossibleMoves();
+        ArrayList<Move> moves = new ArrayList<>(); //getAllPossibleMoves();
+        moves.add(new Move(null, null, null, Integer.MIN_VALUE));
         if (depth == 0 || moves.size() == 0) return move;
+        moves = new ArrayList<>();
+        System.out.print("Number of moves: ");
+        Scanner scanner = new Scanner(System.in);
+        int temp = scanner.nextInt();
+
+        for (int i = 0; i < temp; i++) {
+            moves.add(new Move(new Square(0, 0, 60), new Square(0, 1, 60), Move.Type.PIECE_MOVE, 2));
+        }
+
         player = 1-player;
         for (int i = 0; i < moves.size(); i++) {
             move.play();
@@ -165,16 +188,29 @@ public class ComputerOpponent {
             if (player == 0) {
                 if (evalScore <= beta) {
                     beta = evalScore;
-                    if (depth == globalDepth) {
-
-                    }
+                    if (depth == globalDepth) move = returnMove;
                 }
             } else {
-
+                if (evalScore > alpha) {
+                    alpha = evalScore;
+                    if (depth == globalDepth) move = returnMove;
+                }
+            }
+            if (alpha >= beta) {
+                if (player == 0) {
+                    move.setScore(beta);
+                } else {
+                    move.setScore(alpha);
+                }
+                return move;
             }
         }
-
-        return null;
+        if (player == 0) {
+            move.setScore(beta);
+        } else {
+            move.setScore(alpha);
+        }
+        return move;
     }
 
     public ArrayList<Move> getAllPossibleMoves() {
