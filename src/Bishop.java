@@ -12,6 +12,7 @@ public class Bishop extends Piece {
             case BLUE -> this.image = getImageByFile(IMAGES_BISHOP_BLUE);
             case RED -> this.image = getImageByFile(IMAGES_BISHOP_RED);
         }
+        this.materialValue = 3;
     }
 
     public String getName() { return "Bishop"; }

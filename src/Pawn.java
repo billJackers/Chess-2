@@ -18,6 +18,7 @@ public class Pawn extends Piece {
             case BLUE -> this.image = getImageByFile(IMAGES_PAWN_BLUE);
             case RED -> this.image = getImageByFile(IMAGES_PAWN_RED);
         }
+        this.materialValue = 1;
     }
 
     public String getName() { return "Pawn"; }

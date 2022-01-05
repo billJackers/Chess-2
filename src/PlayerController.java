@@ -35,6 +35,10 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
     // All FENS so far
     List<String> allFENS;
 
+    // Material differences
+    public float bMaterial;
+    public float rMaterial;
+
     public PlayerController(Settings settings) {
         previouslySelected = null;
         currentTurn = Sides.BLUE;
@@ -111,9 +115,16 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
 
     public void addToCaptured(Piece piece) {
         switch (piece.getSide()) {
-            case BLUE -> bluePiecesCaptured.add(piece);
-            case RED -> redPiecesCaptured.add(piece);
+            case BLUE -> {
+                bluePiecesCaptured.add(piece);
+                bMaterial -= piece.materialValue;
+            }
+            case RED -> {
+                redPiecesCaptured.add(piece);
+                rMaterial -= piece.materialValue;
+            }
         }
+        printMaterialValues();
     }
     public List<Piece> getBluePiecesCaptured() {
         return bluePiecesCaptured;
@@ -256,6 +267,18 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
         return rClock;
     }
 
+    // Initialize total material values for each side
+    public void initializeMaterialValues() {
+        for (Square s : board.getBoard()) {
+            if (s.hasPiece() && !(s.getPiece() instanceof King)) {
+                switch (s.getPiece().side) {
+                    case BLUE -> bMaterial += s.getPiece().getMaterialValue();
+                    case RED -> rMaterial += s.getPiece().getMaterialValue();
+                }
+            }
+        }
+        printMaterialValues();
+    }
 
     // input-catching interface methods
     @Override
@@ -286,6 +309,11 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
             }
         }
         board.repaint();
+    }
+
+    public void printMaterialValues() {
+        System.out.println("Total Blue Material: " + bMaterial);
+        System.out.println("Total Red Material: " + rMaterial);
     }
 
     @Override

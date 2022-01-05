@@ -31,6 +31,7 @@ public class Board extends JPanel  {
         // init controller
         this.controller = controller;
         controller.setBoard(this);
+        controller.initializeMaterialValues();
 
         isPaused = false;
         flipBoard();  // flip the board so Blue is on the bottom (default is red)

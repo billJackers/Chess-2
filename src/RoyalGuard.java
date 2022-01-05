@@ -13,6 +13,7 @@ public class RoyalGuard extends Piece {
             case BLUE -> this.image = getImageByFile(IMAGES_ROYAL_GUARD_BLUE);
             case RED -> this.image = getImageByFile(IMAGES_ROYAL_GUARD_RED);
         }
+        this.materialValue = 2;
     }
 
     public String getName() { return "Royal Guard"; }

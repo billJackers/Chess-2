@@ -13,6 +13,7 @@ public class Queen extends Piece {
             case BLUE -> this.image = getImageByFile(IMAGES_QUEEN_BLUE);
             case RED -> this.image = getImageByFile(IMAGES_QUEEN_RED);
         }
+        this.materialValue = 9;
     }
 
     @Override

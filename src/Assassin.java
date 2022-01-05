@@ -12,6 +12,7 @@ public class Assassin extends Piece {
             case BLUE -> this.image = getImageByFile(IMAGES_ASSASSIN_BLUE);
             case RED -> this.image = getImageByFile(IMAGES_ASSASSIN_RED);
         }
+        this.materialValue = 3.5f;
     }
 
     public String getName() { return "Assassin"; }

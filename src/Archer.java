@@ -13,6 +13,7 @@ public class Archer extends Piece {
             case BLUE -> this.image = getImageByFile(IMAGES_ARCHER_BLUE);
             case RED -> this.image = getImageByFile(IMAGES_ARCHER_RED);
         }
+        this.materialValue = 5;
     }
 
     public List<Square> getLegalMoves(Board board) {

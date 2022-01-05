@@ -13,6 +13,8 @@ public abstract class Piece {
     protected Image image;
     protected Square parentSquare;
 
+    protected float materialValue;
+
     protected Settings settings;
 
     public Piece(Sides side, int size, Square initialSquare, Settings settings) {
@@ -290,6 +292,10 @@ public abstract class Piece {
             if (indexOfPiece - relativeMove >= 0  && Math.abs(((indexOfPiece - relativeMove)%10)-(indexOfPiece%10)) <= 1 && this.canCapture(b[indexOfPiece - relativeMove])) legalMoves.add(b[indexOfPiece - relativeMove]);
         }
         return legalMoves;
+    }
+
+    public float getMaterialValue() {
+        return materialValue;
     }
 
     // Getter

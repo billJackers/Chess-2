@@ -28,14 +28,14 @@ public class ComputerOpponent {
         private final Square from;
         private final Square to;
         private final Type type;
-        private int score;
+        private float score;
 
         private enum Type {
             PIECE_MOVE,
             ARCHER_SHOT
         }
 
-        public Move (Square from, Square to, Type moveType, int score) {
+        public Move (Square from, Square to, Type moveType, float score) {
             this.from = from;
             this.to = to;
             this.type = moveType;
@@ -55,7 +55,7 @@ public class ComputerOpponent {
             return scanner.nextInt();
         }
 
-        public void setScore(int score) {
+        public void setScore(float score) {
             this.score = score;
         }
     }
@@ -90,32 +90,18 @@ public class ComputerOpponent {
         runEvaluatedMove();
     }
 
-    private static final HashMap<String, Integer> pieceValues = new HashMap<>();
-    static {  // why cant there be a better way to initialize lists/hashmaps java you prick
-        pieceValues.put("King", 9001);  // its over 9000
-        pieceValues.put("Queen", 100);
-        pieceValues.put("Rook", 50);
-        pieceValues.put("Archer", 50);
-        pieceValues.put("Bishop", 30);
-        pieceValues.put("Knight", 30);
-        pieceValues.put("Assassin", 20);
-        pieceValues.put("Pawn", 10);
-        pieceValues.put("Royal Guard", 5);
-        pieceValues.put("Bomber", 5);
-    }
+    private float evaluate(Square from, Square to) {
 
-    private int evaluate(Square from, Square to) {
-
-        int score = 0;
+        float score = 0;
         if (to.hasPiece()) {
             Piece enemy = to.getPiece();
-            score += pieceValues.get(enemy.getName());
+            score += enemy.materialValue;
         }
         return score;
     }
 
     public void runEvaluatedMove() {
-        /*
+
         ArrayList<Move> bestMoves = new ArrayList<>();  // arraylist of the highest scoring moves
         bestMoves.add(new Move(null, null, null, Integer.MIN_VALUE));
 
@@ -123,7 +109,7 @@ public class ComputerOpponent {
             if (from.hasPiece() && from.getPiece().getSide() == Sides.RED) {  // get the square of every playable piece
                 for (Square to : from.getPiece().getLegalMoves(board)) {  // get the legalMoves of the playable piece
 
-                    int moveEval = evaluate(from, to);
+                    float moveEval = evaluate(from, to);
                     if (moveEval > bestMoves.get(0).getScore()) {
                         bestMoves.clear();
                         bestMoves.add(new Move(from, to, Move.Type.PIECE_MOVE, moveEval));
@@ -135,7 +121,7 @@ public class ComputerOpponent {
 
                 if (from.getPiece() instanceof Archer) {  // if the piece is an archer, we also need to get the shots
                     for (Square shots : from.getPiece().getTargets(board)) {  // get the legalMoves of the playable piece
-                        int moveEval = evaluate(from, shots);
+                        float moveEval = evaluate(from, shots);
                         if (moveEval > bestMoves.get(0).getScore()) {
                             bestMoves.clear();
                             bestMoves.add(new Move(from, shots, Move.Type.ARCHER_SHOT, moveEval));
@@ -150,8 +136,6 @@ public class ComputerOpponent {
         }
         Move randBestMove = bestMoves.get((int) ((Math.random() * (bestMoves.size()-1))));
         randBestMove.play();
-
-         */
 
     }
 

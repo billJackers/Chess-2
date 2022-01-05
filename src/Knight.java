@@ -13,6 +13,7 @@ public class Knight extends Piece {
             case BLUE -> this.image = getImageByFile(IMAGES_KNIGHT_BLUE);
             case RED -> this.image = getImageByFile(IMAGES_KNIGHT_RED);
         }
+        this.materialValue = 3;
     }
 
     public String getName() { return "Knight"; }

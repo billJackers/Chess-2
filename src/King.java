@@ -11,6 +11,7 @@ public class King extends Piece {
             case BLUE -> this.image = getImageByFile(IMAGES_KING_BLUE);
             case RED -> this.image = getImageByFile(IMAGES_KING_RED);
         }
+        this.materialValue = Float.MAX_VALUE;
     }
 
     public String getName() { return "King"; }

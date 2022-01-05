@@ -21,6 +21,7 @@ public class Bomber extends Piece {
             case BLUE -> this.image = getImageByFile(IMAGES_BOMBER_BLUE);
             case RED -> this.image = getImageByFile(IMAGES_BOMBER_RED);
         }
+        this.materialValue = 2.5f;
     }
 
     public String getName() { return "Bomber"; }

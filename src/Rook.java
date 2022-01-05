@@ -12,6 +12,7 @@ public class Rook extends Piece {
             case BLUE -> this.image = getImageByFile(IMAGES_ROOK_BLUE);
             case RED -> this.image = getImageByFile(IMAGES_ROOK_RED);
         }
+        this.materialValue = 5;
     }
 
     public String getName() { return "Rook"; }
