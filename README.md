@@ -19,4 +19,4 @@ Our modifications and additions of the game of Chess, following the same concept
     - Has the choice to either shoot or move on a given turn.
     - Movement is the same as a king, attacks are diagonal tiles.
     - Attacks do not move the archer
-- New starting positions to acomodate bigger board and more pieces
+- New starting positions to accomodate bigger board and more pieces
