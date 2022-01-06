@@ -86,6 +86,15 @@ public class StatsDisplay extends JPanel implements ActionListener {
             case RED -> g.setColor(new Color(255, 29, 29, 218));
         }
 
+        float bMaterial = board.getController().bMaterial;
+        float rMaterial = board.getController().rMaterial;
+
+        // If blue is up in material, draw material difference here
+        if (bMaterial > rMaterial) {
+            String differenceStr = "+" + (bMaterial-rMaterial);
+            g.drawString(differenceStr, HEADER_WIDTH*3/26, HEADER_HEIGHT*3/5);
+        }
+
         // Draw captured red pieces (ugly code, should probably clean up)
         for (int i = 0; i < board.getController().getRedPiecesCaptured().size(); i++) {
             Image image = board.getController().getRedPiecesCaptured().get(i).getImage().getScaledInstance(HEADER_HEIGHT/3, HEADER_HEIGHT/3, Image.SCALE_FAST);
@@ -96,6 +105,12 @@ public class StatsDisplay extends JPanel implements ActionListener {
         for (int i = 0; i < board.getController().getBluePiecesCaptured().size(); i++) {
             Image image = board.getController().getBluePiecesCaptured().get(i).getImage().getScaledInstance(HEADER_HEIGHT/3, HEADER_HEIGHT/3, Image.SCALE_FAST);
             g.drawImage(image, (HEADER_WIDTH*18/26)+(HEADER_WIDTH*i/50), HEADER_HEIGHT*3/5, null);
+        }
+
+        // If blue is up in material, draw material difference here
+        if (rMaterial > bMaterial) {
+            String differenceStr = "+" + (rMaterial-bMaterial);
+            g.drawString(differenceStr, HEADER_WIDTH*22/26, HEADER_HEIGHT*3/5);
         }
 
         // draws the current turn with a background color

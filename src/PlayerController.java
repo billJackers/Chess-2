@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class PlayerController implements MouseListener, KeyListener {  // handles player inputs
@@ -14,8 +15,12 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
 
     private Key currentKey;
 
-    private final List<Piece> bluePiecesCaptured;
-    private final List<Piece> redPiecesCaptured;
+    private final ArrayList<Piece> bluePiecesCaptured;
+    private final ArrayList<Piece> redPiecesCaptured;
+
+    // Idk how to use hashmaps lol
+    private final ArrayList<Integer> bluePiecesCapturedInfo;
+    private final ArrayList<Integer> redPiecesCapturedInfo;
 
     public enum Key {
         SHIFT, ALT, CONTROL, NONE
@@ -24,6 +29,8 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
     private Clock bClock;
     private Clock rClock;
     private int increment;
+
+    private int movesMade;
 
     // Settings
     private final Settings settings;
@@ -52,6 +59,8 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
 
         bluePiecesCaptured = new ArrayList<>();
         redPiecesCaptured = new ArrayList<>();
+        bluePiecesCapturedInfo = new ArrayList<>();
+        redPiecesCapturedInfo = new ArrayList<>();
     }
 
     public void setBoard(Board board) {  // must set the board
@@ -118,18 +127,20 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
             case BLUE -> {
                 bluePiecesCaptured.add(piece);
                 bMaterial -= piece.materialValue;
+                bluePiecesCapturedInfo.add(movesMade);
             }
             case RED -> {
                 redPiecesCaptured.add(piece);
                 rMaterial -= piece.materialValue;
+                redPiecesCapturedInfo.add(movesMade);
             }
         }
         printMaterialValues();
     }
-    public List<Piece> getBluePiecesCaptured() {
+    public ArrayList<Piece> getBluePiecesCaptured() {
         return bluePiecesCaptured;
     }
-    public List<Piece> getRedPiecesCaptured() {
+    public ArrayList<Piece> getRedPiecesCaptured() {
         return redPiecesCaptured;
     }
 
@@ -162,6 +173,12 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
         Piece pieceToMove = from.getPiece();
         Piece pieceTaken = to.getPiece();
         boolean pieceCaptured = to.hasPiece();
+        boolean pawnPromoted = false;
+
+        // It is good to know if the move involves a pawn promotion
+        if (pieceToMove instanceof Pawn) {
+            if (to.getFile() == 0 || to.getFile() == 9) pawnPromoted = true;
+        }
 
         pieceToMove.runOnMove(board, to);  // call runOnMove() (calls oldSquare.setPiece(newPiece), moving the piece)
         from.clearPiece(); // clear the old square of the moved piece
@@ -203,7 +220,11 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
         }
         swapTurns();
         allFENS.add(board.getFEN());
-        System.out.println(allFENS.get(allFENS.size()-1));
+
+        // If a pawn is promoted, material values should be recalculated due to the sudden change classes
+        if (pawnPromoted) initializeMaterialValues();
+
+        movesMade++;
 
         board.repaint();
     }
@@ -248,6 +269,25 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
         // Generate new board state
         board.generateBoardState(allFENS.get(allFENS.size()-1));
         board.repaint();
+        // Recalculate material values
+        initializeMaterialValues();
+
+        // Undoing should also undo the pieces captured
+        movesMade--;
+        for (int i = bluePiecesCapturedInfo.size()-1; i >= 0; i--) {
+            if (bluePiecesCapturedInfo.get(i) == movesMade) {
+                bluePiecesCapturedInfo.remove(bluePiecesCapturedInfo.size()-1);
+                bluePiecesCaptured.remove(bluePiecesCaptured.size()-1);
+            }
+        }
+
+        for (int i = redPiecesCapturedInfo.size()-1; i >= 0; i--) {
+            if (redPiecesCapturedInfo.get(i) == movesMade) {
+                redPiecesCapturedInfo.remove(redPiecesCapturedInfo.size()-1);
+                redPiecesCaptured.remove(redPiecesCaptured.size()-1);
+            }
+        }
+
         swapTurns();
     }
 
@@ -269,6 +309,8 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
 
     // Initialize total material values for each side
     public void initializeMaterialValues() {
+        bMaterial = 0;
+        rMaterial = 0;
         for (Square s : board.getBoard()) {
             if (s.hasPiece() && !(s.getPiece() instanceof King)) {
                 switch (s.getPiece().side) {
@@ -314,6 +356,10 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
     public void printMaterialValues() {
         System.out.println("Total Blue Material: " + bMaterial);
         System.out.println("Total Red Material: " + rMaterial);
+    }
+
+    public int getMovesMade() {
+        return movesMade;
     }
 
     @Override
