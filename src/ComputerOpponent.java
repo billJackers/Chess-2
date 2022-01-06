@@ -49,10 +49,8 @@ public class ComputerOpponent {
             }
         }
 
-        public int getScore() {
-            System.out.print("Enter score: ");
-            Scanner scanner = new Scanner(System.in);
-            return scanner.nextInt();
+        public float getScore() {
+            return score;
         }
 
         public void setScore(float score) {
@@ -147,13 +145,13 @@ public class ComputerOpponent {
     // -1 is blue, 1 is red
     // https://www.youtube.com/watch?v=UZLnDvdeNo8
     // Doesn't work btw
+    /*
     public Move alphaBeta(int depth, int beta, int alpha, Move move, int player) {
 
-        ArrayList<Move> moves = new ArrayList<>(); //getAllPossibleMoves();
+        ArrayList<Move> moves = getAllPossibleMoves();
         moves.add(new Move(null, null, null, Integer.MIN_VALUE));
         if (depth == 0 || moves.size() == 0) return move;
         moves = new ArrayList<>();
-        System.out.print("Number of moves: ");
         Scanner scanner = new Scanner(System.in);
         int temp = scanner.nextInt();
 
@@ -196,6 +194,8 @@ public class ComputerOpponent {
         }
         return move;
     }
+
+     */
 
     public ArrayList<Move> getAllPossibleMoves() {
         ArrayList<Move> allPossibleMoves = new ArrayList<>();
