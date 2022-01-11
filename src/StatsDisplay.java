@@ -43,15 +43,6 @@ public class StatsDisplay extends JPanel implements ActionListener {
             this.add(undoBtn);
         }
 
-        // lol button
-        JButton lolBtn = new JButton("lol");
-        String lolPath = "src/sounds/lol.wav";
-        lolBtn.addActionListener(e -> {
-            Sound lol = new Sound(lolPath);
-            lol.play();
-        });
-        this.add(lolBtn);
-
         timed = false;
         for (int i = 0; i < 3; i++)
             if (settings.getTimer()[i] != 0)
