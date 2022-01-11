@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -85,7 +86,15 @@ public class ComputerOpponent {
 
     public void runComputerMove() {
         if (moveListener.getCurrentTurn() != Sides.RED) return;  // it is the player's move so don't do anything
-        runEvaluatedMove();
+
+        ActionListener listener = e -> {
+            runEvaluatedMove();
+        };
+        int delay = (int) (Math.random() * 2000);
+        Timer timer = new Timer(delay, listener);
+        timer.setRepeats(false);
+        timer.start();
+
     }
 
     private float evaluate(Square from, Square to) {
