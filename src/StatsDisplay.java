@@ -39,11 +39,18 @@ public class StatsDisplay extends JPanel implements ActionListener {
         // Undo move button
         if (settings.canRollback()) {
             JButton undoBtn = new JButton("Undo");
-            undoBtn.addActionListener(e -> {
-                this.board.getController().undoMove();
-            });
+            undoBtn.addActionListener(e -> this.board.getController().undoMove());
             this.add(undoBtn);
         }
+
+        // lol button
+        JButton lolBtn = new JButton("lol");
+        String lolPath = "src/sounds/lol.wav";
+        lolBtn.addActionListener(e -> {
+            Sound lol = new Sound(lolPath);
+            lol.play();
+        });
+        this.add(lolBtn);
 
         timed = false;
         for (int i = 0; i < 3; i++)
