@@ -14,6 +14,7 @@ public class Settings {
     private int dsMode;
     private boolean moveRollback;
     private int[] timerConfig;
+    private float volume;
 
     public Settings(PlayerSide playerSide, String variant, boolean highlightsOn, String skin, boolean muted, boolean enableRollback, int[] timerConfig) {
         this.side = playerSide;
@@ -83,5 +84,13 @@ public class Settings {
 
     public int[] getTimerConfig() {
         return this.timerConfig;
+    }
+
+    public void setVolume(float volume) {
+        this.volume = volume;
+    }
+
+    public float getVolume() {
+        return volume;
     }
 }

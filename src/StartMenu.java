@@ -22,6 +22,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class StartMenu {
 
@@ -29,6 +31,8 @@ public class StartMenu {
 
     private final int WIDTH = 375;
     private final int HEIGHT = 300;
+
+    public static float volume;
 
 
     // a boolean for when the help frame is open, so only one helpframe can be opened at a time
@@ -63,6 +67,8 @@ public class StartMenu {
         // Initialize default settings
         settings = new Settings(Settings.PlayerSide.BOTH,"Gigachess", true, "Original", false, true, new int[] {0, 10, 0, 0});
         settings.changeDsMode(1);
+        settings.setVolume(0);
+        this.volume = 0;
 
         // For dividing the screen into two sides: the singleplayer and multiplayer sections
         String backgroundPath = "images/menuscreen.png";
@@ -122,6 +128,7 @@ public class StartMenu {
             int i = Integer.parseInt((String) increment.getSelectedItem());
 
             settings.changeTimerConfig(new int[] {h, m, s, i});
+            settings.setVolume(StartMenu.volume);
 
             new GameWindow(settings);
         });
@@ -133,6 +140,7 @@ public class StartMenu {
             int i = Integer.parseInt((String) increment.getSelectedItem());
 
             settings.changeTimerConfig(new int[] {h, m, s, i});
+            settings.setVolume(StartMenu.volume);
             // we probably need to rework this at some point
             new ComputerOpponent(new Settings(Settings.PlayerSide.PLAYER_BLUE, settings.getVariant(), settings.getHighlightsOn(), settings.getSkin(), settings.getMuted(), settings.canRollback(), settings.getTimerConfig()));
         });
@@ -215,7 +223,11 @@ public class StartMenu {
 
 
         JPanel volumePanel = new JPanel();
-        JSlider volumeSlider = new JSlider(0, 100, 0);
+        JSlider volumeSlider = new JSlider(-40, 6);
+        volumeSlider.addChangeListener(e -> {
+            StartMenu.volume = volumeSlider.getValue();
+            System.out.println(StartMenu.volume);
+        });
         volumePanel.add(new JLabel("Volume"));
         volumePanel.add(volumeSlider);
 
