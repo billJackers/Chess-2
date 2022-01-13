@@ -15,6 +15,8 @@ public class Intro implements ActionListener {
     private final int WIDTH = 500;
     private final int HEIGHT = 500;
 
+    private static boolean skipped = false;
+
     public Intro() {
         // Timer for disposing the frame after a certain number of seconds has elapsed
         this.timer = new Timer(1000, this);
@@ -43,6 +45,7 @@ public class Intro implements ActionListener {
         skipBtn.addActionListener(e -> {
             timer.stop();
             introFrame.dispose();
+            skipped = true;
             new StartMenu();
         });
         skipBtn.setForeground(Color.white);
@@ -66,7 +69,7 @@ public class Intro implements ActionListener {
         ActionListener taskPerformer = e -> {
             titleLbl.setText("<html><body>GIGA CHESS</body></html>");
             Sound boom = new Sound("src/sounds/vine-boom.wav");
-            boom.play();
+            if (!skipped) boom.play();
         };
         Timer textTimer = new Timer(2000, taskPerformer);
         textTimer.setRepeats(false);
@@ -75,7 +78,7 @@ public class Intro implements ActionListener {
         taskPerformer = e -> {
             titleLbl.setText("<html><body>GIGA CHESS<br>BROUGHT TO YOU BY:</body></html>");
             Sound boom = new Sound("src/sounds/vine-boom.wav");
-            boom.play();
+            if (!skipped) boom.play();
         };
         textTimer = new Timer(4000, taskPerformer);
         textTimer.setRepeats(false);
@@ -84,7 +87,7 @@ public class Intro implements ActionListener {
         taskPerformer = e -> {
             titleLbl.setText("<html><body>GIGA CHESS<br>BROUGHT TO YOU BY:<br>THE NERDS</body></html>");
             Sound boom = new Sound("src/sounds/vine-boom.wav");
-            boom.play();
+            if (!skipped) boom.play();
         };
         textTimer = new Timer(6000, taskPerformer);
         textTimer.setRepeats(false);
@@ -94,7 +97,7 @@ public class Intro implements ActionListener {
             Icon imgIcon = new ImageIcon(Objects.requireNonNull(this.getClass().getResource("images/rock.gif")));
             gifLabel.setIcon(imgIcon);
             Sound boom = new Sound("src/sounds/vine-boom.wav");
-            boom.play();
+            if (!skipped) boom.play();
         };
         textTimer = new Timer(8000, taskPerformer);
         textTimer.setRepeats(false);
