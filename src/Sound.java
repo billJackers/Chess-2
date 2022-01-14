@@ -13,9 +13,7 @@ public class Sound {
             File soundPath = new File(soundLocation);
             if (soundPath.exists()) {
                 audioInput = AudioSystem.getAudioInputStream(soundPath.getAbsoluteFile());
-                AudioFormat format = audioInput.getFormat();
-                DataLine.Info info = new DataLine.Info(Clip.class, format);
-                clip = (Clip) AudioSystem.getLine(info);
+                clip = AudioSystem.getClip();
             } else {
                 System.out.println("Can't find audio file at: " + soundLocation);
                 valid = false;

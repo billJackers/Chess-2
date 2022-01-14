@@ -145,6 +145,7 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
     }
 
     public void attemptMove(Square target) {
+
         if (previouslySelected != null && previouslySelected.hasPiece()) {  // if we currently have a piece selected to move
             Piece pieceToMove = previouslySelected.getPiece();
 
@@ -168,6 +169,7 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
                 selectSquare(target);
             }
         }
+
     }
     public void move(Square from, Square to) {
         Piece pieceToMove = from.getPiece();
