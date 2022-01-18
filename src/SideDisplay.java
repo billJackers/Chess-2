@@ -47,7 +47,6 @@ public class SideDisplay extends JPanel {
         this.add(painBtn);
 
         this.setVisible(true);
-
     }
 
     public int getHeight() {
