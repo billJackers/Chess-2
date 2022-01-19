@@ -201,13 +201,13 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
                         if (square.hasPiece() && square.getPiece() instanceof King) blueChecks++;
                         System.out.println(blueChecks);
                     }
-                    if (blueChecks == 3) winFrame.makeWinFrame(Sides.BLUE);
+                    if (blueChecks == 3) winFrame.makeWinFrame(1);
                 }
                 case RED -> {
                     for (Square square : pieceToMove.getLegalMoves(board)) {
                         if (square.hasPiece() && square.getPiece() instanceof King) redChecks++;
                     }
-                    if (redChecks == 3) winFrame.makeWinFrame(Sides.RED);
+                    if (redChecks == 3) winFrame.makeWinFrame(-1);
                 }
             }
         }

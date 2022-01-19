@@ -36,13 +36,6 @@ public class StatsDisplay extends JPanel implements ActionListener {
         this.setMaximumSize(this.getPreferredSize());
         this.setLayout(new FlowLayout(0));
 
-        // Undo move button
-        if (settings.canRollback()) {
-            JButton undoBtn = new JButton("Undo");
-            undoBtn.addActionListener(e -> this.board.getController().undoMove());
-            this.add(undoBtn);
-        }
-
         timed = false;
         for (int i = 0; i < 3; i++)
             if (settings.getTimer()[i] != 0)
@@ -121,14 +114,14 @@ public class StatsDisplay extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        //if (board.isPaused()) return;  // if the game is paused, don't do any actions
+        if (board.isPaused()) return;  // if the game is paused, don't do any actions
 
         turn = board.getController().getCurrentTurn();
         if (timed) {
             if (board.getController().getbClock().outOfTime() || board.getController().getrClock().outOfTime()) {
                 globalClock.stop();
-                if (board.getController().getbClock().outOfTime()) winFrame.makeWinFrame(Sides.RED);
-                else winFrame.makeWinFrame(Sides.BLUE);
+                if (board.getController().getbClock().outOfTime()) winFrame.makeWinFrame(-1);
+                else winFrame.makeWinFrame(1);
             }
             // determining which clock to decrement
             switch (turn) {

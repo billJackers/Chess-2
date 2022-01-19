@@ -2,14 +2,17 @@ import javax.swing.*;
 import java.awt.*;
 
 public class WinFrame {
-
+    private JLabel winnerLabel;
     public WinFrame() {
 
     }
 
-    public void makeWinFrame(Sides winner) {
+    // 1 for blue, 0 for draw, -1 for red
+    public void makeWinFrame(int result) {
         JFrame winFrame = new JFrame();
-        JLabel winnerLabel = new JLabel(winner + " has won!!! Well played.");
+        if (result == 1) winnerLabel = new JLabel("BLUE has won! Good job!");
+        else if (result == -1) winnerLabel = new JLabel("RED has won! Good job!");
+        else winnerLabel = new JLabel("The game has resulted in a DRAW.");
         winnerLabel.setHorizontalAlignment(SwingConstants.CENTER);
         winnerLabel.setVerticalAlignment(SwingConstants.CENTER);
         winFrame.setLocationRelativeTo(null);

@@ -35,6 +35,7 @@ public class Intro implements ActionListener {
         introFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         introFrame.setResizable(false);
         introFrame.setVisible(true);
+        introFrame.setLocationRelativeTo(null);
 
         // Initialize JPanels
         JPanel skipPanel = new JPanel();
@@ -100,6 +101,14 @@ public class Intro implements ActionListener {
             if (!skipped) boom.play();
         };
         textTimer = new Timer(8000, taskPerformer);
+        textTimer.setRepeats(false);
+        textTimer.start();
+
+        taskPerformer = e -> {
+            Sound boom = new Sound("src/sounds/vine-boom.wav");
+            if (!skipped) boom.play();
+        };
+        textTimer = new Timer(10500, taskPerformer);
         textTimer.setRepeats(false);
         textTimer.start();
 

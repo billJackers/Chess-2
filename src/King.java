@@ -23,7 +23,12 @@ public class King extends Piece {
 
     public void runOnDeath(Board board, Piece captor) {  // THE KING IS DEAD LMAO
         WinFrame winFrame = new WinFrame();
-        winFrame.makeWinFrame(Sides.invertSide(side));
+        int winner = 0;
+        switch (side) {
+            case RED -> winner = 1;
+            case BLUE -> winner = -1;
+        }
+        winFrame.makeWinFrame(winner);
         board.pause();  // pause the game on king's death
         super.runOnDeath(board, captor);
     }
