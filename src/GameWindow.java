@@ -36,6 +36,7 @@ public class GameWindow {
         gameWindow.add(side, constraints);
 
         gameWindow.setSize(gameWindow.getPreferredSize());
+        gameWindow.setLocationRelativeTo(null);
         gameWindow.setResizable(false); // don't allow the user to resize the window
         gameWindow.pack(); // pack() should be called after setResizable() to avoid issues on some platforms
         gameWindow.setVisible(true);

@@ -63,6 +63,16 @@ public class SideDisplay extends JPanel {
             board.pause();
         });
 
+        // Scrollable panel that shows moves
+        JPanel movePanelBox = new JPanel();
+        JPanel movePanel = new JPanel();
+        movePanel.setPreferredSize(new Dimension(this.WIDTH, this.HEIGHT/2));
+        movePanel.setLayout(new GridLayout(40, 1));
+        for (int i = 0; i < 40; i++) movePanel.add(BorderLayout.CENTER, new JLabel("Move " + i));
+        JScrollPane scrollPane = new JScrollPane(movePanel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        movePanelBox.add(scrollPane);
+
         // Add emote buttons
         this.add(lolBtn);
         this.add(bruhBtn);
@@ -72,6 +82,9 @@ public class SideDisplay extends JPanel {
         this.add(undoBtn);
         this.add(drawBtn);
         this.add(resignBtn);
+
+        // Add move box
+        this.add(movePanelBox);
 
         this.setVisible(true);
     }
