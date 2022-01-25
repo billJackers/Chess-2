@@ -18,6 +18,7 @@ public class PlayerController implements MouseListener, KeyListener {  // handle
     private final ArrayList<Piece> bluePiecesCaptured;
     private final ArrayList<Piece> redPiecesCaptured;
 
+
     // Idk how to use hashmaps lol
     private final ArrayList<Integer> bluePiecesCapturedInfo;
     private final ArrayList<Integer> redPiecesCapturedInfo;

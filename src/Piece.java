@@ -16,6 +16,7 @@ public abstract class Piece {
     protected float materialValue;
 
     protected Settings settings;
+    private static int moveCount = 0;
 
     public Piece(Sides side, int size, Square initialSquare, Settings settings) {
         this.side = side;
@@ -52,6 +53,13 @@ public abstract class Piece {
             Sound bombSound = new Sound("src/sounds/bomb_x.wav");
             bombSound.play();
         }
+
+        String fenVal = getFENValue();
+        if (getSide() == Sides.RED) {
+            fenVal = fenVal.toUpperCase();
+        }
+        moveCount ++;
+        SideDisplay.movesDisplay.addElement("            " + moveCount + " " + fenVal + "->(" + (10 - (captured.getX()/size)) + ", " + (captured.getY()/size + 1) + ")");
 
         captured.setPiece(this);  // move the piece
         board.repaint();
