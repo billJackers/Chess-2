@@ -49,7 +49,10 @@ public class SideDisplay extends JPanel {
 
         // Game buttons
         JButton undoBtn = new JButton("Undo");
-        undoBtn.addActionListener(e -> controller.undoMove());
+        undoBtn.addActionListener(e -> {
+            controller.undoMove();
+            if (movesDisplay.size() > 0) movesDisplay.remove(movesDisplay.size()-1);
+        });
 
         JButton drawBtn = new JButton("Offer Draw");
         drawBtn.addActionListener(e -> {
