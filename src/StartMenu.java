@@ -38,17 +38,6 @@ public class StartMenu {
     // a boolean for when the help frame is open, so only one helpframe can be opened at a time
     private boolean helpFrameOpen = false;
 
-    private class MenuImage extends JPanel {
-        private final Image bg;
-        public MenuImage(Image background){
-            bg = background;
-        }
-        public void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            g.drawImage(bg, 0, 0, this);
-        }
-    }
-
     private JFrame startMenu;
 
     public StartMenu() {
