@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 public class SideDisplay extends JPanel {
 
@@ -9,10 +8,14 @@ public class SideDisplay extends JPanel {
     private final int WIDTH;
     private final Board board;
     private Settings settings;
-    private PlayerController controller;
-    private WinFrame winFrame;
+    private final PlayerController controller;
+    private final WinFrame winFrame;
+
+    public static final DefaultListModel<String> movesDisplay = new DefaultListModel<>();  // this is horrible but there is no better way of doing this with the current codebase
 
     public SideDisplay(Board board, Settings settings) {
+
+        this.setLayout(new FlowLayout());
 
         this.board = board;
         this.settings = settings;
@@ -46,7 +49,10 @@ public class SideDisplay extends JPanel {
 
         // Game buttons
         JButton undoBtn = new JButton("Undo");
-        undoBtn.addActionListener(e -> controller.undoMove());
+        undoBtn.addActionListener(e -> {
+            controller.undoMove();
+            if (movesDisplay.size() > 0) movesDisplay.remove(movesDisplay.size()-1);
+        });
 
         JButton drawBtn = new JButton("Offer Draw");
         drawBtn.addActionListener(e -> {
@@ -64,14 +70,14 @@ public class SideDisplay extends JPanel {
         });
 
         // Scrollable panel that shows moves
-        JPanel movePanelBox = new JPanel();
-        JPanel movePanel = new JPanel();
-        movePanel.setPreferredSize(new Dimension(this.WIDTH, this.HEIGHT/2));
-        movePanel.setLayout(new GridLayout(40, 1));
-        for (int i = 0; i < 40; i++) movePanel.add(BorderLayout.CENTER, new JLabel("Move " + i));
-        JScrollPane scrollPane = new JScrollPane(movePanel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        movePanelBox.add(scrollPane);
+        JPanel movePanelBox = new JPanel();  // First make the panel to hold the scrollable elements
+        // movesDisplay is a static variable defined above: DefaultListModel<String> movesDisplay = new DefaultListModel<>();
+        JList<String> list = new JList<>(movesDisplay);  // create a JList. By adding items to movesDisplay, it will update the JList
+
+        JScrollPane scroller = new JScrollPane();  // Scrollable interface
+        scroller.setViewportView(list);  // Add the JList to the scrollable interface
+        list.setLayoutOrientation(JList.VERTICAL);  // we do a little formatting
+        movePanelBox.add(scroller);  // add the scroller to our JPanel
 
         // Add emote buttons
         this.add(lolBtn);
