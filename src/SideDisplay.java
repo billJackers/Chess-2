@@ -70,14 +70,14 @@ public class SideDisplay extends JPanel {
         });
 
         // Scrollable panel that shows moves
-        JPanel movePanelBox = new JPanel();
+        JPanel movePanelBox = new JPanel();  // First make the panel to hold the scrollable elements
+        // movesDisplay is a static variable defined above: DefaultListModel<String> movesDisplay = new DefaultListModel<>();
+        JList<String> list = new JList<>(movesDisplay);  // create a JList. By adding items to movesDisplay, it will update the JList
 
-        JList<String> list = new JList<>(movesDisplay);
-
-        JScrollPane scroller = new JScrollPane();
-        scroller.setViewportView(list);
-        list.setLayoutOrientation(JList.VERTICAL);
-        movePanelBox.add(scroller);
+        JScrollPane scroller = new JScrollPane();  // Scrollable interface
+        scroller.setViewportView(list);  // Add the JList to the scrollable interface
+        list.setLayoutOrientation(JList.VERTICAL);  // we do a little formatting
+        movePanelBox.add(scroller);  // add the scroller to our JPanel
 
         // Add emote buttons
         this.add(lolBtn);
