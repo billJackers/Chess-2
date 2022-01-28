@@ -1,10 +1,9 @@
-import java.util.ArrayList;
 import java.util.List;
 
 public class Rook extends Piece {
 
-    private static final String IMAGES_ROOK_BLUE = "images/brook.png";
-    private static final String IMAGES_ROOK_RED = "images/rrook.png";
+    private static final String IMAGES_ROOK_BLUE = "images/pieceImages/brook.png";
+    private static final String IMAGES_ROOK_RED = "images/pieceImages/rrook.png";
 
     public Rook(Sides side, int size, Square initSquare, Settings settings) {
         super(side, size, initSquare, settings);

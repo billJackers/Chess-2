@@ -1,10 +1,9 @@
-import java.util.ArrayList;
 import java.util.List;
 
 public class Bishop extends Piece {
 
-    private static final String IMAGES_BISHOP_BLUE = "images/bbishop.png";
-    private static final String IMAGES_BISHOP_RED = "images/rbishop.png";
+    private static final String IMAGES_BISHOP_BLUE = "images/pieceImages/bbishop.png";
+    private static final String IMAGES_BISHOP_RED = "images/pieceImages/rbishop.png";
 
     public Bishop(Sides side, int size, Square initSquare, Settings settings) {
         super(side, size, initSquare, settings);

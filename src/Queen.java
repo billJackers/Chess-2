@@ -1,11 +1,10 @@
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Queen extends Piece {
 
-    private static final String IMAGES_QUEEN_BLUE = "images/bqueen.png";
-    private static final String IMAGES_QUEEN_RED = "images/rqueen.png";
+    private static final String IMAGES_QUEEN_BLUE = "images/pieceImages/bqueen.png";
+    private static final String IMAGES_QUEEN_RED = "images/pieceImages/rqueen.png";
 
     public Queen(Sides side, int size, Square initSquare, Settings settings) {
         super(side, size, initSquare, settings);

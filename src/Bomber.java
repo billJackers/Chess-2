@@ -1,19 +1,12 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.tools.Tool;
 import java.awt.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 public class Bomber extends Piece {
 
-    private static final String IMAGES_BOMBER_BLUE = "images/bbomber.png";
-    private static final String IMAGES_BOMBER_RED = "images/rbomber.png";
+    private static final String IMAGES_BOMBER_BLUE = "images/pieceImages/bbomber.png";
+    private static final String IMAGES_BOMBER_RED = "images/pieceImages/rbomber.png";
 
     public Bomber(Sides side, int size, Square initSquare, Settings settings) {
         super(side, size, initSquare, settings);

@@ -2,13 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Objects;
 
 import javax.imageio.ImageIO;
@@ -20,10 +16,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 public class StartMenu {
 
@@ -313,10 +305,10 @@ public class StartMenu {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(2,2, 3, 3));
 
-        JButton archerBtn = new JButton("Archer", new ImageIcon(Objects.requireNonNull(getClass().getResource("images/barcher.png"))));
-        JButton bomberBtn = new JButton("Bomber", new ImageIcon(Objects.requireNonNull(getClass().getResource("images/bbomber.png"))));
-        JButton assassinBtn = new JButton("Assassin", new ImageIcon(Objects.requireNonNull(getClass().getResource("images/bassassin.png"))));
-        JButton rgBtn = new JButton("Royal Guard", new ImageIcon(Objects.requireNonNull(getClass().getResource("images/broyalguard.png"))));
+        JButton archerBtn = new JButton("Archer", new ImageIcon(Objects.requireNonNull(getClass().getResource("pieceImages/barcher.png"))));
+        JButton bomberBtn = new JButton("Bomber", new ImageIcon(Objects.requireNonNull(getClass().getResource("pieceImages/bbomber.png"))));
+        JButton assassinBtn = new JButton("Assassin", new ImageIcon(Objects.requireNonNull(getClass().getResource("pieceImages/bassassin.png"))));
+        JButton rgBtn = new JButton("Royal Guard", new ImageIcon(Objects.requireNonNull(getClass().getResource("pieceImages/broyalguard.png"))));
         JButton[] helpButtons = {archerBtn, bomberBtn, assassinBtn, rgBtn};
 
         for (JButton button : helpButtons) {

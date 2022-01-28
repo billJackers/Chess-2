@@ -1,11 +1,10 @@
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Knight extends Piece {
 
-    private static final String IMAGES_KNIGHT_BLUE = "images/bknight.png";
-    private static final String IMAGES_KNIGHT_RED = "images/rknight.png";
+    private static final String IMAGES_KNIGHT_BLUE = "images/pieceImages/bknight.png";
+    private static final String IMAGES_KNIGHT_RED = "images/pieceImages/rknight.png";
 
     public Knight(Sides side, int size, Square initSquare, Settings settings) {
         super(side, size, initSquare, settings);

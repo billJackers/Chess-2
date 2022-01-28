@@ -1,11 +1,10 @@
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class RoyalGuard extends Piece {
 
-    private static final String IMAGES_ROYAL_GUARD_BLUE = "images/broyalguard.png";
-    private static final String IMAGES_ROYAL_GUARD_RED = "images/rroyalguard.png";
+    private static final String IMAGES_ROYAL_GUARD_BLUE = "images/pieceImages/broyalguard.png";
+    private static final String IMAGES_ROYAL_GUARD_RED = "images/pieceImages/rroyalguard.png";
 
     public RoyalGuard(Sides side, int size, Square initSquare, Settings settings) {
         super(side, size, initSquare, settings);

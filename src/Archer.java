@@ -1,11 +1,10 @@
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Archer extends Piece {
 
-    private static final String IMAGES_ARCHER_BLUE = "images/barcher.png";
-    private static final String IMAGES_ARCHER_RED = "images/rarcher.png";
+    private static final String IMAGES_ARCHER_BLUE = "images/pieceImages/barcher.png";
+    private static final String IMAGES_ARCHER_RED = "images/pieceImages/rarcher.png";
 
     public Archer(Sides side, int size, Square initSquare, Settings settings) {
         super(side, size, initSquare, settings);
