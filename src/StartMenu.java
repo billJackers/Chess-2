@@ -294,10 +294,10 @@ public class StartMenu {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(2,2, 3, 3));
 
-        JButton archerBtn = new JButton("Archer", new ImageIcon(Objects.requireNonNull(getClass().getResource("pieceImages/barcher.png"))));
-        JButton bomberBtn = new JButton("Bomber", new ImageIcon(Objects.requireNonNull(getClass().getResource("pieceImages/bbomber.png"))));
-        JButton assassinBtn = new JButton("Assassin", new ImageIcon(Objects.requireNonNull(getClass().getResource("pieceImages/bassassin.png"))));
-        JButton rgBtn = new JButton("Royal Guard", new ImageIcon(Objects.requireNonNull(getClass().getResource("pieceImages/broyalguard.png"))));
+        JButton archerBtn = new JButton("Archer", new ImageIcon(Objects.requireNonNull(getClass().getResource("images/pieceImages/barcher.png"))));
+        JButton bomberBtn = new JButton("Bomber", new ImageIcon(Objects.requireNonNull(getClass().getResource("images/pieceImages/bbomber.png"))));
+        JButton assassinBtn = new JButton("Assassin", new ImageIcon(Objects.requireNonNull(getClass().getResource("images/pieceImages/bassassin.png"))));
+        JButton rgBtn = new JButton("Royal Guard", new ImageIcon(Objects.requireNonNull(getClass().getResource("images/pieceImages/broyalguard.png"))));
         JButton[] helpButtons = {archerBtn, bomberBtn, assassinBtn, rgBtn};
 
         for (JButton button : helpButtons) {
