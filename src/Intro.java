@@ -61,7 +61,7 @@ public class Intro implements ActionListener {
         titleLbl.setForeground(Color.white);
         titleLbl.setFont(new Font("Sans Serif", Font.BOLD, 40));
         textPanel.add(titleLbl);
-        titleLbl.setVisible(false);
+        titleLbl.setVisible(true);
 
         // Gif
         JLabel gifLabel = new JLabel("");
