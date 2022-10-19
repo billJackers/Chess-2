@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class ComputerOpponent {
-
+    // Test comment
     class MoveListener extends PlayerController {
         public MoveListener(Settings settings) {
             super(settings);
