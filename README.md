@@ -2,6 +2,8 @@
 
 Our modifications and additions of the game of Chess, following the same concepts and rules of Chess, but with new pieces, movements, and a bigger board.
 
+Run the game by running Game.java
+
 ## New Stuff
 - A bigger board (from 8x8 to 10x10)
 - New Pieces
